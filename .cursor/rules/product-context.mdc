@@ -1,0 +1,37 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: Product Context documentation
+globs: ["*"]
+alwaysApply: true
+---
+
+# Product Context
+
+## Purpose of the Project
+The German Tax Return App aims to simplify the tax filing process for individuals by offering a secure and efficient platform for submitting and validating tax returns. The app integrates with DATEV and Agenta to provide automated validation and enhances user experience with tax advisor assistance for optimizing returns.
+
+## Problems Solved
+1. Manual Tax Filing Hassles: Many users struggle with paperwork and complex tax forms.
+2. Error-Prone Submissions: Incorrect or incomplete submissions lead to delays and penalties.
+3. Lack of Optimization: Users may miss potential tax deductions and benefits.
+4. Security Concerns: Storing and transmitting sensitive financial data securely is challenging.
+
+## How the App Works
+1. User Registration & Authentication (Secure login with OAuth 2.0 and MFA)
+2. Role-Based Access (Clients submit tax returns, Tax Agents review, Admins manage the system)
+3. Tax Return Submission (User uploads forms and supporting documents)
+4. Validation via API (Data is checked against DATEV and Agenta systems)
+5. Premium Package Processing (Tax advisors review and optimize returns)
+6. Final Submission & Export (Users receive validated tax returns for submission to Finanzamt)
+
+## User Experience Goals
+1. Ease of Use: Simple and guided form submissions.
+2. Transparency: Real-time updates on tax return status.
+3. Security & Trust: Strong encryption and GDPR compliance.
+4. Efficiency: Faster and optimized tax return processing.
+5. Accessibility: Fully responsive design for mobile and desktop users.
+

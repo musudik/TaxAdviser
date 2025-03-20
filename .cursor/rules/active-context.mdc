@@ -1,0 +1,38 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: Active Context documentation
+globs: ["*"]
+alwaysApply: true
+---
+
+# Active Context
+
+## Current Focus
+1. Finalizing system architecture for frontend, backend, and database.
+2. Implementing user authentication and role management.
+3. Designing secure document upload and storage system.
+4. Developing core tax return submission and validation features.
+5. Integrating DATEV and Agenta APIs for validation.
+
+## Recent Changes
+1. Defined API route mapping for different roles (Clients, Tax Agents, Admins).
+2. Established secure authentication flow (JWT, OAuth, MFA).
+3. Set up PostgreSQL and Firebase Storage for tax document handling.
+4. Completed high-level UI/UX wireframes for key user flows.
+
+## Next Steps
+1. Implement frontend UI components using React and Tailwind CSS.
+2. Develop backend endpoints with NestJS (or Spring Boot) for tax return processing.
+3. Configure data encryption and GDPR compliance measures.
+4. Establish secure API communication with DATEV and Agenta.
+5. Deploy an initial MVP version for testing.
+
+## Active Decisions & Considerations
+1. Using Firebase Storage for document handling vs. AWS S3.
+2. Choosing between NestJS and Spring Boot for backend development.
+3. Defining user permissions for secure tax data access.
+4. Enhancing security with end-to-end encryption for financial data.

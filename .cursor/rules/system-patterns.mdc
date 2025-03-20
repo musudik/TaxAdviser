@@ -1,0 +1,42 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: System Patterns documentation
+globs: ["*"]
+alwaysApply: true
+---
+
+# System Patterns
+
+## System Architecture
+1. Frontend: React + Vite with Tailwind CSS for a modern UI.
+2. Backend: NestJS (or Spring Boot) for scalable API services.
+3. Database: PostgreSQL for structured data, Firebase Storage for document handling.
+4. Authentication: JWT + OAuth 2.0 + Multi-Factor Authentication (MFA).
+5. API Gateway: Secure routing for third-party API communication.
+6. Hosting: Deployed on AWS/GCP with Kubernetes for scaling.
+
+## Key Technical Decisions
+1. Microservices-based backend for modularity and scalability.
+2. Server-side encryption for document storage (AES-256).
+3. Rate limiting and API security to prevent abuse.
+4. GDPR compliance measures for handling sensitive financial data.
+5. Logging and monitoring with ELK stack for audit tracking.
+
+## Design Patterns in Use
+1. MVC Architecture for clean separation of concerns.
+2. Repository Pattern for database interaction.
+3. Factory Pattern for scalable object creation.
+4. Decorator Pattern for enhancing security and logging features.
+5. Observer Pattern for real-time tax return status updates.
+
+## Component Relationships
+1. Client submits tax return ➝ Backend processes request ➝ Stores data in PostgreSQL.
+2. Document upload handled via Firebase Storage with encrypted links.
+3. API calls made to DATEV and Agenta for validation.
+4. Tax Agent reviews and optimizes submission before finalizing.
+5. Admin dashboard tracks system-wide analytics and logs.
+

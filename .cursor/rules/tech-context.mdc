@@ -1,0 +1,65 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: Tech Context documentation
+globs: ["*"]
+alwaysApply: true
+---
+
+# Tech Context
+
+## Technologies Used
+
+### Frontend:
+1. React + Vite for fast and scalable UI development.
+2. Tailwind CSS for elegant and responsive styling.
+3. ShadCN UI + Lucide Icons for modern UI components.
+4. Zustand for state management.
+5. React Query for efficient API data fetching and caching.
+
+### Backend:
+1. NestJS (or Spring Boot) for building a modular and maintainable API.
+2. PostgreSQL as the primary relational database.
+3. Firebase Storage for secure document handling.
+4. Redis for caching frequently accessed data. (optional)
+5. BullMQ for background job processing (e.g., tax data validation). (optional)
+
+## Authentication & Security:
+1. JWT (JSON Web Token) for stateless authentication.
+2. OAuth 2.0 with Google/Microsoft login for seamless sign-in.
+3. Multi-Factor Authentication (MFA) for extra security.
+4. AES-256 encryption for storing sensitive financial data.
+5. GDPR compliance measures including user data access logs.
+
+## Third-Party Integrations:
+1. DATEV API for tax data validation.
+2. Agenta API for optimizing tax return recommendations.
+3. Twilio / Firebase Authentication for OTP-based login security.
+
+## Deployment & DevOps:
+1. Docker + Kubernetes for containerized deployment.
+2. AWS/GCP for scalable cloud hosting.
+3. NGINX as a reverse proxy for load balancing.
+4 .ELK Stack (Elasticsearch, Logstash, Kibana) for logging and monitoring.
+
+## Development Setup
+1. Monorepo structure for managing frontend and backend in one place.
+2. CI/CD with GitHub Actions for automated deployment.
+3. Vite + ESLint + Prettier for efficient development workflow.
+4. Postman & Swagger for API documentation and testing.
+
+## Technical Constraints
+1. High security due to sensitive financial data.
+2. Compliance with German tax laws and GDPR.
+3. Handling large file uploads efficiently.
+4. Real-time API validation without performance bottlenecks.
+
+## Dependencies
+1. React Query for async data management.
+2. NestJS Passport for authentication strategies.
+3. TypeORM for database management.
+4. Cloudinary/Firebase Storage SDK for file handling.
+5. Date-fns for date manipulations in tax calculations.
