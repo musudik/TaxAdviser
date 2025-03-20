@@ -1,0 +1,6 @@
+{
+    "name": "TaxAdviser",
+    "private": true,
+    "workspaces": ["frontend", "backend"]
+  }
+  
