@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import authService, { LoginData } from '../../services/auth.service';
+import { useAuth } from '../../hooks/useAuth';
+import { UserRole } from '../../types/auth';
+import authService from '../../services/auth.service';
 
 const LoginForm: React.FC = () => {
   const navigate = useNavigate();
+  const { login, user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState<LoginData>({
+  const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
@@ -24,9 +27,20 @@ const LoginForm: React.FC = () => {
     
     try {
       setIsLoading(true);
-      await authService.login(formData);
+      const response = await login(formData);
       toast.success('Login successful!');
-      navigate('/dashboard');
+      
+      // Navigate based on user role
+      if (response) {
+        console.log(response.user);
+        const dashboardPath = response.user.role === UserRole.CLIENT 
+          ? '/client/dashboard'
+          : response.user.role === UserRole.TAX_AGENT
+          ? '/tax-agent/dashboard'
+          : '/admin/dashboard';
+        
+        navigate(dashboardPath);
+      }
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Login failed');
     } finally {

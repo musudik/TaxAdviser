@@ -1,51 +1,49 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
+import { UserRole } from '../../types/auth';
 import { toast } from 'sonner';
-import authService from '../../services/auth.service';
-
-interface RegisterData {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-}
 
 const RegisterForm: React.FC = () => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState<RegisterData>({
+  const { register, isLoading } = useAuth();
+  const [formData, setFormData] = useState({
     email: '',
     password: '',
+    confirmPassword: '',
     firstName: '',
     lastName: '',
+    role: UserRole.CLIENT, // Default role
   });
-  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value,
+      [name]: value
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (formData.password !== confirmPassword) {
+
+    if (formData.password !== formData.confirmPassword) {
       toast.error('Passwords do not match');
       return;
     }
 
     try {
-      setIsLoading(true);
-      await authService.register(formData);
+      await register({
+        email: formData.email,
+        password: formData.password,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        role: formData.role,
+      });
       toast.success('Registration successful!');
       navigate('/login');
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Registration failed');
-    } finally {
-      setIsLoading(false);
+    } catch (error) {
+      toast.error('Registration failed. Please try again.');
     }
   };
 
@@ -106,6 +104,22 @@ const RegisterForm: React.FC = () => {
               />
             </div>
             <div>
+              <label htmlFor="role" className="block text-sm font-medium">
+                Role
+              </label>
+              <select
+                id="role"
+                name="role"
+                required
+                value={formData.role}
+                onChange={handleChange}
+                className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              >
+                <option value={UserRole.CLIENT}>Client</option>
+                <option value={UserRole.TAX_AGENT}>Tax Agent</option>
+              </select>
+            </div>
+            <div>
               <label htmlFor="password" className="block text-sm font-medium">
                 Password
               </label>
@@ -126,15 +140,17 @@ const RegisterForm: React.FC = () => {
               </label>
               <input
                 id="confirmPassword"
+                name="confirmPassword"
                 type="password"
                 autoComplete="new-password"
                 required
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={formData.confirmPassword}
+                onChange={handleChange}
                 className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
               />
             </div>
           </div>
+
           <button
             type="submit"
             disabled={isLoading}
