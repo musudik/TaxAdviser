@@ -1,9 +1,4 @@
 ---
-description: 
-globs: 
-alwaysApply: true
----
----
 description: Project brief documentation
 globs: ["*"]
 alwaysApply: true
@@ -12,35 +7,17 @@ alwaysApply: true
 # Project Brief
 
 ## Overview
-Develop a secure and scalable web application that enables users to submit and validate tax returns with third-party API integrations such as DATEV and Agenta. The app will offer two service tiers:
-1. Basic Package: Users submit tax forms and documents for manual submission.
-2. Premium Package: Includes tax advisor review to optimize tax returns..
+This document contains project-specific rules and documentation.
 
-## Core Requirements
-1. User Authentication & Role Management: Clients, Tax Agents, and Admins with role-based access.
-2. Tax Return Submission: Forms and document uploads.
-3. Tax Advisor Review: Review, validation, and recommendations.
-4. Third-Party API Integration: Validate tax data with DATEV and Agenta.
-5. Security & Compliance: GDPR compliance, AES-256 encryption, multi-factor authentication.
-6. Elegant UI/UX: Modern, user-friendly, mobile-responsive design.
-7. Scalability: Cloud-based infrastructure using Docker and Kubernetes.
+## Usage
+- You can reference files using @ symbol
+- Markdown formatting is supported
+- Add your project-specific rules and guidelines below
 
-## Project Goals
-1. Ensure secure data handling for sensitive financial documents.
-2. Provide a seamless and intuitive user experience.
-3. Optimize tax return accuracy and maximize benefits for users.
-4. Maintain high availability and performance for heavy data loads.
+## Project Rules
+1. Follow the established coding standards
+2. Keep documentation up to date
+3. Use clear and descriptive commit messages
 
-## Scope & Constraints
-1. The application will initially target users in Germany.
-2. Compliance with German financial regulations.
-3. High security due to sensitive financial data.
-4. Scalable to accommodate future expansion.
-
-## Expected Deliverables
-1. Full-stack web application (React + NestJS + PostgreSQL)
-2. API endpoints for tax return submission and validation
-3. Secure authentication and user role management
-4. Modern, accessible UI design, maintain the same UI components all over the application.
-5. Documentation for deployment, testing, and maintenance
-
+## Additional Notes
+Feel free to add more sections as needed for your project.
