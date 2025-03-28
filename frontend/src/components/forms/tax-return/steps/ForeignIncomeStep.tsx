@@ -24,15 +24,19 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
   };
 
   return (
-    <FormSection title={`${languageData.de.steps.foreign} / ${languageData.en.steps.foreign}`}>
+    <FormSection
+        germanTitle={languageData.de.steps.foreign}
+        englishTitle={languageData.en.steps.foreign}
+      >
       <div className="space-y-6">
         {/* Foreign income status */}
-        <div>
-          <Label className="block space-y-1 text-neutral-800 font-['Switzer-Medium']">
-            <span>Haben Sie Einkünfte aus dem Ausland erzielt (ohne die zuvor genannten Investitionseinkünfte)?</span>
-            <span className="text-sm text-neutral-600 font-['Switzer-Regular'] block">Did you earn income from abroad (excluding previously mentioned investment income)?</span>
-          </Label>
-          <div className="flex space-x-4 mt-2">
+        <div className="form-group">
+        <Label className="block space-y-1"
+            htmlFor="rentalProperty"
+            germanText={<div className="font-bold">{languageData.de.  incomeInfo.hasForeignIncome}</div>}
+            englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.hasForeignIncome}</div>}
+          />
+            <div className="flex space-x-4 mt-2">
             <div className="flex items-center">
               <input
                 type="radio"
@@ -43,7 +47,9 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
                 className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
                 required
               />
-              <label htmlFor="foreignIncomeNo" className="ml-2 text-neutral-700 font-['Switzer-Regular']">Nein / No</label>
+               <label htmlFor="foreignIncomeNo" className="ml-2 text-neutral-700">
+                <span className="font-bold">Nein</span> / <span className="text-neutral-600">No</span>
+              </label>
             </div>
             <div className="flex items-center">
               <input
@@ -55,7 +61,9 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
                 className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
                 required
               />
-              <label htmlFor="foreignIncomeYes" className="ml-2 text-neutral-700 font-['Switzer-Regular']">Ja / Yes</label>
+              <label htmlFor="foreignIncomeYes" className="ml-2 text-neutral-700">
+                <span className="font-bold">Ja</span> / <span className="text-neutral-600">Yes</span>
+              </label>
             </div>
           </div>
           {hasError('incomeInfo', 'hasForeignIncome') && (
@@ -69,11 +77,12 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
         {formData.incomeInfo.hasForeignIncome && (
           <div className="space-y-4 ml-6">
             {/* Country of origin */}
-            <div>
-              <Label className="block space-y-1 text-neutral-800 font-['Switzer-Medium']">
-                <span>Wenn ja, aus welchem Land stammt dieses Einkommen?</span>
-                <span className="text-sm text-neutral-600 font-['Switzer-Regular'] block">If yes, from which country does this income originate?</span>
-              </Label>
+            <div className="form-group">
+              <Label className="block space-y-1"
+                htmlFor="foreignIncomeCountry"
+                germanText={<div className="font-bold">Wenn ja, aus welchem Land stammt dieses Einkommen?</div>}
+                englishText={<div className="text-neutral-600">If yes, from which country does this income originate?</div>}
+              />
               <input
                 type="text"
                 value={formData.incomeInfo.foreignIncomeCountry || ''}
@@ -89,11 +98,12 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
             </div>
             
             {/* Income type */}
-            <div>
-              <Label className="block space-y-1 text-neutral-800 font-['Switzer-Medium']">
-                <span>Um welche Art von Einkommen handelt es sich?</span>
-                <span className="text-sm text-neutral-600 font-['Switzer-Regular'] block">What type of income is this?</span>
-              </Label>
+            <div className="form-group">
+              <Label className="block space-y-1"
+                htmlFor="foreignIncomeType"
+                germanText={<div className="font-bold">Um welche Art von Einkommen handelt es sich?</div>}
+                englishText={<div className="text-neutral-600">What type of income is this?</div>}
+              />
               <input
                 type="text"
                 value={formData.incomeInfo.foreignIncomeType || ''}
@@ -109,11 +119,12 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
             </div>
             
             {/* Total foreign income */}
-            <div>
-              <Label className="block space-y-1 text-neutral-800 font-['Switzer-Medium']">
-                <span>Wie hoch war das gesamte im Ausland erzielte Einkommen?</span>
-                <span className="text-sm text-neutral-600 font-['Switzer-Regular'] block">What was the total foreign income earned?</span>
-              </Label>
+            <div className="form-group">
+              <Label className="block space-y-1"
+                htmlFor="foreignIncomeAmount"
+                germanText={<div className="font-bold">Wie hoch war das gesamte im Ausland erzielte Einkommen?</div>}
+                englishText={<div className="text-neutral-600">What was the total foreign income earned?</div>}
+              />
               <input
                 type="number"
                 min="0"
@@ -131,11 +142,12 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
             </div>
             
             {/* Foreign tax paid */}
-            <div>
-              <Label className="block space-y-1 text-neutral-800 font-['Switzer-Medium']">
-                <span>Wie viel Steuer wurde im Ausland bereits gezahlt?</span>
-                <span className="text-sm text-neutral-600 font-['Switzer-Regular'] block">How much tax was already paid abroad?</span>
-              </Label>
+            <div className="form-group">
+              <Label className="block space-y-1"
+                htmlFor="foreignIncomeTaxPaid"
+                germanText={<div className="font-bold">Wie viel Steuer wurde im Ausland bereits gezahlt?</div>}
+                englishText={<div className="text-neutral-600">How much tax was already paid abroad?</div>}
+              />
               <input
                 type="number"
                 min="0"
@@ -154,10 +166,11 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
             
             {/* Foreign tax certificate */}
             <div>
-              <Label className="block space-y-1 text-neutral-800 font-['Switzer-Medium']">
-                <span>Bitte laden Sie die entsprechende ausländische Steuerbescheinigung hoch:</span>
-                <span className="text-sm text-neutral-600 font-['Switzer-Regular'] block">Please upload the corresponding foreign tax certificate:</span>
-              </Label>
+              <Label className="block space-y-1"
+                htmlFor="foreignIncomeTaxCertificateFile"
+                germanText={<div className="font-bold">Bitte laden Sie die entsprechende ausländische Steuerbescheinigung hoch:</div>}
+                englishText={<div className="text-neutral-600">Please upload the corresponding foreign tax certificate:</div>}
+              />
               <input
                 type="file"
                 onChange={(e) => {
@@ -165,12 +178,12 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
                     handleChange('incomeInfo', 'foreignIncomeTaxCertificateFile', e.target.files[0].name);
                   }
                 }}
-                className="mt-1 block w-full text-sm text-neutral-700
-                          file:mr-4 file:py-2 file:px-4
-                          file:rounded-md file:border-0
-                          file:text-sm file:font-['Switzer-Medium']
-                          file:bg-neutral-100 file:text-neutral-700
-                          hover:file:bg-neutral-200"
+                className="mt-1 block w-full text-sm text-gray-500
+                            file:mr-4 file:py-2 file:px-4
+                            file:rounded-md file:border-0
+                            file:text-sm file:font-semibold
+                            file:bg-blue-50 file:text-blue-700
+                            hover:file:bg-blue-100"
                 required
               />
               {hasError('incomeInfo', 'foreignIncomeTaxCertificateFile') && (

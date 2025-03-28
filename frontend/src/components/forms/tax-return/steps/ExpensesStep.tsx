@@ -786,7 +786,7 @@ const ExpensesStep: React.FC<ExpensesStepProps> = ({
                 )}
               </div>
               
-              <div>
+              <div className="form-group">
                 <Label className="block space-y-1"
                 htmlFor="craftsmenInvoiceFile"
                 germanText={<div className="font-bold">Bitte laden Sie die Rechnung für die Handwerkerleistungen hoch:</div>}
@@ -854,7 +854,7 @@ const ExpensesStep: React.FC<ExpensesStepProps> = ({
               </div>
 
               {/* Gardening and Winter Services */}
-              <div>
+              <div className="form-group">
                 <Label className="block space-y-1"
                 htmlFor="gardeningServices"
                 germanText={<div className="font-bold">{languageData.de.deductions.gardeningServices}</div>}
@@ -1011,7 +1011,10 @@ const ExpensesStep: React.FC<ExpensesStepProps> = ({
         </div>
         </FormSection>
 
-        <FormSection title={`${languageData.de.deductions.documents.title} / ${languageData.en.deductions.documents.title}`}>
+        <FormSection 
+        germanTitle={languageData.de.deductions.documents.title}
+        englishTitle={languageData.en.deductions.documents.title}
+        >
           <div className="space-y-4">
             {[
               { key: 'rentalContracts' as keyof typeof languageData.de.deductions.documents, required: false },
@@ -1030,10 +1033,11 @@ const ExpensesStep: React.FC<ExpensesStepProps> = ({
               { key: 'depreciationProof' as keyof typeof languageData.de.deductions.documents, required: false }
             ].map((doc) => (
               <div key={doc.key}>
-                <Label className="block space-y-1">
-                  <span>{languageData.de.deductions.documents[doc.key]}</span>
-                  <span className="text-sm text-gray-600 block">{languageData.en.deductions.documents[doc.key]}</span>
-                </Label>
+                <Label className="block space-y-1"
+                htmlFor={`documents_${doc.key}`}
+                germanText={<div className="font-bold">{languageData.de.deductions.documents[doc.key]}</div>}
+                englishText={<div className="text-neutral-600">{languageData.en.deductions.documents[doc.key]}</div>}
+                />  
                 <input
                   type="file"
                   multiple

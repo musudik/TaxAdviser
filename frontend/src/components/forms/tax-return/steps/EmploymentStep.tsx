@@ -29,15 +29,10 @@ const EmploymentStep: React.FC<EmploymentStepProps> = ({
     <div>
       {/* Employment status question */}
       <FormSection
-        germanTitle="Beschäftigungsstatus"
-        englishTitle="Employment Status"
+        germanTitle={languageData.de.incomeInfo.isEmployed}
+        englishTitle={languageData.en.incomeInfo.isEmployed}
       >
         <div className="form-group mb-4">
-          <Label 
-            htmlFor="isEmployed"
-            germanText={languageData.de.incomeInfo.isEmployed}
-            englishText={languageData.en.incomeInfo.isEmployed}
-          />
           <div className="flex space-x-4 mt-2">
             <div className="flex items-center">
               <input
@@ -80,13 +75,14 @@ const EmploymentStep: React.FC<EmploymentStepProps> = ({
           germanTitle={languageData.de.incomeInfo.employmentIncome}
           englishTitle={languageData.en.incomeInfo.employmentIncome}
         >
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="form-group">
-              <Label 
-                htmlFor="employerName"
-                germanText={languageData.de.incomeInfo.employer}
-                englishText={languageData.en.incomeInfo.employer}
-              />
+            <Label className="block space-y-1"
+            htmlFor="churchTax"
+            germanText={<div className="font-bold">{languageData.de.incomeInfo.employer}</div>}
+            englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.employer}</div>}
+            />  
               <Input
                 id="employerName"
                 type="text"
@@ -102,10 +98,10 @@ const EmploymentStep: React.FC<EmploymentStepProps> = ({
             </div>
 
             <div className="form-group">
-              <Label 
+              <Label className="block space-y-1"
                 htmlFor="income"
-                germanText={languageData.de.incomeInfo.employmentIncome}
-                englishText={languageData.en.incomeInfo.employmentIncome}
+                germanText={<div className="font-bold">{languageData.de.incomeInfo.employmentIncome}</div>}
+                englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.employmentIncome}</div>}
               />
               <Input
                 id="income"
@@ -128,7 +124,7 @@ const EmploymentStep: React.FC<EmploymentStepProps> = ({
             <div className="form-group">
               <Label 
                 htmlFor="hasTaxCertificate"
-                germanText={languageData.de.incomeInfo.hasTaxCertificate}
+                germanText={<div className="font-bold">{languageData.de.incomeInfo.hasTaxCertificate}</div>}
                 englishText={languageData.en.incomeInfo.hasTaxCertificate}
               />
               <div className="flex space-x-4 mt-2">

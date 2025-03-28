@@ -1,6 +1,7 @@
 {
   "de": {
     "title": "Deutsche Steuererklärung",
+    "completeForm": "Bitte füllen Sie das Formular aus, um Ihre Steuererklärung einzureichen",
     "common": {
       "save": "Entwurf speichern",
       "submit": "Formular einreichen",
@@ -170,7 +171,7 @@
       "businessType": "Art der Selbständigkeit",
       "businessEarnings": "Einnahmen aus Selbständigkeit",
       "businessExpenses": "Ausgaben für Selbständigkeit",
-      "investmentsTitle": "Kapitalerträge",
+      "investmentsTitle": "Aktien & Investitionen",
       "hasStockIncome": "Haben Sie Einkünfte aus Aktien?",
       "dividendEarnings": "Dividendenerträge",
       "hasStockSales": "Haben Sie Aktien verkauft?",
@@ -281,6 +282,7 @@
   },
   "en": {
     "title": "German Tax Return",
+    "completeForm": "Complete the form below to submit your tax return",    
     "common": {
       "save": "Save Draft",
       "submit": "Submit Form",
@@ -449,7 +451,7 @@
       "businessType": "Type of self-employment",
       "businessEarnings": "Self-employment earnings",
       "businessExpenses": "Self-employment expenses",
-      "investmentsTitle": "Investment Income",
+      "investmentsTitle": "Stocks & Investments",
       "hasStockIncome": "Do you have income from stocks?",
       "dividendEarnings": "Dividend earnings",
       "hasStockSales": "Did you sell stocks?",

@@ -29,14 +29,19 @@ const RentalStep: React.FC<RentalStepProps> = ({
   };
 
   return (
-    <FormSection title={`${languageData.de.steps.rental} / ${languageData.en.steps.rental}`}>
+    <FormSection
+        germanTitle={languageData.de.steps.rental}
+        englishTitle={languageData.en.steps.rental}
+      >
+
       <div className="space-y-6">
         {/* Rental property status */}
-        <div>
-          <Label className="block space-y-1 text-neutral-800 font-['Switzer-Medium']">
-            <span>Vermieten Sie eine Immobilie oder einen Teil einer Immobilie?</span>
-            <span className="text-sm text-neutral-600 font-['Switzer-Regular'] block">Do you rent out a property or part of a property?</span>
-          </Label>
+        <div className="form-group">
+          <Label className="block space-y-1"
+            htmlFor="rentalProperty"
+            germanText={<div className="font-bold">{languageData.de.incomeInfo.hasRentalProperty}</div>}
+            englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.hasRentalProperty}</div>}
+          />
           <div className="flex space-x-4 mt-2">
             <div className="flex items-center">
               <input
@@ -48,7 +53,9 @@ const RentalStep: React.FC<RentalStepProps> = ({
                 className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
                 required
               />
-              <label htmlFor="rentalPropertyNo" className="ml-2 text-neutral-700 font-['Switzer-Regular']">Nein / No</label>
+              <label htmlFor="rentalPropertyNo" className="ml-2 text-neutral-700">
+                <span className="font-bold">Nein</span> / <span className="text-neutral-600">No</span>
+              </label>
             </div>
             <div className="flex items-center">
               <input
@@ -60,7 +67,9 @@ const RentalStep: React.FC<RentalStepProps> = ({
                 className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
                 required
               />
-              <label htmlFor="rentalPropertyYes" className="ml-2 text-neutral-700 font-['Switzer-Regular']">Ja / Yes</label>
+              <label htmlFor="rentalPropertyYes" className="ml-2 text-neutral-700">
+                <span className="font-bold">Ja</span> / <span className="text-neutral-600">Yes</span>
+              </label>
             </div>
           </div>
           {hasError('incomeInfo', 'hasRentalProperty') && (
@@ -74,11 +83,12 @@ const RentalStep: React.FC<RentalStepProps> = ({
         {formData.incomeInfo.hasRentalProperty && (
           <div className="space-y-4 ml-6">
             {/* Rental income */}
-            <div>
-              <Label className="block space-y-1 text-neutral-800 font-['Switzer-Medium']">
-                <span>Wenn ja, wie hoch waren Ihre Mieteinnahmen im letzten Jahr?</span>
-                <span className="text-sm text-neutral-600 font-['Switzer-Regular'] block">If yes, what was your rental income last year?</span>
-              </Label>
+            <div className="form-group">
+              <Label className="block space-y-1"
+                htmlFor="rentalIncome"
+                germanText={<div className="font-bold">{languageData.de.incomeInfo.rentalIncome}</div>}
+                englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.rentalIncome}</div>}
+              />
               <input
                 type="number"
                 min="0"
@@ -96,11 +106,12 @@ const RentalStep: React.FC<RentalStepProps> = ({
             </div>
             
             {/* Rental costs */}
-            <div>
-              <Label className="block space-y-1 text-neutral-800 font-['Switzer-Medium']">
-                <span>Welche Kosten sind Ihnen für die Vermietung entstanden (z.B. Reparaturen, Versicherungen)?</span>
-                <span className="text-sm text-neutral-600 font-['Switzer-Regular'] block">What costs did you incur for the rental (e.g., repairs, insurance)?</span>
-              </Label>
+            <div className="form-group">
+              <Label className="block space-y-1"
+                htmlFor="rentalCosts"
+                germanText={<div className="font-bold">{languageData.de.incomeInfo.rentalCosts}</div>}
+                englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.rentalCosts}</div>}
+              />
               <input
                 type="number"
                 min="0"
@@ -118,14 +129,19 @@ const RentalStep: React.FC<RentalStepProps> = ({
             </div>
             
             {/* Property address */}
-            <div>
-              <Label className="block space-y-1 text-neutral-800 font-['Switzer-Medium']">
-                <span>Adresse der vermieteten Immobilie</span>
-                <span className="text-sm text-neutral-600 font-['Switzer-Regular'] block">Address of the rented property</span>
-              </Label>
+            <div className="form-group">
+              <Label className="block space-y-1"
+                htmlFor="rentalPropertyAddress"
+                germanText={<div className="font-bold">{languageData.de.incomeInfo.rentalPropertyAddress}</div>}
+                englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.rentalPropertyAddress}</div>}
+              />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
                 <div>
-                  <Label className="block mb-1 text-sm text-neutral-800 font-['Switzer-Medium']">Straße / Street</Label>
+                  <Label  
+                    htmlFor="street"
+                    germanText={<div className="font-bold">Straße</div>}
+                    englishText={<div className="text-neutral-600">Street</div>}
+                  />
                   <input
                     type="text"
                     value={formData.incomeInfo.rentalPropertyAddress?.street || ''}
@@ -143,7 +159,11 @@ const RentalStep: React.FC<RentalStepProps> = ({
                   )}
                 </div>
                 <div>
-                  <Label className="block mb-1 text-sm text-neutral-800 font-['Switzer-Medium']">Hausnummer / House number</Label>
+                  <Label 
+                    htmlFor="houseNumber"
+                    germanText={<div className="font-bold">Hausnummer</div>}
+                    englishText={<div className="text-neutral-600">House number</div>}
+                  />
                   <input
                     type="text"
                     value={formData.incomeInfo.rentalPropertyAddress?.houseNumber || ''}
@@ -161,7 +181,11 @@ const RentalStep: React.FC<RentalStepProps> = ({
                   )}
                 </div>
                 <div>
-                  <Label className="block mb-1 text-sm text-neutral-800 font-['Switzer-Medium']">PLZ / Postal code</Label>
+                  <Label 
+                    htmlFor="postalCode"
+                    germanText={<div className="font-bold">PLZ</div>}
+                    englishText={<div className="text-neutral-600">Postal code</div>}
+                  />
                   <input
                     type="text"
                     value={formData.incomeInfo.rentalPropertyAddress?.postalCode || ''}
@@ -179,7 +203,11 @@ const RentalStep: React.FC<RentalStepProps> = ({
                   )}
                 </div>
                 <div>
-                  <Label className="block mb-1 text-sm text-neutral-800 font-['Switzer-Medium']">Stadt / City</Label>
+                  <Label 
+                    htmlFor="city"
+                    germanText={<div className="font-bold">Stadt</div>}
+                    englishText={<div className="text-neutral-600">City</div>}
+                  />
                   <input
                     type="text"
                     value={formData.incomeInfo.rentalPropertyAddress?.city || ''}

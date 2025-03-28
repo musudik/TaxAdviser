@@ -30,22 +30,22 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
   return (
     <div className="space-y-6">
       {/* Declaration Section */}
-      <FormSection title="Declaration / Erklärung">
+      <FormSection germanTitle="Erklärung" englishTitle="Declaration">
         <div className="space-y-4 border rounded-md p-4 bg-neutral-50">
           {/* German Declaration */}
           <h3 className="font-['Switzer-Medium'] text-neutral-900 mb-4">Erklärung</h3>
           <div className="space-y-3">
-            <p className="text-sm text-neutral-700 font-['Switzer-Regular']">
+            <p className="text-sm text-neutral-700">
               Ich versichere, dass ich die Angaben in dieser Steuererklärung wahrheitsgemäß nach bestem Wissen und Gewissen gemacht habe. Die beigefügten Unterlagen und Belege sind vollständig und authentisch. Mir ist bekannt, dass ich für falsche oder unterlassene Angaben strafrechtlich zur Verantwortung gezogen werden kann.
             </p>
-            <p className="text-sm text-neutral-700 font-['Switzer-Regular']">
+            <p className="text-sm text-neutral-700">
               Ich stimme zu, dass meine Daten zum Zweck der Steuererklärung verarbeitet und gespeichert werden. Die Verarbeitung erfolgt unter Beachtung der geltenden Datenschutzbestimmungen.
             </p>
           </div>
 
           {/* English Declaration */}
           <h3 className="font-['Switzer-Medium'] text-neutral-900 mb-4 mt-6">Declaration</h3>
-          <div className="space-y-3 text-sm text-neutral-700 font-['Switzer-Regular']">
+          <div className="space-y-3 text-sm text-neutral-700">
             <p>
               I declare that the information provided in this tax return is true and correct to the best of my knowledge and belief. All attached documents and receipts are complete and authentic. I understand that I may be held criminally liable for false or omitted information.
             </p>
@@ -57,13 +57,14 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
       </FormSection>
 
       {/* Place and Date */}
-      <FormSection title="Place and Date / Ort und Datum">
+      <FormSection germanTitle="Ort und Datum" englishTitle="Place and Date">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <Label className="text-neutral-800 font-['Switzer-Medium']">
-              Ort
-              <span className="text-sm block text-neutral-600 font-['Switzer-Regular']">Place</span>
-            </Label>
+            <Label 
+              htmlFor="place"
+              germanText={<div className="font-bold">Ort</div>}
+              englishText={<div className="text-neutral-600">Place</div>}
+            />
             <Input
               value={formData.signature?.place || ''}
               onChange={(e) => handleChange('signature', 'place', e.target.value)}
@@ -74,10 +75,11 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
             )}
           </div>
           <div>
-            <Label className="text-neutral-800 font-['Switzer-Medium']">
-              Datum
-              <span className="text-sm block text-neutral-600 font-['Switzer-Regular']">Date</span>
-            </Label>
+            <Label 
+              htmlFor="date"
+              germanText={<div className="font-bold">Datum</div>}
+              englishText={<div className="text-neutral-600">Date</div>}
+            />
             <Input
               type="date"
               value={formData.signature?.date || ''}
@@ -89,10 +91,11 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
             )}
           </div>
           <div>
-            <Label className="text-neutral-800 font-['Switzer-Medium']">
-              Uhrzeit
-              <span className="text-sm block text-neutral-600 font-['Switzer-Regular']">Time</span>
-            </Label>
+            <Label 
+              htmlFor="time"
+              germanText={<div className="font-bold">Uhrzeit</div>}
+              englishText={<div className="text-neutral-600">Time</div>}
+            />
             <Input
               type="time"
               value={formData.signature?.time || ''}
@@ -107,12 +110,8 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
       </FormSection>
 
       {/* Signature */}
-      <FormSection title="Signature / Unterschrift">
+      <FormSection germanTitle="Unterschrift" englishTitle="Signature">
         <div className="space-y-4">
-          <Label className="block space-y-1 text-neutral-800 font-['Switzer-Medium']">
-            <span>Unterschrift</span>
-            <span className="text-sm block text-neutral-600 font-['Switzer-Regular']">Signature</span>
-          </Label>
           <SignaturePad
             onSave={(signatureData) => handleChange('signature', 'signature', signatureData)}
             initialValue={formData.signature?.signature || ''}
