@@ -37,13 +37,13 @@ const BusinessStep: React.FC<BusinessStepProps> = ({
         germanTitle={languageData.de.incomeInfo.businessTitle}
         englishTitle={languageData.en.incomeInfo.businessTitle}
       >
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Business owner status */}
-          <div className="form-group">
+          <div className="form-group col-span-2">
             <Label 
               htmlFor="isBusinessOwner"
-              germanText={languageData.de.incomeInfo.isBusinessOwner}
-              englishText={languageData.en.incomeInfo.isBusinessOwner}
+              germanText={<div className="font-bold">{languageData.de.incomeInfo.isBusinessOwner}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.isBusinessOwner}</div>}
             />
             <div className="flex space-x-4 mt-2">
               <div className="flex items-center">
@@ -84,13 +84,13 @@ const BusinessStep: React.FC<BusinessStepProps> = ({
           
           {/* Conditional fields when business owner */}
           {formData.incomeInfo.isBusinessOwner && (
-            <div className="space-y-4 ml-6">
+            <>
               {/* Business type */}
               <div className="form-group">
                 <Label 
                   htmlFor="businessType"
-                  germanText={languageData.de.incomeInfo.businessType}
-                  englishText={languageData.en.incomeInfo.businessType}
+                  germanText={<div className="font-bold">{languageData.de.incomeInfo.businessType}</div>}
+                  englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.businessType}</div>}
                 />
                 <Input
                   id="businessType"
@@ -111,14 +111,14 @@ const BusinessStep: React.FC<BusinessStepProps> = ({
               <div className="form-group">
                 <Label 
                   htmlFor="businessEarnings"
-                  germanText={languageData.de.incomeInfo.businessEarnings}
-                  englishText={languageData.en.incomeInfo.businessEarnings}
+                  germanText={<div className="font-bold">{languageData.de.incomeInfo.businessEarnings}</div>}
+                  englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.businessEarnings}</div>}
                 />
                 <Input
                   id="businessEarnings"
                   type="number"
-                  min="0"
-                  step="0.01"
+                  min={0}
+                  step={0.01}
                   value={formData.incomeInfo.businessEarnings || ''}
                   onChange={(e) => handleNumberChange('incomeInfo', 'businessEarnings', e.target.value)}
                   className={getInputClassWithError('incomeInfo', 'businessEarnings')}
@@ -135,14 +135,14 @@ const BusinessStep: React.FC<BusinessStepProps> = ({
               <div className="form-group">
                 <Label 
                   htmlFor="businessExpenses"
-                  germanText={languageData.de.incomeInfo.businessExpenses}
-                  englishText={languageData.en.incomeInfo.businessExpenses}
+                  germanText={<div className="font-bold">{languageData.de.incomeInfo.businessExpenses}</div>}
+                  englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.businessExpenses}</div>}
                 />
                 <Input
                   id="businessExpenses"
                   type="number"
-                  min="0"
-                  step="0.01"
+                  min={0}
+                  step={0.01}
                   value={formData.incomeInfo.businessExpenses || ''}
                   onChange={(e) => handleNumberChange('incomeInfo', 'businessExpenses', e.target.value)}
                   className={getInputClassWithError('incomeInfo', 'businessExpenses')}
@@ -154,7 +154,7 @@ const BusinessStep: React.FC<BusinessStepProps> = ({
                   </p>
                 )}
               </div>
-            </div>
+            </>
           )}
         </div>
       </FormSection>

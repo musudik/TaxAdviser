@@ -37,19 +37,19 @@ const DeductionsStep: React.FC<DeductionsStepProps> = ({
         germanTitle={languageData.de.deductions.workRelatedExpenses}
         englishTitle={languageData.en.deductions.workRelatedExpenses}
       >
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Commuting Expenses */}
           <div className="form-group">
             <Label 
               htmlFor="commutingExpenses"
-              germanText={languageData.de.deductions.commutingExpenses}
-              englishText={languageData.en.deductions.commutingExpenses}
+              germanText={<div className="font-bold">{languageData.de.deductions.commutingExpenses}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.deductions.commutingExpenses}</div>}
             />
             <Input
               id="commutingExpenses"
               type="number"
-              min="0"
-              step="0.01"
+              min={0}
+              step={0.01}
               value={formData.deductions.commutingExpenses || ''}
               onChange={(e) => handleNumberChange('deductions', 'commutingExpenses', e.target.value)}
               className={getInputClassWithError('deductions', 'commutingExpenses')}
@@ -65,14 +65,14 @@ const DeductionsStep: React.FC<DeductionsStepProps> = ({
           <div className="form-group">
             <Label 
               htmlFor="businessTripsCosts"
-              germanText={languageData.de.deductions.businessTripsCosts}
-              englishText={languageData.en.deductions.businessTripsCosts}
+              germanText={<div className="font-bold">{languageData.de.deductions.businessTripsCosts}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.deductions.businessTripsCosts}</div>}
             />
             <Input
               id="businessTripsCosts"
               type="number"
-              min="0"
-              step="0.01"
+              min={0}
+              step={0.01}
               value={formData.deductions.businessTripsCosts || ''}
               onChange={(e) => handleNumberChange('deductions', 'businessTripsCosts', e.target.value)}
               className={getInputClassWithError('deductions', 'businessTripsCosts')}
@@ -88,14 +88,14 @@ const DeductionsStep: React.FC<DeductionsStepProps> = ({
           <div className="form-group">
             <Label 
               htmlFor="workEquipment"
-              germanText={languageData.de.deductions.workEquipment}
-              englishText={languageData.en.deductions.workEquipment}
+              germanText={<div className="font-bold">{languageData.de.deductions.workEquipment}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.deductions.workEquipment}</div>}
             />
             <Input
               id="workEquipment"
               type="number"
-              min="0"
-              step="0.01"
+              min={0}
+              step={0.01}
               value={formData.deductions.workEquipment || ''}
               onChange={(e) => handleNumberChange('deductions', 'workEquipment', e.target.value)}
               className={getInputClassWithError('deductions', 'workEquipment')}
@@ -111,14 +111,14 @@ const DeductionsStep: React.FC<DeductionsStepProps> = ({
           <div className="form-group">
             <Label 
               htmlFor="homeOfficeAllowance"
-              germanText={languageData.de.deductions.homeOfficeAllowance}
-              englishText={languageData.en.deductions.homeOfficeAllowance}
+              germanText={<div className="font-bold">{languageData.de.deductions.homeOfficeAllowance}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.deductions.homeOfficeAllowance}</div>}
             />
             <Input
               id="homeOfficeAllowance"
               type="number"
-              min="0"
-              step="0.01"
+              min={0}
+              step={0.01}
               value={formData.deductions.homeOfficeAllowance || ''}
               onChange={(e) => handleNumberChange('deductions', 'homeOfficeAllowance', e.target.value)}
               className={getInputClassWithError('deductions', 'homeOfficeAllowance')}
@@ -137,19 +137,19 @@ const DeductionsStep: React.FC<DeductionsStepProps> = ({
         englishTitle={languageData.en.deductions.specialExpenses}
         className="mt-6"
       >
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Church Tax */}
           <div className="form-group">
             <Label 
               htmlFor="churchTax"
-              germanText={languageData.de.deductions.churchTax}
-              englishText={languageData.en.deductions.churchTax}
+              germanText={<div className="font-bold">{languageData.de.deductions.churchTax}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.deductions.churchTax}</div>}
             />
             <Input
               id="churchTax"
               type="number"
-              min="0"
-              step="0.01"
+              min={0}
+              step={0.01}
               value={formData.deductions.churchTax || ''}
               onChange={(e) => handleNumberChange('deductions', 'churchTax', e.target.value)}
               className={getInputClassWithError('deductions', 'churchTax')}
@@ -165,14 +165,14 @@ const DeductionsStep: React.FC<DeductionsStepProps> = ({
           <div className="form-group">
             <Label 
               htmlFor="donationsAndFees"
-              germanText={languageData.de.deductions.donationsAndFees}
-              englishText={languageData.en.deductions.donationsAndFees}
+              germanText={<div className="font-bold">{languageData.de.deductions.donationsAndFees}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.deductions.donationsAndFees}</div>}
             />
             <Input
               id="donationsAndFees"
               type="number"
-              min="0"
-              step="0.01"
+              min={0}
+              step={0.01}
               value={formData.deductions.donationsAndFees || ''}
               onChange={(e) => handleNumberChange('deductions', 'donationsAndFees', e.target.value)}
               className={getInputClassWithError('deductions', 'donationsAndFees')}
@@ -191,19 +191,19 @@ const DeductionsStep: React.FC<DeductionsStepProps> = ({
         englishTitle={languageData.en.deductions.insurancePremiums}
         className="mt-6"
       >
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Health Insurance */}
           <div className="form-group">
             <Label 
               htmlFor="privateHealthInsurance"
-              germanText={languageData.de.deductions.privateHealthInsurance}
-              englishText={languageData.en.deductions.privateHealthInsurance}
+              germanText={<div className="font-bold">{languageData.de.deductions.privateHealthInsurance}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.deductions.privateHealthInsurance}</div>}
             />
             <Input
               id="privateHealthInsurance"
               type="number"
-              min="0"
-              step="0.01"
+              min={0}
+              step={0.01}
               value={formData.deductions.privateHealthInsurance || ''}
               onChange={(e) => handleNumberChange('deductions', 'privateHealthInsurance', e.target.value)}
               className={getInputClassWithError('deductions', 'privateHealthInsurance')}
@@ -219,14 +219,14 @@ const DeductionsStep: React.FC<DeductionsStepProps> = ({
           <div className="form-group">
             <Label 
               htmlFor="privatePensionInsurance"
-              germanText={languageData.de.deductions.privatePensionInsurance}
-              englishText={languageData.en.deductions.privatePensionInsurance}
+              germanText={<div className="font-bold">{languageData.de.deductions.privatePensionInsurance}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.deductions.privatePensionInsurance}</div>}
             />
             <Input
               id="privatePensionInsurance"
               type="number"
-              min="0"
-              step="0.01"
+              min={0}
+              step={0.01}
               value={formData.deductions.privatePensionInsurance || ''}
               onChange={(e) => handleNumberChange('deductions', 'privatePensionInsurance', e.target.value)}
               className={getInputClassWithError('deductions', 'privatePensionInsurance')}

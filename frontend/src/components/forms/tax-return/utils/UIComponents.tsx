@@ -11,8 +11,8 @@ export const Label = ({
   htmlFor?: string; 
   children?: React.ReactNode;
   className?: string;
-  germanText?: string;
-  englishText?: string;
+  germanText?: React.ReactNode;
+  englishText?: React.ReactNode;
 }) => {
   if (germanText || englishText) {
     return (
@@ -20,9 +20,9 @@ export const Label = ({
         htmlFor={htmlFor} 
         className={`block text-sm font-medium text-neutral-700 mb-1 ${className}`}
       >
-        <span className="font-bold">{germanText}</span>
-        {germanText && englishText && " / "}
-        {englishText && <span className="text-neutral-600">{englishText}</span>}
+        {germanText}
+        {germanText && englishText && " "}
+        {englishText}
       </label>
     );
   }

@@ -124,8 +124,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
           <div className="form-group">
             <Label 
               htmlFor="firstName"
-              germanText={languageData.de.personalInfo.firstName}
-              englishText={languageData.en.personalInfo.firstName}
+              germanText={<div className="font-bold">{languageData.de.personalInfo.firstName}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.personalInfo.firstName}</div>}
             />
             <Input
               id="firstName"
@@ -147,8 +147,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
           <div className="form-group">
             <Label 
               htmlFor="lastName"
-              germanText={languageData.de.personalInfo.lastName}
-              englishText={languageData.en.personalInfo.lastName}
+              germanText={<div className="font-bold">{languageData.de.personalInfo.lastName}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.personalInfo.lastName}</div>}
             />
             <Input
               id="lastName"
@@ -170,8 +170,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
           <div className="form-group">
             <Label 
               htmlFor="taxId"
-              germanText={languageData.de.personalInfo.taxId}
-              englishText={languageData.en.personalInfo.taxId}
+              germanText={<div className="font-bold">{languageData.de.personalInfo.taxId}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.personalInfo.taxId}</div>}
             />
             <Input
               id="taxId"
@@ -193,8 +193,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
           <div className="form-group">
             <Label 
               htmlFor="dateOfBirth"
-              germanText={languageData.de.personalInfo.dateOfBirth}
-              englishText={languageData.en.personalInfo.dateOfBirth}
+              germanText={<div className="font-bold">{languageData.de.personalInfo.dateOfBirth}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.personalInfo.dateOfBirth}</div>}
             />
             <Input
               id="dateOfBirth"
@@ -216,8 +216,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
           <div className="form-group">
             <Label 
               htmlFor="maritalStatus"
-              germanText={languageData.de.personalInfo.maritalStatus}
-              englishText={languageData.en.personalInfo.maritalStatus}
+              germanText={<div className="font-bold">{languageData.de.personalInfo.maritalStatus}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.personalInfo.maritalStatus}</div>}
             />
             <Select
               id="maritalStatus"
@@ -252,8 +252,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
             <div className="form-group">
               <Label 
                 htmlFor="street"
-                germanText={languageData.de.personalInfo.address.street}
-                englishText={languageData.en.personalInfo.address.street}
+                germanText={<div className="font-bold">{languageData.de.personalInfo.address.street}</div>}
+                englishText={<div className="text-neutral-600">{languageData.en.personalInfo.address.street}</div>}
               />
               <Input
                 id="street"
@@ -275,8 +275,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
             <div className="form-group">
               <Label 
                 htmlFor="houseNumber"
-                germanText={languageData.de.personalInfo.address.houseNumber}
-                englishText={languageData.en.personalInfo.address.houseNumber}
+                germanText={<div className="font-bold">{languageData.de.personalInfo.address.houseNumber}</div>}
+                englishText={<div className="text-neutral-600">{languageData.en.personalInfo.address.houseNumber}</div>}
               />
               <Input
                 id="houseNumber"
@@ -298,8 +298,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
             <div className="form-group">
               <Label 
                 htmlFor="postalCode"
-                germanText={languageData.de.personalInfo.address.postalCode}
-                englishText={languageData.en.personalInfo.address.postalCode}
+                germanText={<div className="font-bold">{languageData.de.personalInfo.address.postalCode}</div>}
+                englishText={<div className="text-neutral-600">{languageData.en.personalInfo.address.postalCode}</div>}
               />
               <Input
                 id="postalCode"
@@ -321,8 +321,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
             <div className="form-group">
               <Label 
                 htmlFor="city"
-                germanText={languageData.de.personalInfo.address.city}
-                englishText={languageData.en.personalInfo.address.city}
+                germanText={<div className="font-bold">{languageData.de.personalInfo.address.city}</div>}
+                englishText={<div className="text-neutral-600">{languageData.en.personalInfo.address.city}</div>}
               />
               <Input
                 id="city"
@@ -353,8 +353,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
           <div className="form-group">
             <Label 
               htmlFor="hasForeignResidence"
-              germanText={languageData.de.personalInfo.foreignResidence.hasForeignResidence}
-              englishText={languageData.en.personalInfo.foreignResidence.hasForeignResidence}
+              germanText={<div className="font-bold">{languageData.de.personalInfo.foreignResidence.hasForeignResidence}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.personalInfo.foreignResidence.hasForeignResidence}</div>}
             />
             <div className="flex space-x-4 mt-2">
               <div className="flex items-center">
@@ -396,8 +396,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
               <div className="form-group">
                 <Label 
                   htmlFor="foreignResidenceCountry"
-                  germanText={languageData.de.personalInfo.foreignResidence.country}
-                  englishText={languageData.en.personalInfo.foreignResidence.country}
+                  germanText={<div className="font-bold">{languageData.de.personalInfo.foreignResidence.country}</div>}
+                  englishText={<div className="text-neutral-600">{languageData.en.personalInfo.foreignResidence.country}</div>}
                 />
                 <Select
                   id="foreignResidenceCountry"
@@ -422,8 +422,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
                 <div className="form-group">
                   <Label 
                     htmlFor="otherForeignResidenceCountry"
-                    germanText={languageData.de.personalInfo.foreignResidence.otherCountry}
-                    englishText={languageData.en.personalInfo.foreignResidence.otherCountry}
+                    germanText={<div className="font-bold">{languageData.de.personalInfo.foreignResidence.otherCountry}</div>}
+                    englishText={<div className="text-neutral-600">{languageData.en.personalInfo.foreignResidence.otherCountry}</div>}
                   />
                   <Input
                     id="otherForeignResidenceCountry"
@@ -457,8 +457,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
               <div className="form-group">
                 <Label 
                   htmlFor="spouseFirstName"
-                  germanText={languageData.de.personalInfo.spouse.firstName}
-                  englishText={languageData.en.personalInfo.spouse.firstName}
+                  germanText={<div className="font-bold">{languageData.de.personalInfo.spouse.firstName}</div>}
+                  englishText={<div className="text-neutral-600">{languageData.en.personalInfo.spouse.firstName}</div>}
                 />
                 <Input
                   id="spouseFirstName"
@@ -479,8 +479,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
               <div className="form-group">
                 <Label 
                   htmlFor="spouseLastName"
-                  germanText={languageData.de.personalInfo.spouse.lastName}
-                  englishText={languageData.en.personalInfo.spouse.lastName}
+                  germanText={<div className="font-bold">{languageData.de.personalInfo.spouse.lastName}</div>}
+                  englishText={<div className="text-neutral-600">{languageData.en.personalInfo.spouse.lastName}</div>}
                 />
                 <Input
                   id="spouseLastName"
@@ -501,8 +501,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
               <div className="form-group">
                 <Label 
                   htmlFor="spouseDateOfBirth"
-                  germanText={languageData.de.personalInfo.spouse.dateOfBirth}
-                  englishText={languageData.en.personalInfo.spouse.dateOfBirth}
+                  germanText={<div className="font-bold">{languageData.de.personalInfo.spouse.dateOfBirth}</div>}
+                  englishText={<div className="text-neutral-600">{languageData.en.personalInfo.spouse.dateOfBirth}</div>}
                 />
                 <Input
                   id="spouseDateOfBirth"
@@ -523,8 +523,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
               <div className="form-group">
                 <Label 
                   htmlFor="spouseTaxId"
-                  germanText={languageData.de.personalInfo.spouse.taxId}
-                  englishText={languageData.en.personalInfo.spouse.taxId}
+                  germanText={<div className="font-bold">{languageData.de.personalInfo.spouse.taxId}</div>}
+                  englishText={<div className="text-neutral-600">{languageData.en.personalInfo.spouse.taxId}</div>}
                 />
                 <Input
                   id="spouseTaxId"
@@ -547,8 +547,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
               <div className="form-group">
                 <Label 
                   htmlFor="spouseHasIncome"
-                  germanText={languageData.de.personalInfo.spouse.hasIncome}
-                  englishText={languageData.en.personalInfo.spouse.hasIncome}
+                  germanText={<div className="font-bold">{languageData.de.personalInfo.spouse.hasIncome}</div>}
+                  englishText={<div className="text-neutral-600">{languageData.en.personalInfo.spouse.hasIncome}</div>}
                 />
                 <div className="flex space-x-4 mt-2">
                   <div className="flex items-center">
@@ -588,8 +588,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
                   <div className="mt-2">
                     <Label 
                       htmlFor="spouseIncomeType"
-                      germanText={languageData.de.personalInfo.spouse.incomeType}
-                      englishText={languageData.en.personalInfo.spouse.incomeType}
+                      germanText={<div className="font-bold">{languageData.de.personalInfo.spouse.incomeType}</div>}
+                      englishText={<div className="text-neutral-600">{languageData.en.personalInfo.spouse.incomeType}</div>}
                     />
                     <Select
                       id="spouseIncomeType"
@@ -627,8 +627,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
           <div className="form-group">
             <Label 
               htmlFor="hasChildren"
-              germanText={languageData.de.questions.hasChildren}
-              englishText={languageData.en.questions.hasChildren}
+              germanText={<div className="font-bold">{languageData.de.questions.hasChildren}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.questions.hasChildren}</div>}
             />
             <div className="flex space-x-4 mt-2">
               <div className="flex items-center">
@@ -686,8 +686,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
                     <div className="form-group">
                       <Label 
                         htmlFor={`child-${index}-firstName`}
-                        germanText={languageData.de.children.firstName}
-                        englishText={languageData.en.children.firstName}
+                        germanText={<div className="font-bold">{languageData.de.children.firstName}</div>}
+                        englishText={<div className="text-neutral-600">{languageData.en.children.firstName}</div>}
                       />
                       <Input
                         id={`child-${index}-firstName`}
@@ -709,8 +709,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
                     <div className="form-group">
                       <Label 
                         htmlFor={`child-${index}-lastName`}
-                        germanText={languageData.de.children.lastName}
-                        englishText={languageData.en.children.lastName}
+                        germanText={<div className="font-bold">{languageData.de.children.lastName}</div>}
+                        englishText={<div className="text-neutral-600">{languageData.en.children.lastName}</div>}
                       />
                       <Input
                         id={`child-${index}-lastName`}
@@ -732,8 +732,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
                     <div className="form-group">
                       <Label 
                         htmlFor={`child-${index}-dateOfBirth`}
-                        germanText={languageData.de.children.dateOfBirth}
-                        englishText={languageData.en.children.dateOfBirth}
+                        germanText={<div className="font-bold">{languageData.de.children.dateOfBirth}</div>}
+                        englishText={<div className="text-neutral-600">{languageData.en.children.dateOfBirth}</div>}
                       />
                       <Input
                         id={`child-${index}-dateOfBirth`}
@@ -755,8 +755,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
                     <div className="form-group">
                       <Label 
                         htmlFor={`child-${index}-taxId`}
-                        germanText={languageData.de.children.taxId}
-                        englishText={languageData.en.children.taxId}
+                        germanText={<div className="font-bold">{languageData.de.children.taxId}</div>}
+                        englishText={<div className="text-neutral-600">{languageData.en.children.taxId}</div>}
                       />
                       <Input
                         id={`child-${index}-taxId`}
