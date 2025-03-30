@@ -166,6 +166,8 @@
       "employmentIncome": "Einkommen aus Anstellung",
       "hasTaxCertificate": "Haben Sie eine Lohnsteuerbescheinigung?",
       "hasTravelSubsidy": "Erhalten Sie einen Fahrtkostenzuschuss?",
+      "travelDistance": "Entfernung in km",
+      "taxCertificate": "Lohnsteuerbescheinigung",
       "businessTitle": "Einkommen aus Selbstständigkeit",
       "isBusinessOwner": "Sind Sie selbständig?",
       "businessType": "Art der Selbständigkeit",
@@ -278,6 +280,20 @@
       "date": "Datum",
       "time": "Uhrzeit",
       "signature": "Unterschrift"
+    },
+    "foreignIncome": {
+      "title": "Ausländische Einkünfte",
+      "countryQuestion": "Wenn ja, aus welchem Land stammt dieses Einkommen?",
+      "incomeTypeQuestion": "Um welche Art von Einkommen handelt es sich?",
+      "totalAmountQuestion": "Wie hoch war das gesamte im Ausland erzielte Einkommen?",
+      "taxPaidQuestion": "Wie viel Steuer wurde im Ausland bereits gezahlt?",
+      "certificateUpload": "Bitte laden Sie die entsprechende ausländische Steuerbescheinigung hoch:"
+    },
+    "rental": {
+      "street": "Straße",
+      "houseNumber": "Hausnummer",
+      "postalCode": "PLZ",
+      "city": "Stadt"
     }
   },
   "en": {
@@ -446,6 +462,8 @@
       "employmentIncome": "Employment Income",
       "hasTaxCertificate": "Do you have a tax certificate?",
       "hasTravelSubsidy": "Do you receive a travel subsidy?",
+      "travelDistance": "Distance in km",
+      "taxCertificate": "Tax Certificate",
       "businessTitle": "Self-Employment Income",
       "isBusinessOwner": "Are you self-employed?",
       "businessType": "Type of self-employment",
@@ -558,6 +576,20 @@
       "date": "Date",
       "time": "Time",
       "signature": "Signature"
+    },
+    "foreignIncome": {
+      "title": "Foreign Income",
+      "countryQuestion": "If yes, which country is the income from?",
+      "incomeTypeQuestion": "What type of income is it?",
+      "totalAmountQuestion": "What was the total income earned abroad?",
+      "taxPaidQuestion": "How much tax was already paid abroad?",
+      "certificateUpload": "Please upload the corresponding foreign tax certificate:"
+    },
+    "rental": {
+      "street": "Street",
+      "houseNumber": "House Number",
+      "postalCode": "Postal Code",
+      "city": "City"
     }
   }
 }

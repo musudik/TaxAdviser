@@ -62,6 +62,20 @@ export const FormSection = ({
   );
 };
 
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  id?: string;
+  name?: string;
+  type?: string;
+  value?: string | number;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
+  placeholder?: string;
+  min?: number;
+  max?: number;
+  step?: number;
+  accept?: string;  // Add support for file input accept attribute
+}
+
 export const Input = ({
   id,
   name,
@@ -75,20 +89,7 @@ export const Input = ({
   min,
   max,
   step
-}: {
-  id?: string;
-  name?: string;
-  type?: string;
-  value?: string | number;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  className?: string;
-  placeholder?: string;
-  required?: boolean;
-  disabled?: boolean;
-  min?: number;
-  max?: number;
-  step?: number;
-}) => (
+}: InputProps) => (
   <input
     id={id}
     name={name}

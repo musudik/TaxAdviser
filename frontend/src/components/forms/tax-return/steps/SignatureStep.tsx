@@ -2,6 +2,7 @@ import React from 'react';
 import { TaxFormData } from '../taxTypes';
 import { FormSection, Input, Label } from '../utils/UIComponents';
 import { SignaturePad } from "../signature-pad";
+import languageData from '../i18n/language.json';
 
 interface SignatureStepProps {
   formData: TaxFormData;
@@ -62,8 +63,8 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
           <div>
             <Label 
               htmlFor="place"
-              germanText={<div className="font-bold">Ort</div>}
-              englishText={<div className="text-neutral-600">Place</div>}
+              germanText={<div className="font-bold">{languageData.de.signature.place}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.signature.place}</div>}
             />
             <Input
               value={formData.signature?.place || ''}
@@ -77,8 +78,8 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
           <div>
             <Label 
               htmlFor="date"
-              germanText={<div className="font-bold">Datum</div>}
-              englishText={<div className="text-neutral-600">Date</div>}
+              germanText={<div className="font-bold">{languageData.de.signature.date}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.signature.date}</div>}
             />
             <Input
               type="date"
@@ -93,8 +94,8 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
           <div>
             <Label 
               htmlFor="time"
-              germanText={<div className="font-bold">Uhrzeit</div>}
-              englishText={<div className="text-neutral-600">Time</div>}
+              germanText={<div className="font-bold">{languageData.de.signature.time}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.signature.time}</div>}
             />
             <Input
               type="time"

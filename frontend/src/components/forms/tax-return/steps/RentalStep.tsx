@@ -139,8 +139,8 @@ const RentalStep: React.FC<RentalStepProps> = ({
                 <div>
                   <Label  
                     htmlFor="street"
-                    germanText={<div className="font-bold">Straße</div>}
-                    englishText={<div className="text-neutral-600">Street</div>}
+                    germanText={<div className="font-bold">{languageData.de.rental.street}</div>}
+                    englishText={<div className="text-neutral-600">{languageData.en.rental.street}</div>}
                   />
                   <input
                     type="text"
@@ -161,8 +161,8 @@ const RentalStep: React.FC<RentalStepProps> = ({
                 <div>
                   <Label 
                     htmlFor="houseNumber"
-                    germanText={<div className="font-bold">Hausnummer</div>}
-                    englishText={<div className="text-neutral-600">House number</div>}
+                    germanText={<div className="font-bold">{languageData.de.rental.houseNumber}</div>}
+                    englishText={<div className="text-neutral-600">{languageData.en.rental.houseNumber}</div>}
                   />
                   <input
                     type="text"
@@ -183,8 +183,8 @@ const RentalStep: React.FC<RentalStepProps> = ({
                 <div>
                   <Label 
                     htmlFor="postalCode"
-                    germanText={<div className="font-bold">PLZ</div>}
-                    englishText={<div className="text-neutral-600">Postal code</div>}
+                    germanText={<div className="font-bold">{languageData.de.rental.postalCode}</div>}
+                    englishText={<div className="text-neutral-600">{languageData.en.rental.postalCode}</div>}
                   />
                   <input
                     type="text"
@@ -205,8 +205,8 @@ const RentalStep: React.FC<RentalStepProps> = ({
                 <div>
                   <Label 
                     htmlFor="city"
-                    germanText={<div className="font-bold">Stadt</div>}
-                    englishText={<div className="text-neutral-600">City</div>}
+                    germanText={<div className="font-bold">{languageData.de.rental.city}</div>}
+                    englishText={<div className="text-neutral-600">{languageData.en.rental.city}</div>}
                   />
                   <input
                     type="text"

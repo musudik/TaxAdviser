@@ -80,8 +80,8 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
             <div className="form-group">
               <Label className="block space-y-1"
                 htmlFor="foreignIncomeCountry"
-                germanText={<div className="font-bold">Wenn ja, aus welchem Land stammt dieses Einkommen?</div>}
-                englishText={<div className="text-neutral-600">If yes, from which country does this income originate?</div>}
+                germanText={<div className="font-bold">{languageData.de.foreignIncome.countryQuestion}</div>}
+                englishText={<div className="text-neutral-600">{languageData.en.foreignIncome.countryQuestion}</div>}
               />
               <input
                 type="text"
@@ -101,8 +101,8 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
             <div className="form-group">
               <Label className="block space-y-1"
                 htmlFor="foreignIncomeType"
-                germanText={<div className="font-bold">Um welche Art von Einkommen handelt es sich?</div>}
-                englishText={<div className="text-neutral-600">What type of income is this?</div>}
+                germanText={<div className="font-bold">{languageData.de.foreignIncome.incomeTypeQuestion}</div>}
+                englishText={<div className="text-neutral-600">{languageData.en.foreignIncome.incomeTypeQuestion}</div>}
               />
               <input
                 type="text"
@@ -122,8 +122,8 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
             <div className="form-group">
               <Label className="block space-y-1"
                 htmlFor="foreignIncomeAmount"
-                germanText={<div className="font-bold">Wie hoch war das gesamte im Ausland erzielte Einkommen?</div>}
-                englishText={<div className="text-neutral-600">What was the total foreign income earned?</div>}
+                germanText={<div className="font-bold">{languageData.de.foreignIncome.totalAmountQuestion}</div>}
+                englishText={<div className="text-neutral-600">{languageData.en.foreignIncome.totalAmountQuestion}</div>}
               />
               <input
                 type="number"
@@ -145,8 +145,8 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
             <div className="form-group">
               <Label className="block space-y-1"
                 htmlFor="foreignIncomeTaxPaid"
-                germanText={<div className="font-bold">Wie viel Steuer wurde im Ausland bereits gezahlt?</div>}
-                englishText={<div className="text-neutral-600">How much tax was already paid abroad?</div>}
+                germanText={<div className="font-bold">{languageData.de.foreignIncome.taxPaidQuestion}</div>}
+                englishText={<div className="text-neutral-600">{languageData.en.foreignIncome.taxPaidQuestion}</div>}
               />
               <input
                 type="number"
@@ -168,8 +168,8 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
             <div>
               <Label className="block space-y-1"
                 htmlFor="foreignIncomeTaxCertificateFile"
-                germanText={<div className="font-bold">Bitte laden Sie die entsprechende ausländische Steuerbescheinigung hoch:</div>}
-                englishText={<div className="text-neutral-600">Please upload the corresponding foreign tax certificate:</div>}
+                germanText={<div className="font-bold">{languageData.de.foreignIncome.certificateUpload}</div>}
+                englishText={<div className="text-neutral-600">{languageData.en.foreignIncome.certificateUpload}</div>}
               />
               <input
                 type="file"
