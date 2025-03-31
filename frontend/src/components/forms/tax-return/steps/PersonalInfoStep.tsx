@@ -620,15 +620,15 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
 
       {/* Children Information */}
       <FormSection 
-        germanTitle={languageData.de.children.title} 
-        englishTitle={languageData.en.children.title}
+        germanTitle={languageData.de.personalInfo.children.title} 
+        englishTitle={languageData.en.personalInfo.children.title}
       >
         <div>
           <div className="form-group">
             <Label 
               htmlFor="hasChildren"
-              germanText={<div className="font-bold">{languageData.de.questions.hasChildren}</div>}
-              englishText={<div className="text-neutral-600">{languageData.en.questions.hasChildren}</div>}
+              germanText={<div className="font-bold">{languageData.de.personalInfo.children.hasChildren}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.personalInfo.children.hasChildren}</div>}
             />
             <div className="flex space-x-4 mt-2">
               <div className="flex items-center">
@@ -671,14 +671,14 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
                 <div key={index} className="p-4 border border-neutral-200 rounded-md mb-4">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="text-md font-medium">
-                      <span className="font-bold">{languageData.de.children.title} {index + 1}</span> / <span className="text-neutral-600">{languageData.en.children.title} {index + 1}</span>
+                      <span className="font-bold">{languageData.de.personalInfo.children.title} {index + 1}</span> / <span className="text-neutral-600">{languageData.en.personalInfo.children.title} {index + 1}</span>
                     </h4>
                     <button
                       type="button"
                       onClick={() => removeChild(index)}
                       className="text-sm text-red-600 hover:text-red-800"
                     >
-                      <span className="font-bold">{languageData.de.common.remove}</span> / <span className="text-neutral-600">{languageData.en.common.remove}</span>
+                      <span className="font-bold">{languageData.de.personalInfo.children.remove}</span> / <span className="text-neutral-600">{languageData.en.personalInfo.children.remove}</span>
                     </button>
                   </div>
                   
@@ -686,8 +686,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
                     <div className="form-group">
                       <Label 
                         htmlFor={`child-${index}-firstName`}
-                        germanText={<div className="font-bold">{languageData.de.children.firstName}</div>}
-                        englishText={<div className="text-neutral-600">{languageData.en.children.firstName}</div>}
+                        germanText={<div className="font-bold">{languageData.de.personalInfo.children.firstName}</div>}
+                        englishText={<div className="text-neutral-600">{languageData.en.personalInfo.children.firstName}</div>}
                       />
                       <Input
                         id={`child-${index}-firstName`}
@@ -709,8 +709,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
                     <div className="form-group">
                       <Label 
                         htmlFor={`child-${index}-lastName`}
-                        germanText={<div className="font-bold">{languageData.de.children.lastName}</div>}
-                        englishText={<div className="text-neutral-600">{languageData.en.children.lastName}</div>}
+                        germanText={<div className="font-bold">{languageData.de.personalInfo.children.lastName}</div>}
+                        englishText={<div className="text-neutral-600">{languageData.en.personalInfo.children.lastName}</div>}
                       />
                       <Input
                         id={`child-${index}-lastName`}
@@ -732,8 +732,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
                     <div className="form-group">
                       <Label 
                         htmlFor={`child-${index}-dateOfBirth`}
-                        germanText={<div className="font-bold">{languageData.de.children.dateOfBirth}</div>}
-                        englishText={<div className="text-neutral-600">{languageData.en.children.dateOfBirth}</div>}
+                        germanText={<div className="font-bold">{languageData.de.personalInfo.children.dateOfBirth}</div>}
+                        englishText={<div className="text-neutral-600">{languageData.en.personalInfo.children.dateOfBirth}</div>}
                       />
                       <Input
                         id={`child-${index}-dateOfBirth`}
@@ -755,8 +755,8 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
                     <div className="form-group">
                       <Label 
                         htmlFor={`child-${index}-taxId`}
-                        germanText={<div className="font-bold">{languageData.de.children.taxId}</div>}
-                        englishText={<div className="text-neutral-600">{languageData.en.children.taxId}</div>}
+                        germanText={<div className="font-bold">{languageData.de.personalInfo.children.taxId}</div>}
+                        englishText={<div className="text-neutral-600">{languageData.en.personalInfo.children.taxId}</div>}
                       />
                       <Input
                         id={`child-${index}-taxId`}
@@ -784,7 +784,7 @@ const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
                   onClick={addChild}
                   className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
-                  <span className="font-bold">{languageData.de.children.add}</span> / <span className="text-neutral-100">{languageData.en.children.add}</span>
+                  <span className="font-bold">{languageData.de.personalInfo.children.add}</span> / <span className="text-neutral-100">{languageData.en.personalInfo.children.add}</span>
                 </button>
               </div>
             </div>

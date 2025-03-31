@@ -201,7 +201,7 @@ const TaxReturnForm: React.FC = () => {
           newData.incomeInfo[field] = value;
         } else if (section === 'deductions') {
           // @ts-ignore - We know these fields exist
-          newData.deductions[field] = value;
+          newData.expenses[field] = value;
         } else if (section === 'taxCredits') {
           // @ts-ignore - We know these fields exist
           newData.taxCredits[field] = value;
@@ -617,50 +617,50 @@ const TaxReturnForm: React.FC = () => {
           ];
           
           if (numericFields.includes(field)) {
-            const value = formData.deductions[field as keyof typeof formData.deductions];
+            const value = formData.expenses[field as keyof typeof formData.expenses];
             if (value !== undefined && value !== null) {
               return (value as number) < 0;
             }
           }
           
           // Craftsmen services
-          if (field === 'craftsmenAmount' && formData.deductions.hasCraftsmenPayments) {
-            return formData.deductions.craftsmenAmount === undefined ||
-                  formData.deductions.craftsmenAmount === null ||
-                  formData.deductions.craftsmenAmount < 0;
+          if (field === 'craftsmenAmount' && formData.expenses.hasCraftsmenPayments) {
+            return formData.expenses.craftsmenAmount === undefined ||
+                  formData.expenses.craftsmenAmount === null ||
+                  formData.expenses.craftsmenAmount < 0;
           }
-          if (field === 'craftsmenInvoiceFile' && formData.deductions.hasCraftsmenPayments) {
-            return !formData.deductions.craftsmenInvoiceFile;
+          if (field === 'craftsmenInvoiceFile' && formData.expenses.hasCraftsmenPayments) {
+            return !formData.expenses.craftsmenInvoiceFile;
           }
           
           // Maintenance payments
-          if (field === 'maintenanceRecipient' && formData.deductions.hasMaintenancePayments) {
-            return !formData.deductions.maintenanceRecipient || formData.deductions.maintenanceRecipient.trim() === '';
+          if (field === 'maintenanceRecipient' && formData.expenses.hasMaintenancePayments) {
+            return !formData.expenses.maintenanceRecipient || formData.expenses.maintenanceRecipient.trim() === '';
           }
-          if (field === 'maintenanceAmount' && formData.deductions.hasMaintenancePayments) {
-            return formData.deductions.maintenanceAmount === undefined ||
-                  formData.deductions.maintenanceAmount === null ||
-                  formData.deductions.maintenanceAmount < 0;
+          if (field === 'maintenanceAmount' && formData.expenses.hasMaintenancePayments) {
+            return formData.expenses.maintenanceAmount === undefined ||
+                  formData.expenses.maintenanceAmount === null ||
+                  formData.expenses.maintenanceAmount < 0;
           }
           
           // Special expenses
-          if (field === 'specialExpensesType' && formData.deductions.hasSpecialExpensesDetailed) {
-            return !formData.deductions.specialExpensesType || formData.deductions.specialExpensesType.trim() === '';
+          if (field === 'specialExpensesType' && formData.expenses.hasSpecialExpensesDetailed) {
+            return !formData.expenses.specialExpensesType || formData.expenses.specialExpensesType.trim() === '';
           }
-          if (field === 'specialExpensesAmount' && formData.deductions.hasSpecialExpensesDetailed) {
-            return formData.deductions.specialExpensesAmount === undefined ||
-                  formData.deductions.specialExpensesAmount === null ||
-                  formData.deductions.specialExpensesAmount < 0;
+          if (field === 'specialExpensesAmount' && formData.expenses.hasSpecialExpensesDetailed) {
+            return formData.expenses.specialExpensesAmount === undefined ||
+                  formData.expenses.specialExpensesAmount === null ||
+                  formData.expenses.specialExpensesAmount < 0;
           }
           
           // Private insurance
-          if (field === 'insuranceTypes' && formData.deductions.hasPrivateInsurance) {
-            return !formData.deductions.insuranceTypes || formData.deductions.insuranceTypes.trim() === '';
+          if (field === 'insuranceTypes' && formData.expenses.hasPrivateInsurance) {
+            return !formData.expenses.insuranceTypes || formData.expenses.insuranceTypes.trim() === '';
           }
-          if (field === 'insuranceContributions' && formData.deductions.hasPrivateInsurance) {
-            return formData.deductions.insuranceContributions === undefined ||
-                  formData.deductions.insuranceContributions === null ||
-                  formData.deductions.insuranceContributions < 0;
+          if (field === 'insuranceContributions' && formData.expenses.hasPrivateInsurance) {
+            return formData.expenses.insuranceContributions === undefined ||
+                  formData.expenses.insuranceContributions === null ||
+                  formData.expenses.insuranceContributions < 0;
           }
         }
         

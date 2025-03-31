@@ -2,7 +2,7 @@
 doc.addPage();
 doc.setFontSize(16);
 doc.setFont('helvetica', 'bold');
-doc.text(`${languageData.de.deductions.title} / ${languageData.en.deductions.title}`, 20, 20);
+doc.text(`${languageData.de.expenses.title} / ${languageData.en.expenses.title}`, 20, 20);
 
 doc.setFontSize(12);
 doc.setFont('helvetica', 'normal');
@@ -29,91 +29,91 @@ workRelatedExpenses.forEach(expense => {
 
 // Special expenses
 doc.setFont('helvetica', 'bold');
-doc.text(`${languageData.de.deductions.specialExpenses} / ${languageData.en.deductions.specialExpenses}:`, 20, expensesY);
+doc.text(`${languageData.de.expenses.specialExpenses} / ${languageData.en.expenses.specialExpenses}:`, 20, expensesY);
 doc.setFont('helvetica', 'normal');
-doc.text(`${formData.deductions.specialExpenses} €`, 200, expensesY);
+doc.text(`${formData.expenses.specialExpenses} €`, 200, expensesY);
 expensesY += 15;
 
 // Extraordinary expenses
 doc.setFont('helvetica', 'bold');
-doc.text(`${languageData.de.deductions.extraordinaryExpenses} / ${languageData.en.deductions.extraordinaryExpenses}:`, 20, expensesY);
+doc.text(`${languageData.de.expenses.extraordinaryExpenses} / ${languageData.en.expenses.extraordinaryExpenses}:`, 20, expensesY);
 doc.setFont('helvetica', 'normal');
-doc.text(`${formData.deductions.extraordinaryExpenses} €`, 200, expensesY);
+doc.text(`${formData.expenses.extraordinaryExpenses} €`, 200, expensesY);
 expensesY += 15;
 
 // Insurance premiums
 doc.setFont('helvetica', 'bold');
-doc.text(`${languageData.de.deductions.insurancePremiums} / ${languageData.en.deductions.insurancePremiums}:`, 20, expensesY);
+doc.text(`${languageData.de.expenses.insurancePremiums} / ${languageData.en.expenses.insurancePremiums}:`, 20, expensesY);
 doc.setFont('helvetica', 'normal');
-doc.text(`${formData.deductions.insurancePremiums} €`, 200, expensesY);
+doc.text(`${formData.expenses.insurancePremiums} €`, 200, expensesY);
 expensesY += 15;
 
 // Maintenance payments
-if (formData.deductions.hasMaintenancePayments) {
+if (formData.expenses.hasMaintenancePayments) {
   doc.setFont('helvetica', 'bold');
-  doc.text(`${languageData.de.deductions.hasMaintenancePayments} / ${languageData.en.deductions.hasMaintenancePayments}:`, 20, expensesY);
+  doc.text(`${languageData.de.expenses.hasMaintenancePayments} / ${languageData.en.expenses.hasMaintenancePayments}:`, 20, expensesY);
   doc.setFont('helvetica', 'normal');
   doc.text('Ja / Yes', 200, expensesY);
   expensesY += 15;
   
   doc.setFont('helvetica', 'bold');
-  doc.text(`${languageData.de.deductions.maintenanceRecipient} / ${languageData.en.deductions.maintenanceRecipient}:`, 20, expensesY);
+  doc.text(`${languageData.de.expenses.maintenanceRecipient} / ${languageData.en.expenses.maintenanceRecipient}:`, 20, expensesY);
   doc.setFont('helvetica', 'normal');
-  doc.text(formData.deductions.maintenanceRecipient || '', 200, expensesY);
+  doc.text(formData.expenses.maintenanceRecipient || '', 200, expensesY);
   expensesY += 15;
   
   doc.setFont('helvetica', 'bold');
-  doc.text(`${languageData.de.deductions.maintenanceAmount} / ${languageData.en.deductions.maintenanceAmount}:`, 20, expensesY);
+  doc.text(`${languageData.de.expenses.maintenanceAmount} / ${languageData.en.expenses.maintenanceAmount}:`, 20, expensesY);
   doc.setFont('helvetica', 'normal');
-  doc.text(`${formData.deductions.maintenanceAmount} €`, 200, expensesY);
+  doc.text(`${formData.expenses.maintenanceAmount} €`, 200, expensesY);
   expensesY += 15;
   
   doc.setFont('helvetica', 'bold');
-  doc.text(`${languageData.de.deductions.recipientsAbroad} / ${languageData.en.deductions.recipientsAbroad}:`, 20, expensesY);
+  doc.text(`${languageData.de.expenses.recipientsAbroad} / ${languageData.en.expenses.recipientsAbroad}:`, 20, expensesY);
   doc.setFont('helvetica', 'normal');
-  doc.text(formData.deductions.recipientsAbroad ? 'Ja / Yes' : 'Nein / No', 200, expensesY);
+  doc.text(formData.expenses.recipientsAbroad ? 'Ja / Yes' : 'Nein / No', 200, expensesY);
   expensesY += 15;
 }
 
 // Special expenses detailed
-if (formData.deductions.hasSpecialExpensesDetailed) {
+if (formData.expenses.hasSpecialExpensesDetailed) {
   doc.setFont('helvetica', 'bold');
-  doc.text(`${languageData.de.deductions.hasSpecialExpensesDetailed} / ${languageData.en.deductions.hasSpecialExpensesDetailed}:`, 20, expensesY);
+  doc.text(`${languageData.de.expenses.hasSpecialExpensesDetailed} / ${languageData.en.expenses.hasSpecialExpensesDetailed}:`, 20, expensesY);
   doc.setFont('helvetica', 'normal');
   doc.text('Ja / Yes', 200, expensesY);
   expensesY += 15;
   
   doc.setFont('helvetica', 'bold');
-  doc.text(`${languageData.de.deductions.specialExpensesType} / ${languageData.en.deductions.specialExpensesType}:`, 20, expensesY);
+  doc.text(`${languageData.de.expenses.specialExpensesType} / ${languageData.en.expenses.specialExpensesType}:`, 20, expensesY);
   doc.setFont('helvetica', 'normal');
-  doc.text(formData.deductions.specialExpensesType || '', 200, expensesY);
+  doc.text(formData.expenses.specialExpensesType || '', 200, expensesY);
   expensesY += 15;
   
   doc.setFont('helvetica', 'bold');
-  doc.text(`${languageData.de.deductions.specialExpensesAmount} / ${languageData.en.deductions.specialExpensesAmount}:`, 20, expensesY);
+  doc.text(`${languageData.de.expenses.specialExpensesAmount} / ${languageData.en.expenses.specialExpensesAmount}:`, 20, expensesY);
   doc.setFont('helvetica', 'normal');
-  doc.text(`${formData.deductions.specialExpensesAmount} €`, 200, expensesY);
+  doc.text(`${formData.expenses.specialExpensesAmount} €`, 200, expensesY);
   expensesY += 15;
 }
 
 // Private insurance
-if (formData.deductions.hasPrivateInsurance) {
+if (formData.expenses.hasPrivateInsurance) {
   doc.setFont('helvetica', 'bold');
-  doc.text(`${languageData.de.deductions.hasPrivateInsurance} / ${languageData.en.deductions.hasPrivateInsurance}:`, 20, expensesY);
+  doc.text(`${languageData.de.expenses.hasPrivateInsurance} / ${languageData.en.expenses.hasPrivateInsurance}:`, 20, expensesY);
   doc.setFont('helvetica', 'normal');
   doc.text('Ja / Yes', 200, expensesY);
   expensesY += 15;
   
   doc.setFont('helvetica', 'bold');
-  doc.text(`${languageData.de.deductions.insuranceTypes} / ${languageData.en.deductions.insuranceTypes}:`, 20, expensesY);
+  doc.text(`${languageData.de.expenses.insuranceTypes} / ${languageData.en.expenses.insuranceTypes}:`, 20, expensesY);
   doc.setFont('helvetica', 'normal');
-  doc.text(formData.deductions.insuranceTypes || '', 200, expensesY);
+  doc.text(formData.expenses.insuranceTypes || '', 200, expensesY);
   expensesY += 15;
   
   doc.setFont('helvetica', 'bold');
-  doc.text(`${languageData.de.deductions.insuranceContributions} / ${languageData.en.deductions.insuranceContributions}:`, 20, expensesY);
+  doc.text(`${languageData.de.expenses.insuranceContributions} / ${languageData.en.expenses.insuranceContributions}:`, 20, expensesY);
   doc.setFont('helvetica', 'normal');
-  doc.text(`${formData.deductions.insuranceContributions} €`, 200, expensesY);
+  doc.text(`${formData.expenses.insuranceContributions} €`, 200, expensesY);
   expensesY += 15;
 }
 
@@ -445,7 +445,7 @@ export const addInsuranceAndSpecialExpensesDetails = (doc: any, formData: any, l
   doc.addPage();
   doc.setFontSize(16);
   doc.setFont('helvetica', 'bold');
-  doc.text(`${languageData.de.deductions.specialExpenses} / ${languageData.en.deductions.specialExpenses}`, 20, 20);
+  doc.text(`${languageData.de.expenses.specialExpenses} / ${languageData.en.expenses.specialExpenses}`, 20, 20);
 
   doc.setFontSize(12);
   doc.setFont('helvetica', 'normal');
@@ -453,23 +453,23 @@ export const addInsuranceAndSpecialExpensesDetails = (doc: any, formData: any, l
 
   // Has special expenses detailed
   doc.setFont('helvetica', 'bold');
-  doc.text(`${languageData.de.deductions.hasSpecialExpensesDetailed} / ${languageData.en.deductions.hasSpecialExpensesDetailed}:`, 20, specialExpensesY);
+  doc.text(`${languageData.de.expenses.hasSpecialExpensesDetailed} / ${languageData.en.expenses.hasSpecialExpensesDetailed}:`, 20, specialExpensesY);
   doc.setFont('helvetica', 'normal');
-  doc.text(formData.deductions.hasSpecialExpensesDetailed ? 'Ja / Yes' : 'Nein / No', 200, specialExpensesY);
+  doc.text(formData.expenses.hasSpecialExpensesDetailed ? 'Ja / Yes' : 'Nein / No', 200, specialExpensesY);
   specialExpensesY += 15;
   
   // If has special expenses detailed, add the details
-  if (formData.deductions.hasSpecialExpensesDetailed) {
+  if (formData.expenses.hasSpecialExpensesDetailed) {
     doc.setFont('helvetica', 'bold');
-    doc.text(`${languageData.de.deductions.specialExpensesType} / ${languageData.en.deductions.specialExpensesType}:`, 20, specialExpensesY);
+    doc.text(`${languageData.de.expenses.specialExpensesType} / ${languageData.en.expenses.specialExpensesType}:`, 20, specialExpensesY);
     doc.setFont('helvetica', 'normal');
-    doc.text(formData.deductions.specialExpensesType || '-', 200, specialExpensesY);
+    doc.text(formData.expenses.specialExpensesType || '-', 200, specialExpensesY);
     specialExpensesY += 15;
     
     doc.setFont('helvetica', 'bold');
-    doc.text(`${languageData.de.deductions.specialExpensesAmount} / ${languageData.en.deductions.specialExpensesAmount}:`, 20, specialExpensesY);
+    doc.text(`${languageData.de.expenses.specialExpensesAmount} / ${languageData.en.expenses.specialExpensesAmount}:`, 20, specialExpensesY);
     doc.setFont('helvetica', 'normal');
-    doc.text(`${formData.deductions.specialExpensesAmount || '0'} €`, 200, specialExpensesY);
+    doc.text(`${formData.expenses.specialExpensesAmount || '0'} €`, 200, specialExpensesY);
     specialExpensesY += 15;
   }
   
@@ -497,7 +497,7 @@ export const addInsuranceAndSpecialExpensesDetails = (doc: any, formData: any, l
   doc.addPage();
   doc.setFontSize(16);
   doc.setFont('helvetica', 'bold');
-  doc.text(`${languageData.de.deductions.insurancePremiums} / ${languageData.en.deductions.insurancePremiums}`, 20, 20);
+  doc.text(`${languageData.de.expenses.insurancePremiums} / ${languageData.en.expenses.insurancePremiums}`, 20, 20);
 
   doc.setFontSize(12);
   doc.setFont('helvetica', 'normal');
@@ -505,23 +505,23 @@ export const addInsuranceAndSpecialExpensesDetails = (doc: any, formData: any, l
   
   // Has private insurance
   doc.setFont('helvetica', 'bold');
-  doc.text(`${languageData.de.deductions.hasPrivateInsurance} / ${languageData.en.deductions.hasPrivateInsurance}:`, 20, insuranceY);
+  doc.text(`${languageData.de.expenses.hasPrivateInsurance} / ${languageData.en.expenses.hasPrivateInsurance}:`, 20, insuranceY);
   doc.setFont('helvetica', 'normal');
-  doc.text(formData.deductions.hasPrivateInsurance ? 'Ja / Yes' : 'Nein / No', 200, insuranceY);
+  doc.text(formData.expenses.hasPrivateInsurance ? 'Ja / Yes' : 'Nein / No', 200, insuranceY);
   insuranceY += 15;
   
   // If has private insurance, add the details
-  if (formData.deductions.hasPrivateInsurance) {
+  if (formData.expenses.hasPrivateInsurance) {
     doc.setFont('helvetica', 'bold');
-    doc.text(`${languageData.de.deductions.insuranceTypes} / ${languageData.en.deductions.insuranceTypes}:`, 20, insuranceY);
+    doc.text(`${languageData.de.expenses.insuranceTypes} / ${languageData.en.expenses.insuranceTypes}:`, 20, insuranceY);
     doc.setFont('helvetica', 'normal');
-    doc.text(formData.deductions.insuranceTypes || '-', 200, insuranceY);
+    doc.text(formData.expenses.insuranceTypes || '-', 200, insuranceY);
     insuranceY += 15;
     
     doc.setFont('helvetica', 'bold');
-    doc.text(`${languageData.de.deductions.insuranceContributions} / ${languageData.en.deductions.insuranceContributions}:`, 20, insuranceY);
+    doc.text(`${languageData.de.expenses.insuranceContributions} / ${languageData.en.expenses.insuranceContributions}:`, 20, insuranceY);
     doc.setFont('helvetica', 'normal');
-    doc.text(`${formData.deductions.insuranceContributions || '0'} €`, 200, insuranceY);
+    doc.text(`${formData.expenses.insuranceContributions || '0'} €`, 200, insuranceY);
     insuranceY += 15;
   }
   

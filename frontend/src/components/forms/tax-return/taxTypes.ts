@@ -90,7 +90,7 @@ export interface Address {
     ForeignIncomeInfo {
   }
   
-  export interface Deductions {
+  export interface Expenses {
     commutingExpenses: number;
     businessTripsCosts: number;
     workEquipment: number;
@@ -165,7 +165,7 @@ export interface Address {
     submittedAt: string | null;
     personalInfo: PersonalInfo;
     incomeInfo: IncomeInfo;
-    deductions: Deductions;
+    expenses: Expenses;
     taxCredits: TaxCredits;
     signature: SignatureData | null;
   }
@@ -261,7 +261,7 @@ export interface Address {
       foreignIncomeTaxPaid: null,
       foreignIncomeTaxCertificateFile: ''
     },
-    deductions: {
+    expenses: {
       commutingExpenses: 0,
       businessTripsCosts: 0,
       workEquipment: 0,

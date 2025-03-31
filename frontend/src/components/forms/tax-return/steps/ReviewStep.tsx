@@ -457,183 +457,183 @@ const ReviewStep: React.FC<ReviewStepProps> = ({ formData }) => {
 
       {/* Expenses & Deductions */}
       <FormSection 
-        germanTitle={languageData.de.deductions.workRelatedExpenses}
-        englishTitle={languageData.en.deductions.workRelatedExpenses}
+        germanTitle={languageData.de.expenses.workRelatedExpenses}
+        englishTitle={languageData.en.expenses.workRelatedExpenses}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InfoField 
-            germanLabel={languageData.de.deductions.commutingExpenses}
-            englishLabel={languageData.en.deductions.commutingExpenses}
-            value={formatCurrency(formData.deductions.commutingExpenses)} 
+            germanLabel={languageData.de.expenses.commutingExpenses}
+            englishLabel={languageData.en.expenses.commutingExpenses}
+            value={formatCurrency(formData.expenses.commutingExpenses)} 
           />
           <InfoField 
-            germanLabel={languageData.de.deductions.businessTripsCosts}
-            englishLabel={languageData.en.deductions.businessTripsCosts}
-            value={formatCurrency(formData.deductions.businessTripsCosts)} 
+            germanLabel={languageData.de.expenses.businessTripsCosts}
+            englishLabel={languageData.en.expenses.businessTripsCosts}
+            value={formatCurrency(formData.expenses.businessTripsCosts)} 
           />
           <InfoField 
-            germanLabel={languageData.de.deductions.workEquipment}
-            englishLabel={languageData.en.deductions.workEquipment}
-            value={formatCurrency(formData.deductions.workEquipment)} 
+            germanLabel={languageData.de.expenses.workEquipment}
+            englishLabel={languageData.en.expenses.workEquipment}
+            value={formatCurrency(formData.expenses.workEquipment)} 
           />
           <InfoField 
-            germanLabel={languageData.de.deductions.homeOfficeAllowance}
-            englishLabel={languageData.en.deductions.homeOfficeAllowance}
-            value={formatCurrency(formData.deductions.homeOfficeAllowance)} 
+            germanLabel={languageData.de.expenses.homeOfficeAllowance}
+            englishLabel={languageData.en.expenses.homeOfficeAllowance}
+            value={formatCurrency(formData.expenses.homeOfficeAllowance)} 
           />
           <InfoField 
-            germanLabel={languageData.de.deductions.membershipFees}
-            englishLabel={languageData.en.deductions.membershipFees}
-            value={formatCurrency(formData.deductions.membershipFees)} 
+            germanLabel={languageData.de.expenses.membershipFees}
+            englishLabel={languageData.en.expenses.membershipFees}
+            value={formatCurrency(formData.expenses.membershipFees)} 
           />
           <InfoField 
-            germanLabel={languageData.de.deductions.applicationCosts}
-            englishLabel={languageData.en.deductions.applicationCosts}
-            value={formatCurrency(formData.deductions.applicationCosts)} 
+            germanLabel={languageData.de.expenses.applicationCosts}
+            englishLabel={languageData.en.expenses.applicationCosts}
+            value={formatCurrency(formData.expenses.applicationCosts)} 
           />
           <InfoField 
-            germanLabel={languageData.de.deductions.doubleHouseholdCosts}
-            englishLabel={languageData.en.deductions.doubleHouseholdCosts}
-            value={formatCurrency(formData.deductions.doubleHouseholdCosts)} 
+            germanLabel={languageData.de.expenses.doubleHouseholdCosts}
+            englishLabel={languageData.en.expenses.doubleHouseholdCosts}
+            value={formatCurrency(formData.expenses.doubleHouseholdCosts)} 
           />
         </div>
       </FormSection>
 
       {/* Special Expenses */}
       <FormSection 
-        germanTitle={languageData.de.deductions.specialExpenses}
-        englishTitle={languageData.en.deductions.specialExpenses}
+        germanTitle={languageData.de.expenses.specialExpenses}
+        englishTitle={languageData.en.expenses.specialExpenses}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InfoField 
-            germanLabel={languageData.de.deductions.hasSpecialExpensesDetailed}
-            englishLabel={languageData.en.deductions.hasSpecialExpensesDetailed}
-            value={formatBoolean(formData.deductions.hasSpecialExpensesDetailed)} 
+            germanLabel={languageData.de.expenses.hasSpecialExpensesDetailed}
+            englishLabel={languageData.en.expenses.hasSpecialExpensesDetailed}
+            value={formatBoolean(formData.expenses.hasSpecialExpensesDetailed)} 
           />
           
-          {formData.deductions.hasSpecialExpensesDetailed && (
+          {formData.expenses.hasSpecialExpensesDetailed && (
             <>
               <InfoField 
-                germanLabel={languageData.de.deductions.specialExpensesType}
-                englishLabel={languageData.en.deductions.specialExpensesType}
-                value={formData.deductions.specialExpensesType} 
+                germanLabel={languageData.de.expenses.specialExpensesType}
+                englishLabel={languageData.en.expenses.specialExpensesType}
+                value={formData.expenses.specialExpensesType} 
               />
               <InfoField 
-                germanLabel={languageData.de.deductions.specialExpensesAmount}
-                englishLabel={languageData.en.deductions.specialExpensesAmount}
-                value={formatCurrency(formData.deductions.specialExpensesAmount)} 
+                germanLabel={languageData.de.expenses.specialExpensesAmount}
+                englishLabel={languageData.en.expenses.specialExpensesAmount}
+                value={formatCurrency(formData.expenses.specialExpensesAmount)} 
               />
             </>
           )}
           
           <InfoField 
-            germanLabel={languageData.de.deductions.churchTax}
-            englishLabel={languageData.en.deductions.churchTax}
-            value={formatCurrency(formData.deductions.churchTax)} 
+            germanLabel={languageData.de.expenses.churchTax}
+            englishLabel={languageData.en.expenses.churchTax}
+            value={formatCurrency(formData.expenses.churchTax)} 
           />
           <InfoField 
-            germanLabel={languageData.de.deductions.donationsAndFees}
-            englishLabel={languageData.en.deductions.donationsAndFees}
-            value={formatCurrency(formData.deductions.donationsAndFees)} 
+            germanLabel={languageData.de.expenses.donationsAndFees}
+            englishLabel={languageData.en.expenses.donationsAndFees}
+            value={formatCurrency(formData.expenses.donationsAndFees)} 
           />
           <InfoField 
-            germanLabel={languageData.de.deductions.childcareCosts}
-            englishLabel={languageData.en.deductions.childcareCosts}
-            value={formatCurrency(formData.deductions.childcareCosts)} 
+            germanLabel={languageData.de.expenses.childcareCosts}
+            englishLabel={languageData.en.expenses.childcareCosts}
+            value={formatCurrency(formData.expenses.childcareCosts)} 
           />
           <InfoField 
-            germanLabel={languageData.de.deductions.supportPayments}
-            englishLabel={languageData.en.deductions.supportPayments}
-            value={formatCurrency(formData.deductions.supportPayments)} 
+            germanLabel={languageData.de.expenses.supportPayments}
+            englishLabel={languageData.en.expenses.supportPayments}
+            value={formatCurrency(formData.expenses.supportPayments)} 
           />
           <InfoField 
-            germanLabel={languageData.de.deductions.privateSchoolFees}
-            englishLabel={languageData.en.deductions.privateSchoolFees}
-            value={formatCurrency(formData.deductions.privateSchoolFees)} 
+            germanLabel={languageData.de.expenses.privateSchoolFees}
+            englishLabel={languageData.en.expenses.privateSchoolFees}
+            value={formatCurrency(formData.expenses.privateSchoolFees)} 
           />
           <InfoField 
-            germanLabel={languageData.de.deductions.retirementProvisions}
-            englishLabel={languageData.en.deductions.retirementProvisions}
-            value={formatCurrency(formData.deductions.retirementProvisions)} 
+            germanLabel={languageData.de.expenses.retirementProvisions}
+            englishLabel={languageData.en.expenses.retirementProvisions}
+            value={formatCurrency(formData.expenses.retirementProvisions)} 
           />
           <InfoField 
-            germanLabel={languageData.de.deductions.otherInsuranceExpenses}
-            englishLabel={languageData.en.deductions.otherInsuranceExpenses}
-            value={formatCurrency(formData.deductions.otherInsuranceExpenses)} 
+            germanLabel={languageData.de.expenses.otherInsuranceExpenses}
+            englishLabel={languageData.en.expenses.otherInsuranceExpenses}
+            value={formatCurrency(formData.expenses.otherInsuranceExpenses)} 
           />
           <InfoField 
-            germanLabel={languageData.de.deductions.professionalTrainingCosts}
-            englishLabel={languageData.en.deductions.professionalTrainingCosts}
-            value={formatCurrency(formData.deductions.professionalTrainingCosts)} 
+            germanLabel={languageData.de.expenses.professionalTrainingCosts}
+            englishLabel={languageData.en.expenses.professionalTrainingCosts}
+            value={formatCurrency(formData.expenses.professionalTrainingCosts)} 
           />
         </div>
       </FormSection>
 
       {/* Insurance Information */}
       <FormSection 
-        germanTitle={languageData.de.deductions.insurancePremiums}
-        englishTitle={languageData.en.deductions.insurancePremiums}
+        germanTitle={languageData.de.expenses.insurancePremiums}
+        englishTitle={languageData.en.expenses.insurancePremiums}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InfoField 
-            germanLabel={languageData.de.deductions.hasPrivateInsurance}
-            englishLabel={languageData.en.deductions.hasPrivateInsurance}
-            value={formatBoolean(formData.deductions.hasPrivateInsurance)} 
+            germanLabel={languageData.de.expenses.hasPrivateInsurance}
+            englishLabel={languageData.en.expenses.hasPrivateInsurance}
+            value={formatBoolean(formData.expenses.hasPrivateInsurance)} 
           />
           
-          {formData.deductions.hasPrivateInsurance && (
+          {formData.expenses.hasPrivateInsurance && (
             <>
               <InfoField 
-                germanLabel={languageData.de.deductions.insuranceTypes}
-                englishLabel={languageData.en.deductions.insuranceTypes}
-                value={formData.deductions.insuranceTypes} 
+                germanLabel={languageData.de.expenses.insuranceTypes}
+                englishLabel={languageData.en.expenses.insuranceTypes}
+                value={formData.expenses.insuranceTypes} 
               />
               <InfoField 
-                germanLabel={languageData.de.deductions.insuranceContributions}
-                englishLabel={languageData.en.deductions.insuranceContributions}
-                value={formatCurrency(formData.deductions.insuranceContributions)} 
+                germanLabel={languageData.de.expenses.insuranceContributions}
+                englishLabel={languageData.en.expenses.insuranceContributions}
+                value={formatCurrency(formData.expenses.insuranceContributions)} 
               />
             </>
           )}
           
           <InfoField 
-            germanLabel={languageData.de.deductions.privateHealthInsurance}
-            englishLabel={languageData.en.deductions.privateHealthInsurance}
-            value={formatCurrency(formData.deductions.privateHealthInsurance)} 
+            germanLabel={languageData.de.expenses.privateHealthInsurance}
+            englishLabel={languageData.en.expenses.privateHealthInsurance}
+            value={formatCurrency(formData.expenses.privateHealthInsurance)} 
           />
           <InfoField 
-            germanLabel={languageData.de.deductions.privatePensionInsurance}
-            englishLabel={languageData.en.deductions.privatePensionInsurance}
-            value={formatCurrency(formData.deductions.privatePensionInsurance)} 
+            germanLabel={languageData.de.expenses.privatePensionInsurance}
+            englishLabel={languageData.en.expenses.privatePensionInsurance}
+            value={formatCurrency(formData.expenses.privatePensionInsurance)} 
           />
         </div>
       </FormSection>
 
       {/* Extraordinary Expenses */}
       <FormSection 
-        germanTitle={languageData.de.deductions.extraordinaryExpenses}
-        englishTitle={languageData.en.deductions.extraordinaryExpenses}
+        germanTitle={languageData.de.expenses.extraordinaryExpenses}
+        englishTitle={languageData.en.expenses.extraordinaryExpenses}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InfoField 
-            germanLabel={languageData.de.deductions.medicalExpenses}
-            englishLabel={languageData.en.deductions.medicalExpenses}
-            value={formatCurrency(formData.deductions.medicalExpenses)} 
+            germanLabel={languageData.de.expenses.medicalExpenses}
+            englishLabel={languageData.en.expenses.medicalExpenses}
+            value={formatCurrency(formData.expenses.medicalExpenses)} 
           />
           <InfoField 
-            germanLabel={languageData.de.deductions.rehabilitationCosts}
-            englishLabel={languageData.en.deductions.rehabilitationCosts}
-            value={formatCurrency(formData.deductions.rehabilitationCosts)} 
+            germanLabel={languageData.de.expenses.rehabilitationCosts}
+            englishLabel={languageData.en.expenses.rehabilitationCosts}
+            value={formatCurrency(formData.expenses.rehabilitationCosts)} 
           />
           <InfoField 
-            germanLabel={languageData.de.deductions.careCosts}
-            englishLabel={languageData.en.deductions.careCosts}
-            value={formatCurrency(formData.deductions.careCosts)} 
+            germanLabel={languageData.de.expenses.careCosts}
+            englishLabel={languageData.en.expenses.careCosts}
+            value={formatCurrency(formData.expenses.careCosts)} 
           />
           <InfoField 
-            germanLabel={languageData.de.deductions.disabilityExpenses}
-            englishLabel={languageData.en.deductions.disabilityExpenses}
-            value={formatCurrency(formData.deductions.disabilityExpenses)} 
+            germanLabel={languageData.de.expenses.disabilityExpenses}
+            englishLabel={languageData.en.expenses.disabilityExpenses}
+            value={formatCurrency(formData.expenses.disabilityExpenses)} 
           />
         </div>
       </FormSection>

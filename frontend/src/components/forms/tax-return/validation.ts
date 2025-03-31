@@ -505,10 +505,10 @@ export const validateTaxForm = (formData: TaxFormData, step: number): Validation
       
     case 1: // Expenses & Deductions Step
       // Validate deductions
-      const deductionsErrors = validateDeductions(formData.deductions);
+      const deductionsErrors = validateDeductions(formData.expenses);
       if (Object.values(deductionsErrors).some(error => 
           typeof error === 'boolean' ? error : Object.values(error).some(e => e))) {
-        errors.deductions = deductionsErrors;
+        errors.expenses = deductionsErrors;
       }
       break;
       
@@ -707,55 +707,55 @@ export const validateTaxForm = (formData: TaxFormData, step: number): Validation
       
     case 2: // Deductions Step
       // Validate hasSpecialExpensesDetailed
-      if (formData.deductions.hasSpecialExpensesDetailed === undefined) {
+      if (formData.expenses.hasSpecialExpensesDetailed === undefined) {
         setNestedError(errors, 'deductions', 'hasSpecialExpensesDetailed', 'This field is required');
       }
       
       // If has special expenses, validate required fields
-      if (formData.deductions.hasSpecialExpensesDetailed) {
-        if (!formData.deductions.specialExpensesType || formData.deductions.specialExpensesType.trim() === '') {
+      if (formData.expenses.hasSpecialExpensesDetailed) {
+        if (!formData.expenses.specialExpensesType || formData.expenses.specialExpensesType.trim() === '') {
           setNestedError(errors, 'deductions', 'specialExpensesType', 'This field is required');
         }
         
-        if (formData.deductions.specialExpensesAmount === undefined || 
-            formData.deductions.specialExpensesAmount === null || 
-            Number(formData.deductions.specialExpensesAmount) < 0) {
+        if (formData.expenses.specialExpensesAmount === undefined || 
+            formData.expenses.specialExpensesAmount === null || 
+            Number(formData.expenses.specialExpensesAmount) < 0) {
           setNestedError(errors, 'deductions', 'specialExpensesAmount', 'Please enter a valid amount');
         }
       }
       
       // Validate hasPrivateInsurance
-      if (formData.deductions.hasPrivateInsurance === undefined) {
+      if (formData.expenses.hasPrivateInsurance === undefined) {
         setNestedError(errors, 'deductions', 'hasPrivateInsurance', 'This field is required');
       }
       
       // If has private insurance, validate required fields
-      if (formData.deductions.hasPrivateInsurance) {
-        if (!formData.deductions.insuranceTypes || formData.deductions.insuranceTypes.trim() === '') {
+      if (formData.expenses.hasPrivateInsurance) {
+        if (!formData.expenses.insuranceTypes || formData.expenses.insuranceTypes.trim() === '') {
           setNestedError(errors, 'deductions', 'insuranceTypes', 'This field is required');
         }
         
-        if (formData.deductions.insuranceContributions === undefined || 
-            formData.deductions.insuranceContributions === null || 
-            Number(formData.deductions.insuranceContributions) < 0) {
+        if (formData.expenses.insuranceContributions === undefined || 
+            formData.expenses.insuranceContributions === null || 
+            Number(formData.expenses.insuranceContributions) < 0) {
           setNestedError(errors, 'deductions', 'insuranceContributions', 'Please enter a valid amount');
         }
       }
       
       // Validate existing deduction fields
-      if (formData.deductions.churchTax !== undefined && formData.deductions.churchTax < 0) {
+      if (formData.expenses.churchTax !== undefined && formData.expenses.churchTax < 0) {
         setNestedError(errors, 'deductions', 'churchTax', 'Value cannot be negative');
       }
       
-      if (formData.deductions.donationsAndFees !== undefined && formData.deductions.donationsAndFees < 0) {
+      if (formData.expenses.donationsAndFees !== undefined && formData.expenses.donationsAndFees < 0) {
         setNestedError(errors, 'deductions', 'donationsAndFees', 'Value cannot be negative');
       }
       
-      if (formData.deductions.privateHealthInsurance !== undefined && formData.deductions.privateHealthInsurance < 0) {
+      if (formData.expenses.privateHealthInsurance !== undefined && formData.expenses.privateHealthInsurance < 0) {
         setNestedError(errors, 'deductions', 'privateHealthInsurance', 'Value cannot be negative');
       }
       
-      if (formData.deductions.privatePensionInsurance !== undefined && formData.deductions.privatePensionInsurance < 0) {
+      if (formData.expenses.privatePensionInsurance !== undefined && formData.expenses.privatePensionInsurance < 0) {
         setNestedError(errors, 'deductions', 'privatePensionInsurance', 'Value cannot be negative');
       }
       break;
@@ -777,10 +777,10 @@ export const validateTaxForm = (formData: TaxFormData, step: number): Validation
       }
       
       // Deductions
-      const allDeductionsErrors = validateDeductions(formData.deductions);
+      const allDeductionsErrors = validateDeductions(formData.expenses);
       if (Object.values(allDeductionsErrors).some(error => 
           typeof error === 'boolean' ? error : Object.values(error).some(e => e))) {
-        errors.deductions = allDeductionsErrors;
+        errors.expenses = allDeductionsErrors;
       }
       
       // Tax Credits (keeping for backward compatibility)
