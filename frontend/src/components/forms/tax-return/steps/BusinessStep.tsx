@@ -1,5 +1,5 @@
 import React from 'react';
-import { Label, FormSection, Input } from '../utils/UIComponents';
+import { Label, FormSection, Input, Select } from '../utils/UIComponents';
 import { TaxFormData } from '../taxTypes';
 import languageData from '../i18n/language.json';
 
@@ -8,6 +8,7 @@ interface BusinessStepProps {
   handleChange: (section: keyof TaxFormData, field: string, value: any) => void;
   validationErrors: Record<string, any> | null;
   hasError: (section: string, field: string) => boolean;
+  showValidationErrors: boolean;
   getInputClass?: (section: string, field: string) => string;
 }
 
@@ -16,14 +17,24 @@ const BusinessStep: React.FC<BusinessStepProps> = ({
   handleChange,
   validationErrors,
   hasError,
+  showValidationErrors,
   getInputClass = () => "auth-input"
 }) => {
   // Common input class that handles validation state
   const getInputClassWithError = (section: string, field: string) => {
-    return hasError(section, field) 
-      ? `border-red-500` 
-      : '';
+    const baseClass = getInputClass(section, field);
+    return hasError(section, field) && showValidationErrors
+      ? `${baseClass} border-2 border-red-500` 
+      : baseClass;
   };
+
+  // Business type options
+  const businessTypeOptions = [
+    { value: 'freelance', label: 'Freiberuflich / Freelance' },
+    { value: 'trade', label: 'Gewerblich / Trade' },
+    { value: 'agriculture', label: 'Landwirtschaftlich / Agriculture' },
+    { value: 'other', label: 'Sonstige / Other' }
+  ];
 
   // Helper function for number fields to convert string to number safely
   const handleNumberChange = (section: keyof TaxFormData, field: string, value: string) => {
@@ -37,9 +48,9 @@ const BusinessStep: React.FC<BusinessStepProps> = ({
         germanTitle={languageData.de.incomeInfo.businessTitle}
         englishTitle={languageData.en.incomeInfo.businessTitle}
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Business owner status */}
-          <div className="form-group col-span-2">
+        <div className="space-y-6">
+          {/* Business Owner Question */}
+          <div className="form-group">
             <Label 
               htmlFor="isBusinessOwner"
               germanText={<div className="font-bold">{languageData.de.incomeInfo.isBusinessOwner}</div>}
@@ -54,7 +65,6 @@ const BusinessStep: React.FC<BusinessStepProps> = ({
                   checked={formData.incomeInfo.isBusinessOwner === false}
                   onChange={() => handleChange('incomeInfo', 'isBusinessOwner', false)}
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
-                  required
                 />
                 <label htmlFor="isBusinessOwnerNo" className="ml-2 text-neutral-700">
                   <span className="font-bold">Nein</span> / <span className="text-neutral-600">No</span>
@@ -68,46 +78,58 @@ const BusinessStep: React.FC<BusinessStepProps> = ({
                   checked={formData.incomeInfo.isBusinessOwner === true}
                   onChange={() => handleChange('incomeInfo', 'isBusinessOwner', true)}
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
-                  required
                 />
                 <label htmlFor="isBusinessOwnerYes" className="ml-2 text-neutral-700">
                   <span className="font-bold">Ja</span> / <span className="text-neutral-600">Yes</span>
                 </label>
               </div>
             </div>
-            {hasError('incomeInfo', 'isBusinessOwner') && (
+            {hasError('incomeInfo', 'isBusinessOwner') && showValidationErrors && (
               <p className="text-red-500 text-sm mt-1">
-                {validationErrors?.incomeInfo?.isBusinessOwner}
+                {formData.incomeInfo.isBusinessOwner === undefined 
+                  ? 'Bitte wählen Sie eine Option aus / Please select an option'
+                  : typeof validationErrors?.incomeInfo?.isBusinessOwner === 'string'
+                    ? validationErrors.incomeInfo.isBusinessOwner
+                    : 'Bitte wählen Sie eine Option aus / Please select an option'
+                }
               </p>
             )}
           </div>
-          
-          {/* Conditional fields when business owner */}
+
+          {/* Show business details if user is a business owner */}
           {formData.incomeInfo.isBusinessOwner && (
             <>
-              {/* Business type */}
+              {/* Business Type */}
               <div className="form-group">
                 <Label 
                   htmlFor="businessType"
                   germanText={<div className="font-bold">{languageData.de.incomeInfo.businessType}</div>}
                   englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.businessType}</div>}
                 />
-                <Input
+                <Select
                   id="businessType"
-                  type="text"
                   value={formData.incomeInfo.businessType || ''}
                   onChange={(e) => handleChange('incomeInfo', 'businessType', e.target.value)}
                   className={getInputClassWithError('incomeInfo', 'businessType')}
                   required
-                />
-                {hasError('incomeInfo', 'businessType') && (
+                >
+                  <option value="">-- {languageData.de.common.select} / {languageData.en.common.select} --</option>
+                  {businessTypeOptions.map(option => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </Select>
+                {hasError('incomeInfo', 'businessType') && showValidationErrors && (
                   <p className="text-red-500 text-sm mt-1">
-                    {validationErrors?.incomeInfo?.businessType}
+                    {typeof validationErrors?.incomeInfo?.businessType === 'string'
+                      ? validationErrors.incomeInfo.businessType
+                      : 'Bitte wählen Sie einen Geschäftstyp aus / Please select a business type'}
                   </p>
                 )}
               </div>
-              
-              {/* Business earnings */}
+
+              {/* Business Earnings */}
               <div className="form-group">
                 <Label 
                   htmlFor="businessEarnings"
@@ -117,21 +139,21 @@ const BusinessStep: React.FC<BusinessStepProps> = ({
                 <Input
                   id="businessEarnings"
                   type="number"
-                  min={0}
-                  step={0.01}
                   value={formData.incomeInfo.businessEarnings || ''}
                   onChange={(e) => handleNumberChange('incomeInfo', 'businessEarnings', e.target.value)}
                   className={getInputClassWithError('incomeInfo', 'businessEarnings')}
                   required
                 />
-                {hasError('incomeInfo', 'businessEarnings') && (
+                {hasError('incomeInfo', 'businessEarnings') && showValidationErrors && (
                   <p className="text-red-500 text-sm mt-1">
-                    {validationErrors?.incomeInfo?.businessEarnings}
+                    {typeof validationErrors?.incomeInfo?.businessEarnings === 'string'
+                      ? validationErrors.incomeInfo.businessEarnings
+                      : 'Bitte geben Sie einen gültigen Betrag ein / Please enter a valid amount'}
                   </p>
                 )}
               </div>
-              
-              {/* Business expenses */}
+
+              {/* Business Expenses */}
               <div className="form-group">
                 <Label 
                   htmlFor="businessExpenses"
@@ -141,16 +163,16 @@ const BusinessStep: React.FC<BusinessStepProps> = ({
                 <Input
                   id="businessExpenses"
                   type="number"
-                  min={0}
-                  step={0.01}
                   value={formData.incomeInfo.businessExpenses || ''}
-                  onChange={(e) => handleNumberChange('incomeInfo', 'businessExpenses', e.target.value)}
+                  onChange={(e) => handleChange('incomeInfo', 'businessExpenses', e.target.value)}
                   className={getInputClassWithError('incomeInfo', 'businessExpenses')}
                   required
                 />
-                {hasError('incomeInfo', 'businessExpenses') && (
+                {hasError('incomeInfo', 'businessExpenses') && showValidationErrors && (
                   <p className="text-red-500 text-sm mt-1">
-                    {validationErrors?.incomeInfo?.businessExpenses}
+                    {typeof validationErrors?.incomeInfo?.businessExpenses === 'string'
+                      ? validationErrors.incomeInfo.businessExpenses
+                      : 'Bitte geben Sie einen gültigen Betrag ein / Please enter a valid amount'}
                   </p>
                 )}
               </div>

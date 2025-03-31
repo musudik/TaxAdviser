@@ -11,9 +11,23 @@ export const exportTaxReturnToPdf = (formData: TaxFormData) => {
   
   // Helper functions
   const textAt = (text: string, x: number, y: number, options?: any) => {
-    const xStr = x.toFixed(2);
-    const yStr = y.toFixed(2);
-    return doc.text(text, xStr, yStr, options);
+    try {
+      // Convert input parameters to the correct type
+      const safeText = text ? String(text) : '';
+      const safeX = typeof x === 'number' ? x : parseFloat(String(x));
+      const safeY = typeof y === 'number' ? y : parseFloat(String(y));
+      
+      // Ensure numbers are valid before calling toFixed
+      const xStr = !isNaN(safeX) ? safeX.toFixed(2) : '0';
+      const yStr = !isNaN(safeY) ? safeY.toFixed(2) : '0';
+      
+      // Convert string coordinates back to numbers
+      return doc.text(safeText, parseFloat(xStr), parseFloat(yStr), options);
+    } catch (error) {
+      console.error('Error in textAt function:', error, { text, x, y });
+      // Fallback to a safe default
+      return doc.text(String(text || ''), 20, 20);
+    }
   };
 
   const addTitle = (text: string) => {
@@ -79,9 +93,13 @@ export const exportTaxReturnToPdf = (formData: TaxFormData) => {
     y += 10; // Increased spacing for the stacked labels
   };
 
-  const formatCurrency = (value: number | undefined) => {
+  const formatCurrency = (value: number | undefined | null | any) => {
     if (value === undefined || value === null) return '€0,00';
-    return `€${value.toFixed(2)}`.replace('.', ',');
+    // Convert to number if it's not already a number
+    const numValue = typeof value === 'number' ? value : Number(value);
+    // Check if conversion resulted in a valid number
+    if (isNaN(numValue)) return '€0,00';
+    return `€${numValue.toFixed(2)}`.replace('.', ',');
   };
 
   const formatBoolean = (value: boolean | undefined) => {
@@ -166,11 +184,11 @@ export const exportTaxReturnToPdf = (formData: TaxFormData) => {
     formData.personalInfo.hasChildren
   );
 
-  if (formData.personalInfo.hasChildren && formData.children && formData.children.length > 0) {
+  if (formData.personalInfo.hasChildren && formData.personalInfo.children && formData.personalInfo.children.length > 0) {
     y += 5;
     addSectionTitle(`${languageData.de.children.title} / ${languageData.en.children.title}`);
     
-    formData.children.forEach((child, index) => {
+    formData.personalInfo.children.forEach((child, index) => {
       doc.setFontSize(10);
       doc.setFont("helvetica", "bold");
       doc.setTextColor(0, 0, 0);
@@ -350,7 +368,13 @@ export const exportTaxReturnToPdf = (formData: TaxFormData) => {
   ];
   
   workExpenses.forEach(expense => {
-    addBilingualField(expense.de, expense.en, formData.deductions[expense.key], true);
+    addBilingualField(
+      expense.de, 
+      expense.en, 
+      // Use type assertion to access properties with string keys
+      (formData.deductions as any)[expense.key], 
+      true
+    );
   });
   
   y += 5;
@@ -372,7 +396,13 @@ export const exportTaxReturnToPdf = (formData: TaxFormData) => {
   ];
   
   specialExpenses.forEach(expense => {
-    addBilingualField(expense.de, expense.en, formData.deductions[expense.key], true);
+    addBilingualField(
+      expense.de, 
+      expense.en, 
+      // Use type assertion to access properties with string keys
+      (formData.deductions as any)[expense.key], 
+      true
+    );
   });
 
   // 6. Rental Income
@@ -452,79 +482,67 @@ export const exportTaxReturnToPdf = (formData: TaxFormData) => {
   textAt(declarationText.en, margin, y, { maxWidth: pageWidth - (margin * 2), align: "justify" });
   y += 25;
 
-  // Signature details
-  doc.setFontSize(10);
-  doc.setFont("helvetica", "bold");
-  doc.setTextColor(0, 0, 0);
-  textAt(languageData.de.signature.place, margin, y);
-  doc.setFontSize(8);
-  doc.setTextColor(100, 100, 100);
-  textAt(languageData.en.signature.place, margin, y + 4);
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(10);
-  doc.setTextColor(0, 0, 0);
-  textAt(formData.signature?.place || '', margin + 50, y);
-  y += 12;
-  
-  doc.setFontSize(10);
-  doc.setFont("helvetica", "bold");
-  doc.setTextColor(0, 0, 0);
-  textAt(languageData.de.signature.date, margin, y);
-  doc.setFontSize(8);
-  doc.setTextColor(100, 100, 100);
-  textAt(languageData.en.signature.date, margin, y + 4);
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(10);
-  doc.setTextColor(0, 0, 0);
-  textAt(formData.signature?.date || '', margin + 50, y);
-  y += 12;
-  
-  doc.setFontSize(10);
-  doc.setFont("helvetica", "bold");
-  doc.setTextColor(0, 0, 0);
-  textAt(languageData.de.signature.time, margin, y);
-  doc.setFontSize(8);
-  doc.setTextColor(100, 100, 100);
-  textAt(languageData.en.signature.time, margin, y + 4);
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(10);
-  doc.setTextColor(0, 0, 0);
-  textAt(formData.signature?.time || '', margin + 50, y);
-  y += 20;
-
-  // Add signature image if available
-  if (formData.signature?.signature) {
-    try {
-      doc.addImage(
-        formData.signature.signature,
-        'PNG',
-        margin,
-        y,
-        80,
-        40
-      );
-      
-      // Add signature line
-      y += 45;
-      doc.line(margin, y, margin + 80, y);
-      doc.setFontSize(10);
-      doc.setTextColor(0, 0, 0);
-      textAt(languageData.de.signature.signature, margin, y + 5);
-      doc.setFontSize(8);
-      doc.setTextColor(100, 100, 100);
-      textAt(languageData.en.signature.signature, margin, y + 9);
-    } catch (error) {
-      console.warn('Failed to add signature to PDF:', error);
-    }
-  } else {
-    // Just add a signature line if no image
-    doc.line(margin, y + 40, margin + 80, y + 40);
+  // Signature
+  if (formData.signature) {
+    addSectionTitle(`${languageData.de.signature.title} / ${languageData.en.signature.title}`);
+    
+    // Place
     doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
     doc.setTextColor(0, 0, 0);
-    textAt(languageData.de.signature.signature, margin, y + 45);
+    textAt(languageData.de.signature.place, margin, y);
+    
     doc.setFontSize(8);
     doc.setTextColor(100, 100, 100);
-    textAt(languageData.en.signature.signature, margin, y + 49);
+    textAt(languageData.en.signature.place, margin, y + 4);
+    
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(0, 0, 0);
+    textAt(formData.signature?.place || '', margin + 50, y);
+    
+    y += 10;
+    
+    // Date
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(0, 0, 0);
+    textAt(languageData.de.signature.date, margin, y);
+    
+    doc.setFontSize(8);
+    doc.setTextColor(100, 100, 100);
+    textAt(languageData.en.signature.date, margin, y + 4);
+    
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(0, 0, 0);
+    textAt(formData.signature?.date || '', margin + 50, y);
+    
+    y += 15;
+    
+    // Add signature image if available
+    if (formData.signature?.signature) {
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "bold");
+      textAt(`${languageData.de.signature.signature} / ${languageData.en.signature.signature}`, margin, y);
+      y += 10;
+      
+      try {
+        doc.addImage(formData.signature.signature, 'PNG', margin, y, 100, 30);
+        y += 40;
+      } catch (error) {
+        console.error('Error adding signature image:', error);
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "italic");
+        textAt('[Signature Available]', margin, y);
+        y += 10;
+      }
+    } else {
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "italic");
+      textAt('[No Signature]', margin, y);
+      y += 10;
+    }
   }
 
   // Add page numbers

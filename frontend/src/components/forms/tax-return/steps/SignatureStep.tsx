@@ -8,6 +8,8 @@ interface SignatureStepProps {
   formData: TaxFormData;
   handleChange: (section: keyof TaxFormData, field: string, value: any) => void;
   validationErrors?: Record<string, any> | null;
+  hasError: (section: string, field: string) => boolean;
+  getInputClass?: (section: string, field: string) => string;
   showValidationErrors?: boolean;
 }
 
@@ -15,18 +17,32 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
   formData,
   handleChange,
   validationErrors,
-  showValidationErrors,
+  hasError,
+  getInputClass = () => "auth-input",
+  showValidationErrors = false
 }) => {
-  const hasError = (field: string) => {
-    return showValidationErrors && validationErrors?.signature?.[field];
+  // Common input class that handles validation state
+  const getInputClassWithError = (section: string, field: string) => {
+    const baseClass = getInputClass(section, field);
+    return hasError(section, field) && showValidationErrors
+      ? `${baseClass} border-2 border-red-500` 
+      : baseClass;
   };
 
-  // Common input class that handles validation state
-  const getInputClass = (field: string) => {
-    return hasError(field) 
-      ? "auth-input border-red-500" 
-      : "auth-input";
-  };
+  // Make sure signature object is initialized
+  React.useEffect(() => {
+    // Initialize only if signature is null
+    if (!formData.signature) {
+      handleChange('signature', '', {
+        place: '',
+        date: '',
+        signature: ''
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty dependency array - only run once
+
+  console.log('Signature state:', formData.signature);
 
   return (
     <div className="space-y-6">
@@ -59,20 +75,27 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
 
       {/* Place and Date */}
       <FormSection germanTitle="Ort und Datum" englishTitle="Place and Date">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <Label 
               htmlFor="place"
               germanText={<div className="font-bold">{languageData.de.signature.place}</div>}
               englishText={<div className="text-neutral-600">{languageData.en.signature.place}</div>}
             />
-            <Input
+            <input
+              id="place"
+              type="text"
               value={formData.signature?.place || ''}
-              onChange={(e) => handleChange('signature', 'place', e.target.value)}
-              className={getInputClass('place')}
+              onChange={(e) => {
+                handleChange('signature', 'place', e.target.value);
+              }}
+              className={`w-full px-3 py-2 border rounded-md ${getInputClassWithError('signature', 'place')}`}
+              required
             />
-            {hasError('place') && (
-              <p className="text-red-500 text-sm mt-1 font-['Switzer-Regular']">This field is required</p>
+            {hasError('signature', 'place') && showValidationErrors && (
+              <p className="text-red-500 text-sm mt-1">
+                {languageData.de.validation.required} / {languageData.en.validation.required}
+              </p>
             )}
           </div>
           <div>
@@ -81,30 +104,20 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
               germanText={<div className="font-bold">{languageData.de.signature.date}</div>}
               englishText={<div className="text-neutral-600">{languageData.en.signature.date}</div>}
             />
-            <Input
+            <input
+              id="date"
               type="date"
               value={formData.signature?.date || ''}
-              onChange={(e) => handleChange('signature', 'date', e.target.value)}
-              className={getInputClass('date')}
+              onChange={(e) => {
+                handleChange('signature', 'date', e.target.value);
+              }}
+              className={`w-full px-3 py-2 border rounded-md ${getInputClassWithError('signature', 'date')}`}
+              required
             />
-            {hasError('date') && (
-              <p className="text-red-500 text-sm mt-1 font-['Switzer-Regular']">This field is required</p>
-            )}
-          </div>
-          <div>
-            <Label 
-              htmlFor="time"
-              germanText={<div className="font-bold">{languageData.de.signature.time}</div>}
-              englishText={<div className="text-neutral-600">{languageData.en.signature.time}</div>}
-            />
-            <Input
-              type="time"
-              value={formData.signature?.time || ''}
-              onChange={(e) => handleChange('signature', 'time', e.target.value)}
-              className={getInputClass('time')}
-            />
-            {hasError('time') && (
-              <p className="text-red-500 text-sm mt-1 font-['Switzer-Regular']">This field is required</p>
+            {hasError('signature', 'date') && showValidationErrors && (
+              <p className="text-red-500 text-sm mt-1">
+                {languageData.de.validation.date} / {languageData.en.validation.date}
+              </p>
             )}
           </div>
         </div>
@@ -114,11 +127,15 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
       <FormSection germanTitle="Unterschrift" englishTitle="Signature">
         <div className="space-y-4">
           <SignaturePad
-            onSave={(signatureData) => handleChange('signature', 'signature', signatureData)}
+            onSave={(signatureData) => {
+              handleChange('signature', 'signature', signatureData);
+            }}
             initialValue={formData.signature?.signature || ''}
           />
-          {hasError('signature') && (
-            <p className="text-red-500 text-sm font-['Switzer-Regular']">Signature is required</p>
+          {hasError('signature', 'signature') && showValidationErrors && (
+            <p className="text-red-500 text-sm">
+              {languageData.de.validation.required} / {languageData.en.validation.required}
+            </p>
           )}
         </div>
       </FormSection>

@@ -10,6 +10,7 @@ interface SignaturePadProps {
 export const SignaturePad: React.FC<SignaturePadProps> = ({ onSave, initialValue }) => {
   const signatureRef = useRef<SignatureCanvas | null>(null);
   const [isSigned, setIsSigned] = useState(false);
+  const [dataURL, setDataURL] = useState<string>(initialValue || '');
 
   // Load initial value if provided
   useEffect(() => {
@@ -22,6 +23,7 @@ export const SignaturePad: React.FC<SignaturePadProps> = ({ onSave, initialValue
           if (ctx) {
             ctx.drawImage(img, 0, 0);
             setIsSigned(true);
+            setDataURL(initialValue);
           }
         }
       };
@@ -33,6 +35,7 @@ export const SignaturePad: React.FC<SignaturePadProps> = ({ onSave, initialValue
     if (signatureRef.current) {
       signatureRef.current.clear();
       setIsSigned(false);
+      setDataURL('');
       onSave(''); // Clear the saved signature
     }
   };
@@ -44,14 +47,24 @@ export const SignaturePad: React.FC<SignaturePadProps> = ({ onSave, initialValue
         return;
       }
       
-      const dataURL = signatureRef.current.toDataURL('image/png');
-      onSave(dataURL);
+      const newDataURL = signatureRef.current.toDataURL('image/png');
+      setDataURL(newDataURL);
+      onSave(newDataURL);
       setIsSigned(true);
     }
   };
 
   const handleBegin = () => {
     setIsSigned(true);
+  };
+
+  // Auto-save signature when canvas is updated
+  const handleEnd = () => {
+    if (signatureRef.current && !signatureRef.current.isEmpty()) {
+      const newDataURL = signatureRef.current.toDataURL('image/png');
+      setDataURL(newDataURL);
+      onSave(newDataURL);
+    }
   };
 
   return (
@@ -69,26 +82,31 @@ export const SignaturePad: React.FC<SignaturePadProps> = ({ onSave, initialValue
             }
           }}
           onBegin={handleBegin}
+          onEnd={handleEnd}
         />
       </div>
       <div className="flex space-x-2">
         <Button
           type="button"
-          variant="outline"
           onClick={handleClear}
-          className="flex-1"
+          className="flex-1 border border-gray-300 hover:bg-gray-100"
         >
           Clear
         </Button>
         <Button
           type="button"
           onClick={handleSave}
-          className={`flex-1 ${isSigned ? 'bg-[#7c3aed] hover:bg-[#6d28d9]' : 'bg-gray-300 hover:bg-gray-400'}`}
+          className={`flex-1 ${isSigned ? 'bg-[#7c3aed] hover:bg-[#6d28d9] text-white' : 'bg-gray-300 hover:bg-gray-400 text-gray-700'}`}
           disabled={!isSigned}
         >
           Save Signature
         </Button>
       </div>
+      {dataURL && (
+        <div className="mt-2 text-sm text-green-600">
+          Signature saved ✓
+        </div>
+      )}
     </div>
   );
 }; 

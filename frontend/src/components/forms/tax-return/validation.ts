@@ -1,5 +1,19 @@
 import { TaxFormData, Address } from './taxTypes';
 
+// Define the ValidationErrors type
+export type ValidationErrors = Record<string, any>;
+
+// Helper function to validate a required field
+const validateRequiredField = (obj: any, field: string): boolean => {
+  return obj[field] !== undefined && obj[field] !== null;
+};
+
+// Helper function to set a nested error
+const setNestedError = (errors: ValidationErrors, section: string, field: string, message: string) => {
+  if (!errors[section]) errors[section] = {};
+  errors[section][field] = message;
+};
+
 export const isValidEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
@@ -151,89 +165,167 @@ export const validatePersonalInfo = (personalInfo: TaxFormData['personalInfo']) 
 };
 
 export const validateIncomeInfo = (incomeInfo: TaxFormData['incomeInfo']) => {
-  const errors: Record<string, any> = {};
+  const errors: Record<string, string> = {};
   
   // Required fields for all users - these are the mandatory questions for each step
-  errors.isEmployed = incomeInfo.isEmployed === undefined;
-  errors.isBusinessOwner = incomeInfo.isBusinessOwner === undefined;
-  errors.hasStockIncome = incomeInfo.hasStockIncome === undefined;
-  errors.hasRentalProperty = incomeInfo.hasRentalProperty === undefined;
-  errors.hasForeignIncome = incomeInfo.hasForeignIncome === undefined;
-  
-  // Employment validation
-  if (incomeInfo.isEmployed === true) {
-    errors.employer = !incomeInfo.employer?.trim();
-    errors.employmentIncome = (incomeInfo.employmentIncome === undefined || 
-                              (incomeInfo.employmentIncome !== null && incomeInfo.employmentIncome < 0));
-    errors.grossAnnualSalary = (incomeInfo.grossAnnualSalary === undefined || 
-                               (incomeInfo.grossAnnualSalary !== null && incomeInfo.grossAnnualSalary < 0));
-    errors.hasTaxCertificate = incomeInfo.hasTaxCertificate === undefined;
-    
-    if (incomeInfo.hasTaxCertificate === true) {
-      errors.taxCertificateFile = !incomeInfo.taxCertificateFile?.trim();
-    }
-    
-    errors.hasTravelSubsidy = incomeInfo.hasTravelSubsidy === undefined;
+  if (incomeInfo.isEmployed === undefined) {
+    errors.isEmployed = 'Bitte beantworten Sie diese Frage / Please answer this question';
   }
   
-  // Business validation
+  // Only add validation errors for employed users
+  if (incomeInfo.isEmployed === true) {
+    if (!incomeInfo.employer || incomeInfo.employer.trim() === '') {
+      errors.employer = 'Bitte geben Sie Ihren Arbeitgeber an / Please enter your employer';
+    }
+    
+    if (incomeInfo.employmentIncome === undefined) {
+      errors.employmentIncome = 'Bitte geben Sie Ihr Beschäftigungseinkommen an / Please enter your employment income';
+    } else if (incomeInfo.employmentIncome !== null && incomeInfo.employmentIncome < 0) {
+      errors.employmentIncome = 'Der Wert kann nicht negativ sein / Value cannot be negative';
+    }
+    
+    if (incomeInfo.hasTaxCertificate === undefined) {
+      errors.hasTaxCertificate = 'Bitte beantworten Sie diese Frage / Please answer this question';
+    }
+    
+    if (incomeInfo.hasTaxCertificate === true && (!incomeInfo.taxCertificateFile || incomeInfo.taxCertificateFile.trim() === '')) {
+      errors.taxCertificateFile = 'Bitte laden Sie das Steuerzertifikat hoch / Please upload tax certificate';
+    }
+  }
+  
+  // Business owner validation
+  if (incomeInfo.isBusinessOwner === undefined) {
+    errors.isBusinessOwner = 'Bitte beantworten Sie diese Frage / Please answer this question';
+  }
+  
   if (incomeInfo.isBusinessOwner === true) {
-    errors.businessType = !incomeInfo.businessType?.trim();
-    errors.businessEarnings = (incomeInfo.businessEarnings === undefined || 
-                              (incomeInfo.businessEarnings !== null && incomeInfo.businessEarnings < 0));
-    errors.businessExpenses = (incomeInfo.businessExpenses === undefined || 
-                              (incomeInfo.businessExpenses !== null && incomeInfo.businessExpenses < 0));
+    if (!incomeInfo.businessType || incomeInfo.businessType.trim() === '') {
+      errors.businessType = 'Bitte wählen Sie einen Geschäftstyp / Please select a business type';
+    }
+    
+    if (incomeInfo.businessEarnings === undefined) {
+      errors.businessEarnings = 'Bitte geben Sie Ihre Geschäftseinnahmen an / Please enter your business earnings';
+    } else if (incomeInfo.businessEarnings !== null && incomeInfo.businessEarnings < 0) {
+      errors.businessEarnings = 'Der Wert kann nicht negativ sein / Value cannot be negative';
+    }
+    
+    if (incomeInfo.businessExpenses === undefined) {
+      errors.businessExpenses = 'Bitte geben Sie Ihre Geschäftsausgaben an / Please enter your business expenses';
+    } else if (incomeInfo.businessExpenses !== null && incomeInfo.businessExpenses < 0) {
+      errors.businessExpenses = 'Der Wert kann nicht negativ sein / Value cannot be negative';
+    }
   }
   
   // Stock income validation
-  if (incomeInfo.hasStockIncome === true) {
-    errors.dividendEarnings = (incomeInfo.dividendEarnings === undefined || 
-                              (incomeInfo.dividendEarnings !== null && incomeInfo.dividendEarnings < 0));
-    errors.hasBankCertificate = incomeInfo.hasBankCertificate === undefined;
-    errors.hasStockSales = incomeInfo.hasStockSales === undefined;
-    
-    if (incomeInfo.hasBankCertificate === true) {
-      errors.bankCertificateFile = !incomeInfo.bankCertificateFile?.trim();
+  if (incomeInfo.hasStockIncome) {
+    if (incomeInfo.dividendEarnings === undefined) {
+      errors.dividendEarnings = 'Bitte geben Sie Ihre Dividendeneinnahmen an / Please enter your dividend earnings';
+    } else if (typeof incomeInfo.dividendEarnings === 'number' && incomeInfo.dividendEarnings < 0) {
+      errors.dividendEarnings = 'Der Wert kann nicht negativ sein / Value cannot be negative';
+    }
+
+    if (incomeInfo.hasStockSales) {
+      if (incomeInfo.stockProfitLoss === undefined) {
+        errors.stockProfitLoss = 'Bitte geben Sie Ihren Gewinn/Verlust an / Please enter your profit/loss';
+      } else {
+        // First convert to number if it's not already a number
+        const profitLossValue = typeof incomeInfo.stockProfitLoss === 'number' 
+          ? incomeInfo.stockProfitLoss 
+          : Number(incomeInfo.stockProfitLoss);
+        
+        // Check if it's a valid number (not NaN)
+        if (isNaN(profitLossValue)) {
+          errors.stockProfitLoss = 'Bitte geben Sie einen gültigen Wert ein / Please enter a valid value';
+        }
+      }
+    }
+
+    if (incomeInfo.hasBankCertificate === undefined) {
+      errors.hasBankCertificate = 'Bitte beantworten Sie diese Frage / Please answer this question';
     }
     
-    if (incomeInfo.hasStockSales === true) {
-      errors.stockProfitLoss = incomeInfo.stockProfitLoss === undefined;
+    if (incomeInfo.hasStockSales === undefined) {
+      errors.hasStockSales = 'Bitte beantworten Sie diese Frage / Please answer this question';
     }
     
-    errors.hasForeignStocks = incomeInfo.hasForeignStocks === undefined;
+    if (incomeInfo.hasBankCertificate === true && (!incomeInfo.bankCertificateFile || incomeInfo.bankCertificateFile.trim() === '')) {
+      errors.bankCertificateFile = 'Bitte laden Sie das Bankzertifikat hoch / Please upload bank certificate';
+    }
+    
+    if (incomeInfo.hasForeignStocks === undefined) {
+      errors.hasForeignStocks = 'Bitte beantworten Sie diese Frage / Please answer this question';
+    }
     
     if (incomeInfo.hasForeignStocks === true) {
-      errors.foreignTaxPaid = (incomeInfo.foreignTaxPaid === undefined || 
-                              (incomeInfo.foreignTaxPaid !== null && incomeInfo.foreignTaxPaid < 0));
-      errors.foreignTaxCertificateFile = !incomeInfo.foreignTaxCertificateFile?.trim();
+      if (incomeInfo.foreignTaxPaid === undefined) {
+        errors.foreignTaxPaid = 'Bitte geben Sie die gezahlte ausländische Steuer an / Please enter foreign tax paid';
+      } else if (incomeInfo.foreignTaxPaid !== null && incomeInfo.foreignTaxPaid < 0) {
+        errors.foreignTaxPaid = 'Der Wert kann nicht negativ sein / Value cannot be negative';
+      }
+      
+      if (!incomeInfo.foreignTaxCertificateFile || incomeInfo.foreignTaxCertificateFile.trim() === '') {
+        errors.foreignTaxCertificateFile = 'Bitte laden Sie das ausländische Steuerzertifikat hoch / Please upload foreign tax certificate';
+      }
     }
   }
   
   // Rental property validation
   if (incomeInfo.hasRentalProperty === true) {
-    errors.rentalIncome = (incomeInfo.rentalIncome === undefined || 
-                          (incomeInfo.rentalIncome !== null && incomeInfo.rentalIncome < 0));
-    errors.rentalCosts = (incomeInfo.rentalCosts === undefined || 
-                         (incomeInfo.rentalCosts !== null && incomeInfo.rentalCosts < 0));
+    if (incomeInfo.rentalIncome === undefined) {
+      errors.rentalIncome = 'Bitte geben Sie Ihre Mieteinnahmen an / Please enter your rental income';
+    } else if (incomeInfo.rentalIncome !== null && incomeInfo.rentalIncome < 0) {
+      errors.rentalIncome = 'Der Wert kann nicht negativ sein / Value cannot be negative';
+    }
+    
+    if (incomeInfo.rentalCosts === undefined) {
+      errors.rentalCosts = 'Bitte geben Sie Ihre Mietkosten an / Please enter your rental costs';
+    } else if (incomeInfo.rentalCosts !== null && incomeInfo.rentalCosts < 0) {
+      errors.rentalCosts = 'Der Wert kann nicht negativ sein / Value cannot be negative';
+    }
     
     // Rental property address validation
-    errors.rentalPropertyAddress = {
-      street: !incomeInfo.rentalPropertyAddress?.street?.trim(),
-      houseNumber: !incomeInfo.rentalPropertyAddress?.houseNumber?.trim(),
-      postalCode: !isValidPostalCode(incomeInfo.rentalPropertyAddress?.postalCode || ''),
-      city: !incomeInfo.rentalPropertyAddress?.city?.trim()
-    };
+    if (!incomeInfo.rentalPropertyAddress?.street?.trim()) {
+      errors['rentalPropertyAddress.street'] = 'Bitte geben Sie die Straße an / Please enter the street';
+    }
+    
+    if (!incomeInfo.rentalPropertyAddress?.houseNumber?.trim()) {
+      errors['rentalPropertyAddress.houseNumber'] = 'Bitte geben Sie die Hausnummer an / Please enter the house number';
+    }
+    
+    if (!isValidPostalCode(incomeInfo.rentalPropertyAddress?.postalCode || '')) {
+      errors['rentalPropertyAddress.postalCode'] = 'Bitte geben Sie eine gültige Postleitzahl an / Please enter a valid postal code';
+    }
+    
+    if (!incomeInfo.rentalPropertyAddress?.city?.trim()) {
+      errors['rentalPropertyAddress.city'] = 'Bitte geben Sie die Stadt an / Please enter the city';
+    }
   }
   
   // Foreign income validation
   if (incomeInfo.hasForeignIncome === true) {
-    errors.foreignIncomeCountry = !incomeInfo.foreignIncomeCountry?.trim();
-    errors.foreignIncomeType = !incomeInfo.foreignIncomeType?.trim();
-    errors.foreignIncomeAmount = (incomeInfo.foreignIncomeAmount === undefined || 
-                                (incomeInfo.foreignIncomeAmount !== null && incomeInfo.foreignIncomeAmount < 0));
-    errors.foreignIncomeTaxPaid = (incomeInfo.foreignIncomeTaxPaid === undefined || 
-                                 (incomeInfo.foreignIncomeTaxPaid !== null && incomeInfo.foreignIncomeTaxPaid < 0));
-    errors.foreignIncomeTaxCertificateFile = !incomeInfo.foreignIncomeTaxCertificateFile?.trim();
+    if (!incomeInfo.foreignIncomeCountry?.trim()) {
+      errors.foreignIncomeCountry = 'Bitte wählen Sie das Land / Please select the country';
+    }
+    
+    if (!incomeInfo.foreignIncomeType?.trim()) {
+      errors.foreignIncomeType = 'Bitte wählen Sie den Einkommenstyp / Please select the income type';
+    }
+    
+    if (incomeInfo.foreignIncomeAmount === undefined) {
+      errors.foreignIncomeAmount = 'Bitte geben Sie den Einkommensbetrag an / Please enter the income amount';
+    } else if (incomeInfo.foreignIncomeAmount !== null && incomeInfo.foreignIncomeAmount < 0) {
+      errors.foreignIncomeAmount = 'Der Wert kann nicht negativ sein / Value cannot be negative';
+    }
+    
+    if (incomeInfo.foreignIncomeTaxPaid === undefined) {
+      errors.foreignIncomeTaxPaid = 'Bitte geben Sie die gezahlten Steuern an / Please enter the tax paid';
+    } else if (incomeInfo.foreignIncomeTaxPaid !== null && incomeInfo.foreignIncomeTaxPaid < 0) {
+      errors.foreignIncomeTaxPaid = 'Der Wert kann nicht negativ sein / Value cannot be negative';
+    }
+    
+    if (!incomeInfo.foreignIncomeTaxCertificateFile?.trim()) {
+      errors.foreignIncomeTaxCertificateFile = 'Bitte laden Sie das Steuerzertifikat hoch / Please upload the tax certificate';
+    }
   }
   
   return errors;
@@ -300,32 +392,32 @@ export const validateDeductions = (deductions: TaxFormData['deductions']) => {
   }
   
   // Maintenance payments validation
-  errors.hasMaintenancePayments = deductions.hasMaintenancePayments === undefined;
+  // errors.hasMaintenancePayments = deductions.hasMaintenancePayments === undefined;
   
-  if (deductions.hasMaintenancePayments === true) {
-    errors.maintenanceRecipient = !deductions.maintenanceRecipient?.trim();
-    errors.maintenanceAmount = (deductions.maintenanceAmount === undefined || 
-                             (deductions.maintenanceAmount !== null && deductions.maintenanceAmount < 0));
-    errors.recipientsAbroad = deductions.recipientsAbroad === undefined;
-  }
+  // if (deductions.hasMaintenancePayments === true) {
+  //   errors.maintenanceRecipient = !deductions.maintenanceRecipient?.trim();
+  //   errors.maintenanceAmount = (deductions.maintenanceAmount === undefined || 
+  //                            (deductions.maintenanceAmount !== null && deductions.maintenanceAmount < 0));
+  //   errors.recipientsAbroad = deductions.recipientsAbroad === undefined;
+  // }
   
-  // Special expenses detailed validation
-  errors.hasSpecialExpensesDetailed = deductions.hasSpecialExpensesDetailed === undefined;
+  // // Special expenses detailed validation
+  // errors.hasSpecialExpensesDetailed = deductions.hasSpecialExpensesDetailed === undefined;
   
-  if (deductions.hasSpecialExpensesDetailed === true) {
-    errors.specialExpensesType = !deductions.specialExpensesType?.trim();
-    errors.specialExpensesAmount = (deductions.specialExpensesAmount === undefined || 
-                                 (deductions.specialExpensesAmount !== null && deductions.specialExpensesAmount < 0));
-  }
+  // if (deductions.hasSpecialExpensesDetailed === true) {
+  //   errors.specialExpensesType = !deductions.specialExpensesType?.trim();
+  //   errors.specialExpensesAmount = (deductions.specialExpensesAmount === undefined || 
+  //                                (deductions.specialExpensesAmount !== null && deductions.specialExpensesAmount < 0));
+  // }
   
-  // Private insurance validation
-  errors.hasPrivateInsurance = deductions.hasPrivateInsurance === undefined;
+  // // Private insurance validation
+  // errors.hasPrivateInsurance = deductions.hasPrivateInsurance === undefined;
   
-  if (deductions.hasPrivateInsurance === true) {
-    errors.insuranceTypes = !deductions.insuranceTypes?.trim();
-    errors.insuranceContributions = (deductions.insuranceContributions === undefined || 
-                                  (deductions.insuranceContributions !== null && deductions.insuranceContributions < 0));
-  }
+  // if (deductions.hasPrivateInsurance === true) {
+  //   errors.insuranceTypes = !deductions.insuranceTypes?.trim();
+  //   errors.insuranceContributions = (deductions.insuranceContributions === undefined || 
+  //                                 (deductions.insuranceContributions !== null && deductions.insuranceContributions < 0));
+  // }
   
   return errors;
 };
@@ -377,74 +469,348 @@ export const validateChildren = (children: Array<{
   return errors;
 };
 
-export const validateTaxForm = (formData: TaxFormData, currentStep: number = 0): Record<string, any> | null => {
-  const errors: Record<string, any> = {};
+// Validate signature data
+export const validateSignature = (signature: TaxFormData['signature']) => {
+  const errors: Record<string, boolean> = {};
   
-  // Step 0: Personal Information
-  if (currentStep === 0) {
-    // Validate personal info
-    const personalInfoErrors = validatePersonalInfo(formData.personalInfo);
-    if (Object.values(personalInfoErrors).some(error => 
-        typeof error === 'boolean' ? error : Object.values(error).some(e => e))) {
-      errors.personalInfo = personalInfoErrors;
-    }
+  if (!signature) {
+    // If signature data is missing entirely, mark all fields as errors
+    errors.place = true;
+    errors.date = true;
+    errors.signature = true;
+    return errors;
   }
-  // Step 1: Income Information
-  else if (currentStep === 1) {
-    // Validate income info
-    const incomeInfoErrors = validateIncomeInfo(formData.incomeInfo);
-    if (Object.values(incomeInfoErrors).some(error => 
-        typeof error === 'boolean' ? error : Object.values(error).some(e => e))) {
-      errors.incomeInfo = incomeInfoErrors;
-    }
-  }
-  // Step 2: Deductions
-  else if (currentStep === 2) {
-    // Validate deductions
-    const deductionsErrors = validateDeductions(formData.deductions);
-    if (Object.values(deductionsErrors).some(error => 
-        typeof error === 'boolean' ? error : Object.values(error).some(e => e))) {
-      errors.deductions = deductionsErrors;
-    }
-  }
-  // Step 3: Tax Credits
-  else if (currentStep === 3) {
-    // Validate tax credits
-    const taxCreditsErrors = validateTaxCredits(formData.taxCredits);
-    if (Object.values(taxCreditsErrors).some(error => error)) {
-      errors.taxCredits = taxCreditsErrors;
-    }
-  }
-  // Step 4: Signature
-  else if (currentStep === 4 && formData.signature) {
-    // Validate signature
-    const signatureErrors: Record<string, boolean> = {};
-    
-    if (!formData.signature.place) {
-      signatureErrors.place = true;
-    }
-    if (!formData.signature.date) {
-      signatureErrors.date = true;
-    }
-    if (!formData.signature.time) {
-      signatureErrors.time = true;
-    }
-    if (!formData.signature.signature) {
-      signatureErrors.signature = true;
-    }
+  
+  // Validate required fields
+  errors.place = !signature.place || signature.place.trim() === '';
+  errors.date = !signature.date || signature.date.trim() === '';
+  errors.signature = !signature.signature;
+  
+  return errors;
+};
 
-    if (Object.keys(signatureErrors).length > 0) {
-      errors.signature = signatureErrors;
-    }
+export const validateTaxForm = (formData: TaxFormData, step: number): ValidationErrors => {
+  const errors: ValidationErrors = {};
+  
+  // Validate based on current step
+  switch (step) {
+    case 0: // Personal Info Step
+      // Validate personal info
+      const personalInfoErrors = validatePersonalInfo(formData.personalInfo);
+      if (Object.values(personalInfoErrors).some(error => 
+          typeof error === 'boolean' ? error : Object.values(error).some(e => e))) {
+        errors.personalInfo = personalInfoErrors;
+      }
+      break;
+      
+    case 1: // Expenses & Deductions Step
+      // Validate deductions
+      const deductionsErrors = validateDeductions(formData.deductions);
+      if (Object.values(deductionsErrors).some(error => 
+          typeof error === 'boolean' ? error : Object.values(error).some(e => e))) {
+        errors.deductions = deductionsErrors;
+      }
+      break;
+      
+    case 2: // Employment Income Step
+      // Validate employment income fields
+      const employmentErrors: Record<string, any> = {};
+      
+      // Check if employment status is selected
+      employmentErrors.isEmployed = formData.incomeInfo.isEmployed === undefined;
+      
+      // If employed, validate additional fields
+      if (formData.incomeInfo.isEmployed === true) {
+        employmentErrors.employer = !formData.incomeInfo.employer?.trim();
+        employmentErrors.employmentIncome = (formData.incomeInfo.employmentIncome === undefined || 
+                                           formData.incomeInfo.employmentIncome === null || 
+                                           Number(formData.incomeInfo.employmentIncome) <= 0);
+        employmentErrors.hasTaxCertificate = formData.incomeInfo.hasTaxCertificate === undefined;
+        
+        // If has tax certificate, validate certificate file
+        if (formData.incomeInfo.hasTaxCertificate === true) {
+          employmentErrors.taxCertificateFile = !formData.incomeInfo.taxCertificateFile;
+        }
+        
+        // Travel subsidy validation
+        employmentErrors.hasTravelSubsidy = formData.incomeInfo.hasTravelSubsidy === undefined;
+        
+        // If has travel subsidy, validate distance
+        if (formData.incomeInfo.hasTravelSubsidy === true) {
+          employmentErrors.travelDistance = (formData.incomeInfo.travelDistance === undefined || 
+                                          formData.incomeInfo.travelDistance === null || 
+                                          Number(formData.incomeInfo.travelDistance) <= 0);
+        }
+      }
+      
+      // Only add employment errors if there are any
+      if (Object.values(employmentErrors).some(error => error)) {
+        if (!errors.incomeInfo) errors.incomeInfo = {};
+        Object.assign(errors.incomeInfo, employmentErrors);
+      }
+      break;
+      
+    case 3: // Business Income Step
+      // Validate business income fields
+      const businessErrors: Record<string, any> = {};
+      
+      // Check if business owner status is selected
+      businessErrors.isBusinessOwner = formData.incomeInfo.isBusinessOwner === undefined;
+      
+      // If business owner, validate additional fields
+      if (formData.incomeInfo.isBusinessOwner === true) {
+        businessErrors.businessType = !formData.incomeInfo.businessType?.trim();
+        businessErrors.businessEarnings = (formData.incomeInfo.businessEarnings === undefined || 
+                                         formData.incomeInfo.businessEarnings === null || 
+                                         Number(formData.incomeInfo.businessEarnings) < 0);
+        businessErrors.businessExpenses = (formData.incomeInfo.businessExpenses === undefined || 
+                                         formData.incomeInfo.businessExpenses === null || 
+                                         Number(formData.incomeInfo.businessExpenses) < 0);
+      }
+      
+      // Only add business errors if there are any
+      if (Object.values(businessErrors).some(error => error)) {
+        if (!errors.incomeInfo) errors.incomeInfo = {};
+        Object.assign(errors.incomeInfo, businessErrors);
+      }
+      break;
+      
+    case 4: // Investments Step
+      if (!validateRequiredField(formData.incomeInfo, 'hasStockIncome')) {
+        setNestedError(errors, 'incomeInfo', 'hasStockIncome', 'This field is required');
+      }
+      
+      if (formData.incomeInfo.hasStockIncome) {
+        // Validate dividend earnings (must be provided and >= 0)
+        if (formData.incomeInfo.dividendEarnings === undefined || 
+            formData.incomeInfo.dividendEarnings === null) {
+          setNestedError(errors, 'incomeInfo', 'dividendEarnings', 'This field is required');
+        } else if (Number(formData.incomeInfo.dividendEarnings) < 0) {
+          setNestedError(errors, 'incomeInfo', 'dividendEarnings', 'Value cannot be negative');
+        }
+        
+        // Validate bank certificate question
+        if (!validateRequiredField(formData.incomeInfo, 'hasBankCertificate')) {
+          setNestedError(errors, 'incomeInfo', 'hasBankCertificate', 'This field is required');
+        }
+        
+        // Validate bank certificate file if required
+        if (formData.incomeInfo.hasBankCertificate && !formData.incomeInfo.bankCertificateFile) {
+          setNestedError(errors, 'incomeInfo', 'bankCertificateFile', 'Tax certificate is required');
+        }
+        
+        // Validate stock sales question
+        if (!validateRequiredField(formData.incomeInfo, 'hasStockSales')) {
+          setNestedError(errors, 'incomeInfo', 'hasStockSales', 'This field is required');
+        }
+        
+        // Validate stock profit/loss if required
+        if (formData.incomeInfo.hasStockSales) {
+          if (formData.incomeInfo.stockProfitLoss === undefined || 
+              formData.incomeInfo.stockProfitLoss === null) {
+            setNestedError(errors, 'incomeInfo', 'stockProfitLoss', 'This field is required');
+          }
+        }
+        
+        // Validate foreign stocks question
+        if (!validateRequiredField(formData.incomeInfo, 'hasForeignStocks')) {
+          setNestedError(errors, 'incomeInfo', 'hasForeignStocks', 'This field is required');
+        }
+        
+        // Validate foreign tax fields if required
+        if (formData.incomeInfo.hasForeignStocks) {
+          if (formData.incomeInfo.foreignTaxPaid === undefined || 
+              formData.incomeInfo.foreignTaxPaid === null) {
+            setNestedError(errors, 'incomeInfo', 'foreignTaxPaid', 'This field is required');
+          } else if (Number(formData.incomeInfo.foreignTaxPaid) < 0) {
+            setNestedError(errors, 'incomeInfo', 'foreignTaxPaid', 'Value cannot be negative');
+          }
+          
+          if (!formData.incomeInfo.foreignTaxCertificateFile) {
+            setNestedError(errors, 'incomeInfo', 'foreignTaxCertificateFile', 'Foreign tax certificate is required');
+          }
+        }
+      }
+      break;
+      
+    case 5: // Rental Income Step
+      // Validate rental income fields
+      const rentalErrors: Record<string, any> = {};
+      
+      // Check if has rental property is selected
+      rentalErrors.hasRentalProperty = formData.incomeInfo.hasRentalProperty === undefined;
+      
+      // If has rental property, validate additional fields
+      if (formData.incomeInfo.hasRentalProperty === true) {
+        rentalErrors.rentalIncome = (formData.incomeInfo.rentalIncome === undefined || 
+                                  formData.incomeInfo.rentalIncome === null || 
+                                  Number(formData.incomeInfo.rentalIncome) < 0);
+        rentalErrors.rentalCosts = (formData.incomeInfo.rentalCosts === undefined || 
+                                 formData.incomeInfo.rentalCosts === null || 
+                                 Number(formData.incomeInfo.rentalCosts) < 0);
+        
+        // Validate rental property address
+        const addressErrors: Record<string, boolean> = {};
+        addressErrors.street = !formData.incomeInfo.rentalPropertyAddress?.street?.trim();
+        addressErrors.houseNumber = !formData.incomeInfo.rentalPropertyAddress?.houseNumber?.trim();
+        addressErrors.postalCode = !isValidPostalCode(formData.incomeInfo.rentalPropertyAddress?.postalCode || '');
+        addressErrors.city = !formData.incomeInfo.rentalPropertyAddress?.city?.trim();
+        
+        // Only add address errors if there are any
+        if (Object.values(addressErrors).some(error => error)) {
+          rentalErrors.rentalPropertyAddress = addressErrors;
+        }
+      }
+      
+      // Only add rental errors if there are any
+      if (Object.values(rentalErrors).some(error => 
+          typeof error === 'boolean' ? error : Object.values(error).some(e => e))) {
+        if (!errors.incomeInfo) errors.incomeInfo = {};
+        Object.assign(errors.incomeInfo, rentalErrors);
+      }
+      break;
+      
+    case 6: // Foreign Income Step
+      // Validate foreign income fields
+      const foreignIncomeErrors: Record<string, any> = {};
+      
+      // Check if has foreign income is selected
+      foreignIncomeErrors.hasForeignIncome = formData.incomeInfo.hasForeignIncome === undefined;
+      
+      // If has foreign income, validate additional fields
+      if (formData.incomeInfo.hasForeignIncome === true) {
+        foreignIncomeErrors.foreignIncomeCountry = !formData.incomeInfo.foreignIncomeCountry?.trim();
+        foreignIncomeErrors.foreignIncomeType = !formData.incomeInfo.foreignIncomeType?.trim();
+        foreignIncomeErrors.foreignIncomeAmount = (formData.incomeInfo.foreignIncomeAmount === undefined || 
+                                               formData.incomeInfo.foreignIncomeAmount === null || 
+                                               Number(formData.incomeInfo.foreignIncomeAmount) < 0);
+        foreignIncomeErrors.foreignIncomeTaxPaid = (formData.incomeInfo.foreignIncomeTaxPaid === undefined || 
+                                               formData.incomeInfo.foreignIncomeTaxPaid === null || 
+                                               Number(formData.incomeInfo.foreignIncomeTaxPaid) < 0);
+        foreignIncomeErrors.foreignIncomeTaxCertificateFile = !formData.incomeInfo.foreignIncomeTaxCertificateFile;
+      }
+      
+      // Only add foreign income errors if there are any
+      if (Object.values(foreignIncomeErrors).some(error => error)) {
+        if (!errors.incomeInfo) errors.incomeInfo = {};
+        Object.assign(errors.incomeInfo, foreignIncomeErrors);
+      }
+      break;
+      
+    case 7: // Review Step
+      // No validation needed for review step
+      break;
+      
+    case 8: // Signature
+      errors.signature = validateSignature(formData.signature);
+      break;
+      
+    case 2: // Deductions Step
+      // Validate hasSpecialExpensesDetailed
+      if (formData.deductions.hasSpecialExpensesDetailed === undefined) {
+        setNestedError(errors, 'deductions', 'hasSpecialExpensesDetailed', 'This field is required');
+      }
+      
+      // If has special expenses, validate required fields
+      if (formData.deductions.hasSpecialExpensesDetailed) {
+        if (!formData.deductions.specialExpensesType || formData.deductions.specialExpensesType.trim() === '') {
+          setNestedError(errors, 'deductions', 'specialExpensesType', 'This field is required');
+        }
+        
+        if (formData.deductions.specialExpensesAmount === undefined || 
+            formData.deductions.specialExpensesAmount === null || 
+            Number(formData.deductions.specialExpensesAmount) < 0) {
+          setNestedError(errors, 'deductions', 'specialExpensesAmount', 'Please enter a valid amount');
+        }
+      }
+      
+      // Validate hasPrivateInsurance
+      if (formData.deductions.hasPrivateInsurance === undefined) {
+        setNestedError(errors, 'deductions', 'hasPrivateInsurance', 'This field is required');
+      }
+      
+      // If has private insurance, validate required fields
+      if (formData.deductions.hasPrivateInsurance) {
+        if (!formData.deductions.insuranceTypes || formData.deductions.insuranceTypes.trim() === '') {
+          setNestedError(errors, 'deductions', 'insuranceTypes', 'This field is required');
+        }
+        
+        if (formData.deductions.insuranceContributions === undefined || 
+            formData.deductions.insuranceContributions === null || 
+            Number(formData.deductions.insuranceContributions) < 0) {
+          setNestedError(errors, 'deductions', 'insuranceContributions', 'Please enter a valid amount');
+        }
+      }
+      
+      // Validate existing deduction fields
+      if (formData.deductions.churchTax !== undefined && formData.deductions.churchTax < 0) {
+        setNestedError(errors, 'deductions', 'churchTax', 'Value cannot be negative');
+      }
+      
+      if (formData.deductions.donationsAndFees !== undefined && formData.deductions.donationsAndFees < 0) {
+        setNestedError(errors, 'deductions', 'donationsAndFees', 'Value cannot be negative');
+      }
+      
+      if (formData.deductions.privateHealthInsurance !== undefined && formData.deductions.privateHealthInsurance < 0) {
+        setNestedError(errors, 'deductions', 'privateHealthInsurance', 'Value cannot be negative');
+      }
+      
+      if (formData.deductions.privatePensionInsurance !== undefined && formData.deductions.privatePensionInsurance < 0) {
+        setNestedError(errors, 'deductions', 'privatePensionInsurance', 'Value cannot be negative');
+      }
+      break;
+      
+    default:
+      // Validate all sections for any other step value
+      // Personal Info
+      const allPersonalInfoErrors = validatePersonalInfo(formData.personalInfo);
+      if (Object.values(allPersonalInfoErrors).some(error => 
+          typeof error === 'boolean' ? error : Object.values(error).some(e => e))) {
+        errors.personalInfo = allPersonalInfoErrors;
+      }
+      
+      // Income Info (all subsections)
+      const allIncomeInfoErrors = validateIncomeInfo(formData.incomeInfo);
+      if (Object.values(allIncomeInfoErrors).some(error => 
+          typeof error === 'boolean' ? error : Object.values(error).some(e => e))) {
+        errors.incomeInfo = allIncomeInfoErrors;
+      }
+      
+      // Deductions
+      const allDeductionsErrors = validateDeductions(formData.deductions);
+      if (Object.values(allDeductionsErrors).some(error => 
+          typeof error === 'boolean' ? error : Object.values(error).some(e => e))) {
+        errors.deductions = allDeductionsErrors;
+      }
+      
+      // Tax Credits (keeping for backward compatibility)
+      const allTaxCreditsErrors = validateTaxCredits(formData.taxCredits);
+      if (Object.values(allTaxCreditsErrors).some(error => error)) {
+        errors.taxCredits = allTaxCreditsErrors;
+      }
+      
+      // Signature
+      if (formData.signature) {
+        const allSignatureErrors: Record<string, boolean> = {};
+        allSignatureErrors.place = !formData.signature.place?.trim();
+        allSignatureErrors.date = !formData.signature.date;
+        allSignatureErrors.signature = !formData.signature.signature;
+        
+        if (Object.values(allSignatureErrors).some(error => error)) {
+          errors.signature = allSignatureErrors;
+        }
+      }
+      break;
   }
   
   // Check if there are any errors
   const hasErrors = Object.keys(errors).length > 0;
   
   console.log('Form Validation Errors:', {
+    currentStep: step,
     hasErrors,
     errors
   });
   
-  return hasErrors ? errors : null;
+  return errors;
 }; 

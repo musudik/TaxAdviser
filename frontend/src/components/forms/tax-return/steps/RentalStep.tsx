@@ -8,32 +8,42 @@ interface RentalStepProps {
   handleChange: (section: keyof TaxFormData, field: string, value: any) => void;
   validationErrors: Record<string, any> | null;
   hasError: (section: string, field: string) => boolean;
+  getInputClass?: (section: string, field: string) => string;
+  showValidationErrors?: boolean;
 }
 
 const RentalStep: React.FC<RentalStepProps> = ({
   formData,
   handleChange,
   validationErrors,
-  hasError
+  hasError,
+  getInputClass = () => "auth-input",
+  showValidationErrors = false
 }) => {
   // Common input class that handles validation state
-  const getInputClass = (section: string, field: string) => {
-    return hasError(section, field) 
-      ? "auth-input border-red-500" 
-      : "auth-input";
+  const getInputClassWithError = (section: string, field: string) => {
+    const baseClass = getInputClass(section, field);
+    return hasError(section, field) && showValidationErrors
+      ? `${baseClass} border-2 border-red-500` 
+      : baseClass;
   };
 
   // Helper to check nested address errors
   const hasAddressError = (field: string) => {
-    return validationErrors?.incomeInfo?.rentalPropertyAddress?.[field];
+    return showValidationErrors && validationErrors?.incomeInfo?.rentalPropertyAddress?.[field];
+  };
+
+  // Helper function for number fields
+  const handleNumberChange = (section: keyof TaxFormData, field: string, value: string) => {
+    const parsedValue = value === '' ? null : parseFloat(value);
+    handleChange(section, field, parsedValue);
   };
 
   return (
     <FormSection
-        germanTitle={languageData.de.steps.rental}
-        englishTitle={languageData.en.steps.rental}
-      >
-
+      germanTitle={languageData.de.steps.rental}
+      englishTitle={languageData.en.steps.rental}
+    >
       <div className="space-y-6">
         {/* Rental property status */}
         <div className="form-group">
@@ -72,9 +82,14 @@ const RentalStep: React.FC<RentalStepProps> = ({
               </label>
             </div>
           </div>
-          {hasError('incomeInfo', 'hasRentalProperty') && (
-            <p className="mt-1 text-sm text-red-600 font-['Switzer-Regular']">
-              {languageData.de.validation.required} / {languageData.en.validation.required}
+          {hasError('incomeInfo', 'hasRentalProperty') && showValidationErrors && (
+            <p className="text-red-500 text-sm mt-1">
+              {formData.incomeInfo.hasRentalProperty === undefined 
+                ? 'Bitte wählen Sie eine Option aus / Please select an option'
+                : typeof validationErrors?.incomeInfo?.hasRentalProperty === 'string'
+                  ? validationErrors.incomeInfo.hasRentalProperty
+                  : 'Bitte wählen Sie eine Option aus / Please select an option'
+              }
             </p>
           )}
         </div>
@@ -93,13 +108,13 @@ const RentalStep: React.FC<RentalStepProps> = ({
                 type="number"
                 min="0"
                 step="0.01"
-                value={formData.incomeInfo.rentalIncome || 0}
-                onChange={(e) => handleChange('incomeInfo', 'rentalIncome', parseFloat(e.target.value) || 0)}
-                className={getInputClass('incomeInfo', 'rentalIncome')}
+                value={formData.incomeInfo.rentalIncome || ''}
+                onChange={(e) => handleNumberChange('incomeInfo', 'rentalIncome', e.target.value)}
+                className={getInputClassWithError('incomeInfo', 'rentalIncome')}
                 required
               />
-              {hasError('incomeInfo', 'rentalIncome') && (
-                <p className="mt-1 text-sm text-red-600 font-['Switzer-Regular']">
+              {hasError('incomeInfo', 'rentalIncome') && showValidationErrors && (
+                <p className="text-red-500 text-sm mt-1">
                   {languageData.de.validation.positiveNumber} / {languageData.en.validation.positiveNumber}
                 </p>
               )}
@@ -116,13 +131,13 @@ const RentalStep: React.FC<RentalStepProps> = ({
                 type="number"
                 min="0"
                 step="0.01"
-                value={formData.incomeInfo.rentalCosts || 0}
-                onChange={(e) => handleChange('incomeInfo', 'rentalCosts', parseFloat(e.target.value) || 0)}
-                className={getInputClass('incomeInfo', 'rentalCosts')}
+                value={formData.incomeInfo.rentalCosts || ''}
+                onChange={(e) => handleNumberChange('incomeInfo', 'rentalCosts', e.target.value)}
+                className={getInputClassWithError('incomeInfo', 'rentalCosts')}
                 required
               />
-              {hasError('incomeInfo', 'rentalCosts') && (
-                <p className="mt-1 text-sm text-red-600 font-['Switzer-Regular']">
+              {hasError('incomeInfo', 'rentalCosts') && showValidationErrors && (
+                <p className="text-red-500 text-sm mt-1">
                   {languageData.de.validation.positiveNumber} / {languageData.en.validation.positiveNumber}
                 </p>
               )}
@@ -149,11 +164,11 @@ const RentalStep: React.FC<RentalStepProps> = ({
                       ...formData.incomeInfo.rentalPropertyAddress,
                       street: e.target.value
                     })}
-                    className={hasAddressError('street') ? "auth-input border-red-500" : "auth-input"}
+                    className={hasAddressError('street') ? "auth-input border-2 border-red-500" : "auth-input"}
                     required
                   />
                   {hasAddressError('street') && (
-                    <p className="mt-1 text-sm text-red-600 font-['Switzer-Regular']">
+                    <p className="text-red-500 text-sm mt-1">
                       {languageData.de.validation.required} / {languageData.en.validation.required}
                     </p>
                   )}
@@ -171,11 +186,11 @@ const RentalStep: React.FC<RentalStepProps> = ({
                       ...formData.incomeInfo.rentalPropertyAddress,
                       houseNumber: e.target.value
                     })}
-                    className={hasAddressError('houseNumber') ? "auth-input border-red-500" : "auth-input"}
+                    className={hasAddressError('houseNumber') ? "auth-input border-2 border-red-500" : "auth-input"}
                     required
                   />
                   {hasAddressError('houseNumber') && (
-                    <p className="mt-1 text-sm text-red-600 font-['Switzer-Regular']">
+                    <p className="text-red-500 text-sm mt-1">
                       {languageData.de.validation.required} / {languageData.en.validation.required}
                     </p>
                   )}
@@ -193,11 +208,11 @@ const RentalStep: React.FC<RentalStepProps> = ({
                       ...formData.incomeInfo.rentalPropertyAddress,
                       postalCode: e.target.value
                     })}
-                    className={hasAddressError('postalCode') ? "auth-input border-red-500" : "auth-input"}
+                    className={hasAddressError('postalCode') ? "auth-input border-2 border-red-500" : "auth-input"}
                     required
                   />
                   {hasAddressError('postalCode') && (
-                    <p className="mt-1 text-sm text-red-600 font-['Switzer-Regular']">
+                    <p className="text-red-500 text-sm mt-1">
                       {languageData.de.validation.required} / {languageData.en.validation.required}
                     </p>
                   )}
@@ -215,11 +230,11 @@ const RentalStep: React.FC<RentalStepProps> = ({
                       ...formData.incomeInfo.rentalPropertyAddress,
                       city: e.target.value
                     })}
-                    className={hasAddressError('city') ? "auth-input border-red-500" : "auth-input"}
+                    className={hasAddressError('city') ? "auth-input border-2 border-red-500" : "auth-input"}
                     required
                   />
                   {hasAddressError('city') && (
-                    <p className="mt-1 text-sm text-red-600 font-['Switzer-Regular']">
+                    <p className="text-red-500 text-sm mt-1">
                       {languageData.de.validation.required} / {languageData.en.validation.required}
                     </p>
                   )}

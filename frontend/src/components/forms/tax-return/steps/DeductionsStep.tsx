@@ -138,7 +138,96 @@ const DeductionsStep: React.FC<DeductionsStepProps> = ({
         className="mt-6"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Church Tax */}
+          {/* Has Special Expenses Detailed */}
+          <div className="form-group col-span-2">
+            <Label 
+              htmlFor="hasSpecialExpensesDetailed"
+              germanText={<div className="font-bold">{languageData.de.deductions.hasSpecialExpensesDetailed}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.deductions.hasSpecialExpensesDetailed}</div>}
+            />
+            <div className="flex space-x-4 mt-2">
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  id="hasSpecialExpensesDetailedNo"
+                  name="hasSpecialExpensesDetailed"
+                  checked={formData.deductions.hasSpecialExpensesDetailed === false}
+                  onChange={() => handleChange('deductions', 'hasSpecialExpensesDetailed', false)}
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                />
+                <label htmlFor="hasSpecialExpensesDetailedNo" className="ml-2 text-neutral-700">
+                  <span className="font-bold">Nein</span> / <span className="text-neutral-600">No</span>
+                </label>
+              </div>
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  id="hasSpecialExpensesDetailedYes"
+                  name="hasSpecialExpensesDetailed"
+                  checked={formData.deductions.hasSpecialExpensesDetailed === true}
+                  onChange={() => handleChange('deductions', 'hasSpecialExpensesDetailed', true)}
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                />
+                <label htmlFor="hasSpecialExpensesDetailedYes" className="ml-2 text-neutral-700">
+                  <span className="font-bold">Ja</span> / <span className="text-neutral-600">Yes</span>
+                </label>
+              </div>
+            </div>
+            {hasError('deductions', 'hasSpecialExpensesDetailed') && (
+              <p className="text-red-500 text-sm mt-1">
+                {validationErrors?.deductions?.hasSpecialExpensesDetailed}
+              </p>
+            )}
+          </div>
+          
+          {/* Special expenses details if selected Yes */}
+          {formData.deductions.hasSpecialExpensesDetailed && (
+            <>
+              <div className="form-group">
+                <Label 
+                  htmlFor="specialExpensesType"
+                  germanText={<div className="font-bold">{languageData.de.deductions.specialExpensesType}</div>}
+                  englishText={<div className="text-neutral-600">{languageData.en.deductions.specialExpensesType}</div>}
+                />
+                <Input
+                  id="specialExpensesType"
+                  type="text"
+                  value={formData.deductions.specialExpensesType || ''}
+                  onChange={(e) => handleChange('deductions', 'specialExpensesType', e.target.value)}
+                  className={getInputClassWithError('deductions', 'specialExpensesType')}
+                />
+                {hasError('deductions', 'specialExpensesType') && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {validationErrors?.deductions?.specialExpensesType}
+                  </p>
+                )}
+              </div>
+              
+              <div className="form-group">
+                <Label 
+                  htmlFor="specialExpensesAmount"
+                  germanText={<div className="font-bold">{languageData.de.deductions.specialExpensesAmount}</div>}
+                  englishText={<div className="text-neutral-600">{languageData.en.deductions.specialExpensesAmount}</div>}
+                />
+                <Input
+                  id="specialExpensesAmount"
+                  type="number"
+                  min={0}
+                  step={0.01}
+                  value={formData.deductions.specialExpensesAmount || ''}
+                  onChange={(e) => handleNumberChange('deductions', 'specialExpensesAmount', e.target.value)}
+                  className={getInputClassWithError('deductions', 'specialExpensesAmount')}
+                />
+                {hasError('deductions', 'specialExpensesAmount') && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {validationErrors?.deductions?.specialExpensesAmount}
+                  </p>
+                )}
+              </div>
+            </>
+          )}
+          
+          {/* Church Tax and Donations (existing fields) */}
           <div className="form-group">
             <Label 
               htmlFor="churchTax"
@@ -161,7 +250,6 @@ const DeductionsStep: React.FC<DeductionsStepProps> = ({
             )}
           </div>
           
-          {/* Donations */}
           <div className="form-group">
             <Label 
               htmlFor="donationsAndFees"
@@ -192,7 +280,96 @@ const DeductionsStep: React.FC<DeductionsStepProps> = ({
         className="mt-6"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Health Insurance */}
+          {/* Has Private Insurance */}
+          <div className="form-group col-span-2">
+            <Label 
+              htmlFor="hasPrivateInsurance"
+              germanText={<div className="font-bold">{languageData.de.deductions.hasPrivateInsurance}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.deductions.hasPrivateInsurance}</div>}
+            />
+            <div className="flex space-x-4 mt-2">
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  id="hasPrivateInsuranceNo"
+                  name="hasPrivateInsurance"
+                  checked={formData.deductions.hasPrivateInsurance === false}
+                  onChange={() => handleChange('deductions', 'hasPrivateInsurance', false)}
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                />
+                <label htmlFor="hasPrivateInsuranceNo" className="ml-2 text-neutral-700">
+                  <span className="font-bold">Nein</span> / <span className="text-neutral-600">No</span>
+                </label>
+              </div>
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  id="hasPrivateInsuranceYes"
+                  name="hasPrivateInsurance"
+                  checked={formData.deductions.hasPrivateInsurance === true}
+                  onChange={() => handleChange('deductions', 'hasPrivateInsurance', true)}
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                />
+                <label htmlFor="hasPrivateInsuranceYes" className="ml-2 text-neutral-700">
+                  <span className="font-bold">Ja</span> / <span className="text-neutral-600">Yes</span>
+                </label>
+              </div>
+            </div>
+            {hasError('deductions', 'hasPrivateInsurance') && (
+              <p className="text-red-500 text-sm mt-1">
+                {validationErrors?.deductions?.hasPrivateInsurance}
+              </p>
+            )}
+          </div>
+          
+          {/* Private insurance details if selected Yes */}
+          {formData.deductions.hasPrivateInsurance && (
+            <>
+              <div className="form-group">
+                <Label 
+                  htmlFor="insuranceTypes"
+                  germanText={<div className="font-bold">{languageData.de.deductions.insuranceTypes}</div>}
+                  englishText={<div className="text-neutral-600">{languageData.en.deductions.insuranceTypes}</div>}
+                />
+                <Input
+                  id="insuranceTypes"
+                  type="text"
+                  value={formData.deductions.insuranceTypes || ''}
+                  onChange={(e) => handleChange('deductions', 'insuranceTypes', e.target.value)}
+                  className={getInputClassWithError('deductions', 'insuranceTypes')}
+                />
+                {hasError('deductions', 'insuranceTypes') && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {validationErrors?.deductions?.insuranceTypes}
+                  </p>
+                )}
+              </div>
+              
+              <div className="form-group">
+                <Label 
+                  htmlFor="insuranceContributions"
+                  germanText={<div className="font-bold">{languageData.de.deductions.insuranceContributions}</div>}
+                  englishText={<div className="text-neutral-600">{languageData.en.deductions.insuranceContributions}</div>}
+                />
+                <Input
+                  id="insuranceContributions"
+                  type="number"
+                  min={0}
+                  step={0.01}
+                  value={formData.deductions.insuranceContributions || ''}
+                  onChange={(e) => handleNumberChange('deductions', 'insuranceContributions', e.target.value)}
+                  className={getInputClassWithError('deductions', 'insuranceContributions')}
+                />
+                {hasError('deductions', 'insuranceContributions') && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {validationErrors?.deductions?.insuranceContributions}
+                  </p>
+                )}
+              </div>
+            </>
+          )}
+          
+          {/* Health Insurance and Pension Insurance (existing fields) */}
           <div className="form-group">
             <Label 
               htmlFor="privateHealthInsurance"
@@ -215,7 +392,6 @@ const DeductionsStep: React.FC<DeductionsStepProps> = ({
             )}
           </div>
           
-          {/* Pension Insurance */}
           <div className="form-group">
             <Label 
               htmlFor="privatePensionInsurance"

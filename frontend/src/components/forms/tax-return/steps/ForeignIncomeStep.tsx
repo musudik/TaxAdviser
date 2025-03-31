@@ -8,35 +8,46 @@ interface ForeignIncomeStepProps {
   handleChange: (section: keyof TaxFormData, field: string, value: any) => void;
   validationErrors: Record<string, any> | null;
   hasError: (section: string, field: string) => boolean;
+  getInputClass?: (section: string, field: string) => string;
+  showValidationErrors?: boolean;
 }
 
 const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
   formData,
   handleChange,
   validationErrors,
-  hasError
+  hasError,
+  getInputClass = () => "auth-input",
+  showValidationErrors = false
 }) => {
   // Common input class that handles validation state
-  const getInputClass = (section: string, field: string) => {
-    return hasError(section, field) 
-      ? "auth-input border-red-500" 
-      : "auth-input";
+  const getInputClassWithError = (section: string, field: string) => {
+    const baseClass = getInputClass(section, field);
+    return hasError(section, field) && showValidationErrors
+      ? `${baseClass} border-2 border-red-500` 
+      : baseClass;
+  };
+
+  // Helper function for number fields
+  const handleNumberChange = (section: keyof TaxFormData, field: string, value: string) => {
+    const parsedValue = value === '' ? null : parseFloat(value);
+    handleChange(section, field, parsedValue);
   };
 
   return (
     <FormSection
-        germanTitle={languageData.de.steps.foreign}
-        englishTitle={languageData.en.steps.foreign}
-      >
+      germanTitle={languageData.de.steps.foreign}
+      englishTitle={languageData.en.steps.foreign}
+    >
       <div className="space-y-6">
         {/* Foreign income status */}
         <div className="form-group">
-        <Label className="block space-y-1"
-            htmlFor="rentalProperty"
-            germanText={<div className="font-bold">{languageData.de.  incomeInfo.hasForeignIncome}</div>}
+          <Label className="block space-y-1"
+            htmlFor="foreignIncome"
+            germanText={<div className="font-bold">{languageData.de.incomeInfo.hasForeignIncome}</div>}
             englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.hasForeignIncome}</div>}
           />
-            <div className="flex space-x-4 mt-2">
+          <div className="flex space-x-4 mt-2">
             <div className="flex items-center">
               <input
                 type="radio"
@@ -47,7 +58,7 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
                 className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
                 required
               />
-               <label htmlFor="foreignIncomeNo" className="ml-2 text-neutral-700">
+              <label htmlFor="foreignIncomeNo" className="ml-2 text-neutral-700">
                 <span className="font-bold">Nein</span> / <span className="text-neutral-600">No</span>
               </label>
             </div>
@@ -66,9 +77,14 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
               </label>
             </div>
           </div>
-          {hasError('incomeInfo', 'hasForeignIncome') && (
-            <p className="mt-1 text-sm text-red-600 font-['Switzer-Regular']">
-              {languageData.de.validation.required} / {languageData.en.validation.required}
+          {hasError('incomeInfo', 'hasForeignIncome') && showValidationErrors && (
+            <p className="text-red-500 text-sm mt-1">
+              {formData.incomeInfo.hasForeignIncome === undefined 
+                ? 'Bitte wählen Sie eine Option aus / Please select an option'
+                : typeof validationErrors?.incomeInfo?.hasForeignIncome === 'string'
+                  ? validationErrors.incomeInfo.hasForeignIncome
+                  : 'Bitte wählen Sie eine Option aus / Please select an option'
+              }
             </p>
           )}
         </div>
@@ -87,11 +103,11 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
                 type="text"
                 value={formData.incomeInfo.foreignIncomeCountry || ''}
                 onChange={(e) => handleChange('incomeInfo', 'foreignIncomeCountry', e.target.value)}
-                className={getInputClass('incomeInfo', 'foreignIncomeCountry')}
+                className={getInputClassWithError('incomeInfo', 'foreignIncomeCountry')}
                 required
               />
-              {hasError('incomeInfo', 'foreignIncomeCountry') && (
-                <p className="mt-1 text-sm text-red-600 font-['Switzer-Regular']">
+              {hasError('incomeInfo', 'foreignIncomeCountry') && showValidationErrors && (
+                <p className="text-red-500 text-sm mt-1">
                   {languageData.de.validation.required} / {languageData.en.validation.required}
                 </p>
               )}
@@ -108,11 +124,11 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
                 type="text"
                 value={formData.incomeInfo.foreignIncomeType || ''}
                 onChange={(e) => handleChange('incomeInfo', 'foreignIncomeType', e.target.value)}
-                className={getInputClass('incomeInfo', 'foreignIncomeType')}
+                className={getInputClassWithError('incomeInfo', 'foreignIncomeType')}
                 required
               />
-              {hasError('incomeInfo', 'foreignIncomeType') && (
-                <p className="mt-1 text-sm text-red-600 font-['Switzer-Regular']">
+              {hasError('incomeInfo', 'foreignIncomeType') && showValidationErrors && (
+                <p className="text-red-500 text-sm mt-1">
                   {languageData.de.validation.required} / {languageData.en.validation.required}
                 </p>
               )}
@@ -129,13 +145,13 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
                 type="number"
                 min="0"
                 step="0.01"
-                value={formData.incomeInfo.foreignIncomeAmount || 0}
-                onChange={(e) => handleChange('incomeInfo', 'foreignIncomeAmount', parseFloat(e.target.value) || 0)}
-                className={getInputClass('incomeInfo', 'foreignIncomeAmount')}
+                value={formData.incomeInfo.foreignIncomeAmount || ''}
+                onChange={(e) => handleNumberChange('incomeInfo', 'foreignIncomeAmount', e.target.value)}
+                className={getInputClassWithError('incomeInfo', 'foreignIncomeAmount')}
                 required
               />
-              {hasError('incomeInfo', 'foreignIncomeAmount') && (
-                <p className="mt-1 text-sm text-red-600 font-['Switzer-Regular']">
+              {hasError('incomeInfo', 'foreignIncomeAmount') && showValidationErrors && (
+                <p className="text-red-500 text-sm mt-1">
                   {languageData.de.validation.positiveNumber} / {languageData.en.validation.positiveNumber}
                 </p>
               )}
@@ -152,13 +168,13 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
                 type="number"
                 min="0"
                 step="0.01"
-                value={formData.incomeInfo.foreignIncomeTaxPaid || 0}
-                onChange={(e) => handleChange('incomeInfo', 'foreignIncomeTaxPaid', parseFloat(e.target.value) || 0)}
-                className={getInputClass('incomeInfo', 'foreignIncomeTaxPaid')}
+                value={formData.incomeInfo.foreignIncomeTaxPaid || ''}
+                onChange={(e) => handleNumberChange('incomeInfo', 'foreignIncomeTaxPaid', e.target.value)}
+                className={getInputClassWithError('incomeInfo', 'foreignIncomeTaxPaid')}
                 required
               />
-              {hasError('incomeInfo', 'foreignIncomeTaxPaid') && (
-                <p className="mt-1 text-sm text-red-600 font-['Switzer-Regular']">
+              {hasError('incomeInfo', 'foreignIncomeTaxPaid') && showValidationErrors && (
+                <p className="text-red-500 text-sm mt-1">
                   {languageData.de.validation.positiveNumber} / {languageData.en.validation.positiveNumber}
                 </p>
               )}
@@ -171,14 +187,16 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
                 germanText={<div className="font-bold">{languageData.de.foreignIncome.certificateUpload}</div>}
                 englishText={<div className="text-neutral-600">{languageData.en.foreignIncome.certificateUpload}</div>}
               />
+
               <input
                 type="file"
+                multiple
                 onChange={(e) => {
                   if (e.target.files && e.target.files[0]) {
                     handleChange('incomeInfo', 'foreignIncomeTaxCertificateFile', e.target.files[0].name);
                   }
                 }}
-                className="mt-1 block w-full text-sm text-gray-500
+                  className="mt-1 block w-full text-sm text-gray-500
                             file:mr-4 file:py-2 file:px-4
                             file:rounded-md file:border-0
                             file:text-sm file:font-semibold
@@ -186,8 +204,24 @@ const ForeignIncomeStep: React.FC<ForeignIncomeStepProps> = ({
                             hover:file:bg-blue-100"
                 required
               />
-              {hasError('incomeInfo', 'foreignIncomeTaxCertificateFile') && (
-                <p className="mt-1 text-sm text-red-600 font-['Switzer-Regular']">
+
+              {/* <input
+                type="file"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files[0]) {
+                    handleChange('incomeInfo', 'foreignIncomeTaxCertificateFile', e.target.files[0].name);
+                  }
+                }}
+                className="mt-1 block w-full text-sm text-gray-500
+                file:mr-4 file:py-2 file:px-4
+                file:rounded-md file:border-0
+                file:text-sm file:font-semibold
+                file:bg-blue-50 file:text-blue-700
+                hover:file:bg-blue-100"
+                required
+              /> */}
+              {hasError('incomeInfo', 'foreignIncomeTaxCertificateFile') && showValidationErrors && (
+                <p className="text-red-500 text-sm mt-1">
                   {languageData.de.validation.required} / {languageData.en.validation.required}
                 </p>
               )}

@@ -8,15 +8,16 @@ interface ReviewStepProps {
 }
 
 const ReviewStep: React.FC<ReviewStepProps> = ({ formData }) => {
-  // Helper function to format currency values
+  // Format currency values with € symbol
   const formatCurrency = (value: number | undefined | null) => {
-    if (value === undefined || value === null) return '€0.00';
-    return `€${value.toFixed(2)}`;
+    if (value === undefined || value === null) return '-';
+    // Use typeof check to ensure value is a number before using toFixed
+    return typeof value === 'number' ? `${value.toFixed(2)} €` : `${value} €`;
   };
 
-  // Helper function to format boolean values
+  // Format boolean values to Ja/Nein
   const formatBoolean = (value: boolean | undefined) => {
-    if (value === undefined || value === null) return '-';
+    if (value === undefined) return '-';
     return value ? 'Ja / Yes' : 'Nein / No';
   };
 
@@ -138,6 +139,94 @@ const ReviewStep: React.FC<ReviewStepProps> = ({ formData }) => {
             englishLabel="Has Children"
             value={formatBoolean(formData.personalInfo.hasChildren)} 
           />
+          
+          {/* Address Information */}
+          <InfoField 
+            germanLabel="Straße"
+            englishLabel="Street"
+            value={formData.personalInfo.address.street} 
+          />
+          <InfoField 
+            germanLabel="Hausnummer"
+            englishLabel="House Number"
+            value={formData.personalInfo.address.houseNumber} 
+          />
+          <InfoField 
+            germanLabel="Postleitzahl"
+            englishLabel="Postal Code"
+            value={formData.personalInfo.address.postalCode} 
+          />
+          <InfoField 
+            germanLabel="Stadt"
+            englishLabel="City"
+            value={formData.personalInfo.address.city} 
+          />
+          
+          {/* Foreign Residence Information */}
+          <InfoField 
+            germanLabel="Auslandsaufenthalt"
+            englishLabel="Foreign Residence"
+            value={formatBoolean(formData.personalInfo.hasForeignResidence)} 
+          />
+          {formData.personalInfo.hasForeignResidence && (
+            <>
+              <InfoField 
+                germanLabel="Land des Auslandsaufenthalts"
+                englishLabel="Foreign Residence Country"
+                value={formData.personalInfo.foreignResidenceCountry} 
+              />
+              {formData.personalInfo.foreignResidenceCountry === 'other' && (
+                <InfoField 
+                  germanLabel="Anderes Land"
+                  englishLabel="Other Country"
+                  value={formData.personalInfo.otherForeignResidenceCountry} 
+                />
+              )}
+              <InfoField 
+                germanLabel="Ausländische Adresse"
+                englishLabel="Foreign Address"
+                value={formData.personalInfo.foreignAddress} 
+              />
+            </>
+          )}
+          
+          {/* Spouse Information */}
+          {formData.personalInfo.maritalStatus === 'married' && (
+            <>
+              <InfoField 
+                germanLabel="Vorname des Ehepartners"
+                englishLabel="Spouse First Name"
+                value={formData.personalInfo.spouseFirstName} 
+              />
+              <InfoField 
+                germanLabel="Nachname des Ehepartners"
+                englishLabel="Spouse Last Name"
+                value={formData.personalInfo.spouseLastName} 
+              />
+              <InfoField 
+                germanLabel="Geburtsdatum des Ehepartners"
+                englishLabel="Spouse Date of Birth"
+                value={formData.personalInfo.spouseDateOfBirth} 
+              />
+              <InfoField 
+                germanLabel="Steuer-ID des Ehepartners"
+                englishLabel="Spouse Tax ID"
+                value={formData.personalInfo.spouseTaxId} 
+              />
+              <InfoField 
+                germanLabel="Ehepartner hat Einkommen"
+                englishLabel="Spouse Has Income"
+                value={formatBoolean(formData.personalInfo.spouseHasIncome)} 
+              />
+              {formData.personalInfo.spouseHasIncome && (
+                <InfoField 
+                  germanLabel="Einkommensart des Ehepartners"
+                  englishLabel="Spouse Income Type"
+                  value={formData.personalInfo.spouseIncomeType} 
+                />
+              )}
+            </>
+          )}
         </div>
 
         {/* Children Information - if applicable */}
@@ -148,8 +237,8 @@ const ReviewStep: React.FC<ReviewStepProps> = ({ formData }) => {
 
       {/* Employment Income */}
       <FormSection 
-        germanTitle={languageData.de.incomeInfo.title}
-        englishTitle={languageData.en.incomeInfo.title}
+        germanTitle={languageData.de.incomeInfo.title || "Beschäftigungseinkommen"}
+        englishTitle={languageData.en.incomeInfo.title || "Employment Income"}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InfoField 
@@ -178,6 +267,188 @@ const ReviewStep: React.FC<ReviewStepProps> = ({ formData }) => {
                 germanLabel={languageData.de.incomeInfo.hasTravelSubsidy}
                 englishLabel={languageData.en.incomeInfo.hasTravelSubsidy}
                 value={formatBoolean(formData.incomeInfo.hasTravelSubsidy)} 
+              />
+              {formData.incomeInfo.hasTravelSubsidy && (
+                <InfoField 
+                  germanLabel={languageData.de.incomeInfo.travelDistance}
+                  englishLabel={languageData.en.incomeInfo.travelDistance}
+                  value={`${formData.incomeInfo.travelDistance} km`} 
+                />
+              )}
+            </>
+          )}
+        </div>
+      </FormSection>
+      
+      {/* Business Income */}
+      <FormSection 
+        germanTitle={languageData.de.incomeInfo.businessTitle}
+        englishTitle={languageData.en.incomeInfo.businessTitle}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <InfoField 
+            germanLabel={languageData.de.incomeInfo.isBusinessOwner}
+            englishLabel={languageData.en.incomeInfo.isBusinessOwner}
+            value={formatBoolean(formData.incomeInfo.isBusinessOwner)} 
+          />
+          {formData.incomeInfo.isBusinessOwner && (
+            <>
+              <InfoField 
+                germanLabel={languageData.de.incomeInfo.businessType}
+                englishLabel={languageData.en.incomeInfo.businessType}
+                value={formData.incomeInfo.businessType} 
+              />
+              <InfoField 
+                germanLabel={languageData.de.incomeInfo.businessEarnings}
+                englishLabel={languageData.en.incomeInfo.businessEarnings}
+                value={formatCurrency(formData.incomeInfo.businessEarnings)} 
+              />
+              <InfoField 
+                germanLabel={languageData.de.incomeInfo.businessExpenses}
+                englishLabel={languageData.en.incomeInfo.businessExpenses}
+                value={formatCurrency(formData.incomeInfo.businessExpenses)} 
+              />
+            </>
+          )}
+        </div>
+      </FormSection>
+      
+      {/* Investments */}
+      <FormSection 
+        germanTitle={languageData.de.incomeInfo.investmentsTitle}
+        englishTitle={languageData.en.incomeInfo.investmentsTitle}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <InfoField 
+            germanLabel={languageData.de.incomeInfo.hasStockIncome}
+            englishLabel={languageData.en.incomeInfo.hasStockIncome}
+            value={formatBoolean(formData.incomeInfo.hasStockIncome)} 
+          />
+          {formData.incomeInfo.hasStockIncome && (
+            <>
+              <InfoField 
+                germanLabel={languageData.de.incomeInfo.dividendEarnings}
+                englishLabel={languageData.en.incomeInfo.dividendEarnings}
+                value={formatCurrency(formData.incomeInfo.dividendEarnings)} 
+              />
+              <InfoField 
+                germanLabel={languageData.de.incomeInfo.hasBankCertificate}
+                englishLabel={languageData.en.incomeInfo.hasBankCertificate}
+                value={formatBoolean(formData.incomeInfo.hasBankCertificate)} 
+              />
+              <InfoField 
+                germanLabel={languageData.de.incomeInfo.hasStockSales}
+                englishLabel={languageData.en.incomeInfo.hasStockSales}
+                value={formatBoolean(formData.incomeInfo.hasStockSales)} 
+              />
+              {formData.incomeInfo.hasStockSales && (
+                <InfoField 
+                  germanLabel={languageData.de.incomeInfo.stockProfitLoss}
+                  englishLabel={languageData.en.incomeInfo.stockProfitLoss}
+                  value={formatCurrency(Number(formData.incomeInfo.stockProfitLoss))} 
+                />
+              )}
+              <InfoField 
+                germanLabel={languageData.de.incomeInfo.hasForeignStocks}
+                englishLabel={languageData.en.incomeInfo.hasForeignStocks}
+                value={formatBoolean(formData.incomeInfo.hasForeignStocks)} 
+              />
+              {formData.incomeInfo.hasForeignStocks && (
+                <>
+                  <InfoField 
+                    germanLabel={languageData.de.incomeInfo.foreignTaxPaid}
+                    englishLabel={languageData.en.incomeInfo.foreignTaxPaid}
+                    value={formatCurrency(formData.incomeInfo.foreignTaxPaid)} 
+                  />
+                </>
+              )}
+            </>
+          )}
+        </div>
+      </FormSection>
+      
+      {/* Rental Income */}
+      <FormSection 
+        germanTitle={languageData.de.incomeInfo.rentalTitle}
+        englishTitle={languageData.en.incomeInfo.rentalTitle}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <InfoField 
+            germanLabel={languageData.de.incomeInfo.hasRentalProperty}
+            englishLabel={languageData.en.incomeInfo.hasRentalProperty}
+            value={formatBoolean(formData.incomeInfo.hasRentalProperty)} 
+          />
+          {formData.incomeInfo.hasRentalProperty && (
+            <>
+              <InfoField 
+                germanLabel={languageData.de.incomeInfo.rentalIncome}
+                englishLabel={languageData.en.incomeInfo.rentalIncome}
+                value={formatCurrency(formData.incomeInfo.rentalIncome)} 
+              />
+              <InfoField 
+                germanLabel={languageData.de.incomeInfo.rentalCosts}
+                englishLabel={languageData.en.incomeInfo.rentalCosts}
+                value={formatCurrency(formData.incomeInfo.rentalCosts)} 
+              />
+              
+              {/* Rental Property Address */}
+              <InfoField 
+                germanLabel="Adresse der Immobilie - Straße"
+                englishLabel="Rental Property Street"
+                value={formData.incomeInfo.rentalPropertyAddress.street} 
+              />
+              <InfoField 
+                germanLabel="Hausnummer"
+                englishLabel="House Number"
+                value={formData.incomeInfo.rentalPropertyAddress.houseNumber} 
+              />
+              <InfoField 
+                germanLabel="Postleitzahl"
+                englishLabel="Postal Code"
+                value={formData.incomeInfo.rentalPropertyAddress.postalCode} 
+              />
+              <InfoField 
+                germanLabel="Stadt"
+                englishLabel="City"
+                value={formData.incomeInfo.rentalPropertyAddress.city} 
+              />
+            </>
+          )}
+        </div>
+      </FormSection>
+      
+      {/* Foreign Income */}
+      <FormSection 
+        germanTitle={languageData.de.incomeInfo.foreignTitle}
+        englishTitle={languageData.en.incomeInfo.foreignTitle}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <InfoField 
+            germanLabel={languageData.de.incomeInfo.hasForeignIncome}
+            englishLabel={languageData.en.incomeInfo.hasForeignIncome}
+            value={formatBoolean(formData.incomeInfo.hasForeignIncome)} 
+          />
+          {formData.incomeInfo.hasForeignIncome && (
+            <>
+              <InfoField 
+                germanLabel={languageData.de.incomeInfo.foreignIncomeCountry}
+                englishLabel={languageData.en.incomeInfo.foreignIncomeCountry}
+                value={formData.incomeInfo.foreignIncomeCountry} 
+              />
+              <InfoField 
+                germanLabel={languageData.de.incomeInfo.foreignIncomeType}
+                englishLabel={languageData.en.incomeInfo.foreignIncomeType}
+                value={formData.incomeInfo.foreignIncomeType} 
+              />
+              <InfoField 
+                germanLabel={languageData.de.incomeInfo.foreignIncomeAmount}
+                englishLabel={languageData.en.incomeInfo.foreignIncomeAmount}
+                value={formatCurrency(formData.incomeInfo.foreignIncomeAmount)} 
+              />
+              <InfoField 
+                germanLabel={languageData.de.incomeInfo.foreignIncomeTaxPaid}
+                englishLabel={languageData.en.incomeInfo.foreignIncomeTaxPaid}
+                value={formatCurrency(formData.incomeInfo.foreignIncomeTaxPaid)} 
               />
             </>
           )}
@@ -235,6 +506,27 @@ const ReviewStep: React.FC<ReviewStepProps> = ({ formData }) => {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InfoField 
+            germanLabel={languageData.de.deductions.hasSpecialExpensesDetailed}
+            englishLabel={languageData.en.deductions.hasSpecialExpensesDetailed}
+            value={formatBoolean(formData.deductions.hasSpecialExpensesDetailed)} 
+          />
+          
+          {formData.deductions.hasSpecialExpensesDetailed && (
+            <>
+              <InfoField 
+                germanLabel={languageData.de.deductions.specialExpensesType}
+                englishLabel={languageData.en.deductions.specialExpensesType}
+                value={formData.deductions.specialExpensesType} 
+              />
+              <InfoField 
+                germanLabel={languageData.de.deductions.specialExpensesAmount}
+                englishLabel={languageData.en.deductions.specialExpensesAmount}
+                value={formatCurrency(formData.deductions.specialExpensesAmount)} 
+              />
+            </>
+          )}
+          
+          <InfoField 
             germanLabel={languageData.de.deductions.churchTax}
             englishLabel={languageData.en.deductions.churchTax}
             value={formatCurrency(formData.deductions.churchTax)} 
@@ -277,6 +569,46 @@ const ReviewStep: React.FC<ReviewStepProps> = ({ formData }) => {
         </div>
       </FormSection>
 
+      {/* Insurance Information */}
+      <FormSection 
+        germanTitle={languageData.de.deductions.insurancePremiums}
+        englishTitle={languageData.en.deductions.insurancePremiums}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <InfoField 
+            germanLabel={languageData.de.deductions.hasPrivateInsurance}
+            englishLabel={languageData.en.deductions.hasPrivateInsurance}
+            value={formatBoolean(formData.deductions.hasPrivateInsurance)} 
+          />
+          
+          {formData.deductions.hasPrivateInsurance && (
+            <>
+              <InfoField 
+                germanLabel={languageData.de.deductions.insuranceTypes}
+                englishLabel={languageData.en.deductions.insuranceTypes}
+                value={formData.deductions.insuranceTypes} 
+              />
+              <InfoField 
+                germanLabel={languageData.de.deductions.insuranceContributions}
+                englishLabel={languageData.en.deductions.insuranceContributions}
+                value={formatCurrency(formData.deductions.insuranceContributions)} 
+              />
+            </>
+          )}
+          
+          <InfoField 
+            germanLabel={languageData.de.deductions.privateHealthInsurance}
+            englishLabel={languageData.en.deductions.privateHealthInsurance}
+            value={formatCurrency(formData.deductions.privateHealthInsurance)} 
+          />
+          <InfoField 
+            germanLabel={languageData.de.deductions.privatePensionInsurance}
+            englishLabel={languageData.en.deductions.privatePensionInsurance}
+            value={formatCurrency(formData.deductions.privatePensionInsurance)} 
+          />
+        </div>
+      </FormSection>
+
       {/* Extraordinary Expenses */}
       <FormSection 
         germanTitle={languageData.de.deductions.extraordinaryExpenses}
@@ -305,6 +637,27 @@ const ReviewStep: React.FC<ReviewStepProps> = ({ formData }) => {
           />
         </div>
       </FormSection>
+
+      {/* Signature Information (if available) */}
+      {formData.signature && (
+        <FormSection 
+          germanTitle="Unterschrift"
+          englishTitle="Signature"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <InfoField 
+              germanLabel="Ort"
+              englishLabel="Place"
+              value={formData.signature.place} 
+            />
+            <InfoField 
+              germanLabel="Datum"
+              englishLabel="Date"
+              value={formData.signature.date} 
+            />
+          </div>
+        </FormSection>
+      )}
     </div>
   );
 };

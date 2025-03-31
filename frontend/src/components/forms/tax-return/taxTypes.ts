@@ -30,7 +30,8 @@ export interface Address {
     children: Child[];
   }
   
-  export interface IncomeInfo {
+  // Employment Income Step
+  export interface EmploymentInfo {
     isEmployed: boolean | undefined;
     employer: string;
     employmentIncome: number | null;
@@ -39,10 +40,18 @@ export interface Address {
     taxCertificateFile: string;
     hasTravelSubsidy: boolean | undefined;
     travelDistance?: number | null;
+  }
+  
+  // Business Income Step
+  export interface BusinessInfo {
     isBusinessOwner: boolean | undefined;
     businessType: string;
     businessEarnings: number | null;
     businessExpenses: number | null;
+  }
+  
+  // Investments Step
+  export interface InvestmentInfo {
     hasStockIncome: boolean | undefined;
     dividendEarnings: number | null;
     hasBankCertificate: boolean | undefined;
@@ -52,16 +61,33 @@ export interface Address {
     hasForeignStocks: boolean | undefined;
     foreignTaxPaid: number | null;
     foreignTaxCertificateFile: string;
+  }
+  
+  // Rental Income Step
+  export interface RentalInfo {
     hasRentalProperty: boolean | undefined;
     rentalIncome: number | null;
     rentalCosts: number | null;
     rentalPropertyAddress: Address;
+  }
+  
+  // Foreign Income Step
+  export interface ForeignIncomeInfo {
     hasForeignIncome: boolean | undefined;
     foreignIncomeCountry: string;
     foreignIncomeType: string;
     foreignIncomeAmount: number | null;
     foreignIncomeTaxPaid: number | null;
     foreignIncomeTaxCertificateFile: string;
+  }
+  
+  // Main IncomeInfo that combines all income related interfaces
+  export interface IncomeInfo extends 
+    EmploymentInfo, 
+    BusinessInfo, 
+    InvestmentInfo, 
+    RentalInfo, 
+    ForeignIncomeInfo {
   }
   
   export interface Deductions {
@@ -128,7 +154,6 @@ export interface Address {
   interface SignatureData {
     place: string;
     date: string;
-    time: string;
     signature: string;
   }
   
@@ -190,6 +215,7 @@ export interface Address {
       children: []
     },
     incomeInfo: {
+      // Employment Info
       isEmployed: undefined,
       employer: '',
       employmentIncome: null,
@@ -198,10 +224,14 @@ export interface Address {
       taxCertificateFile: '',
       hasTravelSubsidy: undefined,
       travelDistance: null,
+      
+      // Business Info
       isBusinessOwner: undefined,
       businessType: '',
       businessEarnings: null,
       businessExpenses: null,
+      
+      // Investment Info
       hasStockIncome: undefined,
       dividendEarnings: null,
       hasBankCertificate: undefined,
@@ -211,6 +241,8 @@ export interface Address {
       hasForeignStocks: undefined,
       foreignTaxPaid: null,
       foreignTaxCertificateFile: '',
+      
+      // Rental Info
       hasRentalProperty: undefined,
       rentalIncome: null,
       rentalCosts: null,
@@ -220,6 +252,8 @@ export interface Address {
         postalCode: '',
         city: ''
       },
+      
+      // Foreign Income Info
       hasForeignIncome: undefined,
       foreignIncomeCountry: '',
       foreignIncomeType: '',
