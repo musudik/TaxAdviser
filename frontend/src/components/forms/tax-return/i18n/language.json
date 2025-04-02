@@ -331,14 +331,50 @@
       }
     },
     "incomeInfo": {
+      "employment": {
+        "title": "Einkommen aus Anstellung",
+        "isEmployed": "Sind Sie angestellt?",
+        "employer": "Arbeitgeber",
+        "employmentIncome": "Einkommen aus Anstellung",
+        "hasTaxCertificate": "Haben Sie eine Lohnsteuerbescheinigung?",
+        "hasTravelSubsidy": "Erhalten Sie einen Fahrtkostenzuschuss?",
+        "travelDistance": "Entfernung in km",
+        "taxCertificate": "Lohnsteuerbescheinigung"
+      },
+      "business": {
+        "title": "Einkommen aus Selbstständigkeit",
+        "isBusinessOwner": "Sind Sie selbständig?",
+        "businessType": "Art der Selbständigkeit",
+        "businessEarnings": "Einnahmen aus Selbständigkeit",
+        "businessExpenses": "Ausgaben für Selbständigkeit"
+      },
+      "investments": {
+        "title": "Aktien & Investitionen",
+        "hasStockIncome": "Haben Sie Einkünfte aus Aktien?",
+        "dividendEarnings": "Dividendenerträge",
+        "hasStockSales": "Haben Sie Aktien verkauft?",
+        "stockProfitLoss": "Gewinn oder Verlust aus Aktienverkauf",
+        "hasBankCertificate": "Haben Sie eine Bankbescheinigung?",
+        "capitalGains": "Kapitalerträge",
+        "hasForeignStocks": "Haben Sie ausländische Aktien?",
+        "foreignTaxPaid": "Gezahlte ausländische Steuer"
+      },
+      "rental": {
+        "title": "Vermietung und Verpachtung",
+        "hasRentalProperty": "Haben Sie eine vermietete Immobilie?",
+        "rentalIncome": "Vermietung und Verpachtung",
+        "rentalCosts": "Mietkosten",
+        "rentalPropertyAddress": "Adresse der vermieteten Immobilie"
+      },
+      "foreign": {
+        "title": "Ausländische Einkünfte",
+        "hasForeignIncome": "Haben Sie ausländische Einkünfte?",
+        "foreignIncomeCountry": "Land der ausländischen Einkünfte",
+        "foreignIncomeType": "Art der ausländischen Einkünfte",
+        "foreignIncomeAmount": "Betrag der ausländischen Einkünfte",
+        "foreignIncomeTaxPaid": "Gezahlte ausländische Steuer"
+      },
       "title": "Einkommensinformationen",
-      "isEmployed": "Sind Sie angestellt?",
-      "employer": "Arbeitgeber",
-      "employmentIncome": "Einkommen aus Anstellung",
-      "hasTaxCertificate": "Haben Sie eine Lohnsteuerbescheinigung?",
-      "hasTravelSubsidy": "Erhalten Sie einen Fahrtkostenzuschuss?",
-      "travelDistance": "Entfernung in km",
-      "taxCertificate": "Lohnsteuerbescheinigung",
       "businessTitle": "Einkommen aus Selbstständigkeit",
       "isBusinessOwner": "Sind Sie selbständig?",
       "businessType": "Art der Selbständigkeit",
@@ -785,14 +821,49 @@
       }
     },
     "incomeInfo": {
-      "title": "Income Information",
-      "isEmployed": "Are you employed?",
-      "employer": "Employer",
-      "employmentIncome": "Employment Income",
-      "hasTaxCertificate": "Do you have a tax certificate?",
-      "hasTravelSubsidy": "Do you receive a travel subsidy?",
-      "travelDistance": "Distance in km",
-      "taxCertificate": "Tax Certificate",
+      "employment": {
+        "title": "Income Information",
+        "isEmployed": "Are you employed?",
+        "employer": "Employer",
+        "employmentIncome": "Employment Income",
+        "hasTaxCertificate": "Do you have a tax certificate?",
+        "hasTravelSubsidy": "Do you receive a travel subsidy?",
+        "travelDistance": "Distance in km",
+        "taxCertificate": "Tax Certificate"
+      },
+      "business": {
+        "title": "Self-Employment Income",
+        "isBusinessOwner": "Are you self-employed?",
+        "businessType": "Type of self-employment",
+        "businessEarnings": "Self-employment earnings",
+        "businessExpenses": "Self-employment expenses"
+      },
+      "investments": {
+        "title": "Investment Income",
+        "hasStockIncome": "Do you have income from stocks?",
+        "dividendEarnings": "Dividend earnings",
+        "hasStockSales": "Did you sell stocks?",
+        "stockProfitLoss": "Profit or loss from stock sales",
+        "hasBankCertificate": "Do you have a bank certificate?",
+        "capitalGains": "Capital gains",
+        "hasForeignStocks": "Do you have foreign stocks?",
+        "foreignTaxPaid": "Foreign tax paid"
+      },
+      "rental": {
+        "title": "Rental Income",
+        "hasRentalProperty": "Do you have a rental property?",
+        "rentalIncome": "Rental income",
+        "rentalCosts": "Rental costs",
+        "rentalPropertyAddress": "Rental property address"
+      },
+      "foreign": {
+        "title": "Foreign Income",
+        "hasForeignIncome": "Do you have foreign income?",
+        "foreignIncomeCountry": "Foreign income country",
+        "foreignIncomeType": "Foreign income type",
+        "foreignIncomeAmount": "Foreign income amount",
+        "foreignIncomeTaxPaid": "Foreign income tax paid"
+      },
       "businessTitle": "Self-Employment Income",
       "isBusinessOwner": "Are you self-employed?",
       "businessType": "Type of self-employment",

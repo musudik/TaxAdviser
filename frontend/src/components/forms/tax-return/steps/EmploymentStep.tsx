@@ -31,16 +31,16 @@ const EmploymentStep: React.FC<EmploymentStepProps> = ({
   return (
     <div>
       <FormSection 
-        germanTitle={languageData.de.incomeInfo.title} 
-        englishTitle={languageData.en.incomeInfo.title}
+        germanTitle={languageData.de.incomeInfo.employment.title} 
+        englishTitle={languageData.en.incomeInfo.employment.title}
       >
         <div className="space-y-6">
           {/* Employment Status Question */}
           <div className="form-group">
             <Label 
               htmlFor="isEmployed"
-              germanText={<div className="font-bold">{languageData.de.incomeInfo.isEmployed}</div>}
-              englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.isEmployed}</div>}
+              germanText={<div className="font-bold">{languageData.de.incomeInfo.employment.isEmployed}</div>}
+              englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.employment.isEmployed}</div>}
             />
             <div className="flex space-x-4 mt-2">
               <div className="flex items-center">
@@ -73,7 +73,7 @@ const EmploymentStep: React.FC<EmploymentStepProps> = ({
             {hasError('incomeInfo', 'isEmployed') && showValidationErrors && (
               <p className="text-red-500 text-sm mt-1">
                 {typeof validationErrors?.incomeInfo?.isEmployed === 'string'
-                  ? validationErrors.incomeInfo.isEmployed
+                  ? validationErrors.incomeInfo.employment.isEmployed
                   : 'Bitte wählen Sie eine Option aus / Please select an option'}
               </p>
             )}
@@ -85,8 +85,8 @@ const EmploymentStep: React.FC<EmploymentStepProps> = ({
               <div className="form-group">
                 <Label 
                   htmlFor="employer"
-                  germanText={<div className="font-bold">{languageData.de.incomeInfo.employer}</div>}
-                  englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.employer}</div>}
+                  germanText={<div className="font-bold">{languageData.de.incomeInfo.employment.employer}</div>}
+                  englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.employment.employer}</div>}
                 />
                 <Input
                   id="employer"
@@ -99,7 +99,7 @@ const EmploymentStep: React.FC<EmploymentStepProps> = ({
                 {hasError('incomeInfo', 'employer') && showValidationErrors && (
                   <p className="text-red-500 text-sm mt-1">
                     {typeof validationErrors?.incomeInfo?.employer === 'string'
-                      ? validationErrors.incomeInfo.employer
+                      ? validationErrors.incomeInfo.employment.employer
                       : 'Dieses Feld ist erforderlich / This field is required'}
                   </p>
                 )}
@@ -109,8 +109,8 @@ const EmploymentStep: React.FC<EmploymentStepProps> = ({
               <div className="form-group">
                 <Label 
                   htmlFor="employmentIncome"
-                  germanText={<div className="font-bold">{languageData.de.incomeInfo.employmentIncome}</div>}
-                  englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.employmentIncome}</div>}
+                  germanText={<div className="font-bold">{languageData.de.incomeInfo.employment.employmentIncome}</div>}
+                  englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.employment.employmentIncome}</div>}
                 />
                 <Input
                   id="employmentIncome"
@@ -123,7 +123,7 @@ const EmploymentStep: React.FC<EmploymentStepProps> = ({
                 {hasError('incomeInfo', 'employmentIncome') && showValidationErrors && (
                   <p className="text-red-500 text-sm mt-1">
                     {typeof validationErrors?.incomeInfo?.employmentIncome === 'string'
-                      ? validationErrors.incomeInfo.employmentIncome
+                      ? validationErrors.incomeInfo.employment.employmentIncome
                       : 'Bitte geben Sie einen gültigen Betrag ein / Please enter a valid amount'}
                   </p>
                 )}
@@ -133,8 +133,8 @@ const EmploymentStep: React.FC<EmploymentStepProps> = ({
               <div className="form-group">
                 <Label 
                   htmlFor="hasTaxCertificate"
-                  germanText={<div className="font-bold">{languageData.de.incomeInfo.hasTaxCertificate}</div>}
-                  englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.hasTaxCertificate}</div>}
+                  germanText={<div className="font-bold">{languageData.de.incomeInfo.employment.hasTaxCertificate}</div>}
+                  englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.employment.hasTaxCertificate}</div>}
                 />
                 <div className="flex space-x-4 mt-2">
                   <div className="flex items-center">
@@ -167,7 +167,7 @@ const EmploymentStep: React.FC<EmploymentStepProps> = ({
                 {hasError('incomeInfo', 'hasTaxCertificate') && showValidationErrors && (
                   <p className="text-red-500 text-sm mt-1">
                     {typeof validationErrors?.incomeInfo?.hasTaxCertificate === 'string'
-                      ? validationErrors.incomeInfo.hasTaxCertificate
+                      ? validationErrors.incomeInfo.employment.hasTaxCertificate
                       : 'Bitte wählen Sie eine Option aus / Please select an option'}
                   </p>
                 )}
@@ -177,8 +177,8 @@ const EmploymentStep: React.FC<EmploymentStepProps> = ({
                 <div className="form-group">
                   <Label 
                     htmlFor="taxCertificateFile"
-                    germanText={<div className="font-bold">{languageData.de.incomeInfo.taxCertificate}</div>}
-                    englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.taxCertificate}</div>}
+                    germanText={<div className="font-bold">{languageData.de.incomeInfo.employment.taxCertificate}</div>}
+                    englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.employment.taxCertificate}</div>}
                   />
                   <Input
                     id="taxCertificateFile"
@@ -195,7 +195,7 @@ const EmploymentStep: React.FC<EmploymentStepProps> = ({
                   {hasError('incomeInfo', 'taxCertificateFile') && showValidationErrors && (
                     <p className="text-red-500 text-sm mt-1">
                       {typeof validationErrors?.incomeInfo?.taxCertificateFile === 'string'
-                        ? validationErrors.incomeInfo.taxCertificateFile
+                        ? validationErrors.incomeInfo.employment.taxCertificateFile
                         : 'Bitte laden Sie die Steuerbescheinigung hoch / Please upload the tax certificate'}
                     </p>
                   )}
@@ -206,8 +206,8 @@ const EmploymentStep: React.FC<EmploymentStepProps> = ({
               <div className="form-group">
                 <Label 
                   htmlFor="hasTravelSubsidy"
-                  germanText={<div className="font-bold">{languageData.de.incomeInfo.hasTravelSubsidy}</div>}
-                  englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.hasTravelSubsidy}</div>}
+                  germanText={<div className="font-bold">{languageData.de.incomeInfo.employment.hasTravelSubsidy}</div>}
+                  englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.employment.hasTravelSubsidy}</div>}
                 />
                 <div className="flex space-x-4 mt-2">
                   <div className="flex items-center">
@@ -240,7 +240,7 @@ const EmploymentStep: React.FC<EmploymentStepProps> = ({
                 {hasError('incomeInfo', 'hasTravelSubsidy') && showValidationErrors && (
                   <p className="text-red-500 text-sm mt-1">
                     {typeof validationErrors?.incomeInfo?.hasTravelSubsidy === 'string'
-                      ? validationErrors.incomeInfo.hasTravelSubsidy
+                      ? validationErrors.incomeInfo.employment.hasTravelSubsidy
                       : 'Bitte wählen Sie eine Option aus / Please select an option'}
                   </p>
                 )}
@@ -250,8 +250,8 @@ const EmploymentStep: React.FC<EmploymentStepProps> = ({
                 <div className="form-group">
                   <Label 
                     htmlFor="travelDistance"
-                    germanText={<div className="font-bold">{languageData.de.incomeInfo.travelDistance}</div>}
-                    englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.travelDistance}</div>}
+                    germanText={<div className="font-bold">{languageData.de.incomeInfo.employment.travelDistance}</div>}
+                    englishText={<div className="text-neutral-600">{languageData.en.incomeInfo.employment.travelDistance}</div>}
                   />
                   <Input
                     id="travelDistance"
@@ -264,7 +264,7 @@ const EmploymentStep: React.FC<EmploymentStepProps> = ({
                   {hasError('incomeInfo', 'travelDistance') && showValidationErrors && (
                     <p className="text-red-500 text-sm mt-1">
                       {typeof validationErrors?.incomeInfo?.travelDistance === 'string'
-                        ? validationErrors.incomeInfo.travelDistance
+                        ? validationErrors.incomeInfo.employment.travelDistance
                         : 'Bitte geben Sie die Entfernung ein / Please enter the travel distance'}
                     </p>
                   )}

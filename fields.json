@@ -1,0 +1,142 @@
+{
+  "taxForm": {
+    "personalInfo": {
+      "title": "Personal Information",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "taxId": "Tax ID",
+      "dateOfBirth": "Date of Birth",
+      "maritalStatus": "Marital Status",
+      "email": "Email",
+      "phone": "Phone",
+      "address": {
+        "title": "Address",
+        "street": "Street",
+        "houseNumber": "House Number",
+        "postalCode": "Postal Code",
+        "city": "City"
+      },
+      "foreignResidence": {
+        "title": "Foreign Residence",
+        "hasResidence": "Do you have a residence abroad?",
+        "country": "Country",
+        "otherCountry": "Other Country"
+      },
+      "spouse": {
+        "title": "Spouse Information",
+        "hasSpouse": "Are you married or in a registered partnership?",
+        "firstName": "Spouse's First Name",
+        "lastName": "Spouse's Last Name",
+        "dateOfBirth": "Spouse's Date of Birth",
+        "taxId": "Spouse's Tax ID",
+        "hasIncome": "Does your spouse have their own income?",
+        "incomeType": "Type of Income",
+        "jointTaxation": "Do you want to choose joint taxation?"
+      },
+      "children": {
+        "hasChildren": "Do you have children?",
+        "title": "Children",
+        "child": "Child",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "dateOfBirth": "Date of Birth",
+        "taxId": "Tax ID",
+        "add": "Add Child",
+        "remove": "Remove Child"
+      }
+    },
+    "incomeInfo": {
+      "employment": {
+        "title": "Income Information",
+        "isEmployed": "Are you employed?",
+        "employer": "Employer",
+        "employmentIncome": "Employment Income",
+        "hasTaxCertificate": "Do you have a tax certificate?",
+        "hasTravelSubsidy": "Do you receive a travel subsidy?",
+        "travelDistance": "Distance in km",
+        "taxCertificate": "Tax Certificate"
+      },
+      "business": {
+        "title": "Self-Employment Income",
+        "isBusinessOwner": "Are you self-employed?",
+        "businessType": "Type of self-employment",
+        "businessEarnings": "Self-employment earnings",
+        "businessExpenses": "Self-employment expenses"
+      },
+      "investments": {
+        "title": "Investment Income",
+        "hasStockIncome": "Do you have income from stocks?",
+        "dividendEarnings": "Dividend earnings",
+        "hasStockSales": "Did you sell stocks?",
+        "stockProfitLoss": "Profit or loss from stock sales",
+        "hasBankCertificate": "Do you have a bank certificate?",
+        "capitalGains": "Capital gains",
+        "hasForeignStocks": "Do you have foreign stocks?",
+        "foreignTaxPaid": "Foreign tax paid"
+      }
+    },
+    "expenses": {
+      "title": "Expenses & Deductions",
+      "insurancePremiums": {
+        "title": "Insurance Premiums",
+        "statutoryHealthInsurance": {
+          "statutory": "Statutory health",
+          "longterm": "Long-term care insurance"
+        },
+        "privateHealthInsurance": {
+          "private": "Private health",
+          "longterm": "Long-term care insurance"
+        },
+        "statutoryPensionInsurance": {
+          "title": "Statutory pension insurance contributions",
+          "employer": "Employer",
+          "employee": "Employee"
+        },
+        "privatePensionInsurance": "Private pension insurance contributions (Rürup pension)",
+        "unemploymentInsurance": "Unemployment insurance contributions",
+        "accidentLiabilityInsurance": "Accident and liability insurance contributions",
+        "disabilityInsurance": "Disability insurance contributions",
+        "termLifeInsurance": "Term life insurance contributions"
+      },
+      "craftsmenServices": {
+        "title": "Did you use craftsmen services?",
+        "hasMaintenancePayments": "Did you make maintenance payments?",
+        "maintenanceRecipient": "Recipient of maintenance payments",
+        "maintenanceAmount": "Amount of maintenance payments",
+        "invoiceCraftsmenServices": "Please upload the invoice for craftsmen services",
+        "householdServices": "Household services",
+        "craftsmenServices": "Craftsmen services",
+        "gardeningServices": "Gardening and winter services",
+        "cleaningServices": "Apartment and window cleaning",
+        "caretakerServices": "Caretaker and house cleaning services",
+        "householdCareCosts": "Care costs for children or persons in need of care",
+        "householdSupportServices": "Costs for household-related care and support services",
+        "chimneySweepFees": "Chimney sweep fees",
+        "emergencySystemCosts": "Costs for household emergency systems"
+      },
+      "rentalAndLeasing": {
+        "title": "Rental & Leasing",
+        "ownerFirstName": "First Name",
+        "ownerLastName": "Last Name",
+        "address": "Address",
+        "Purchase Date": "Date of Purchase",
+        "documents": {
+          "rentalContracts": "Rental Contracts",
+          "annualStatements": "Annual Property Management Statements",
+          "operatingCosts": "Operating Cost Statements",
+          "propertyTax": "Property Tax Assessments",
+          "loanContracts": "Loan Contracts and Interest Certificates",
+          "repairBills": "Repair and Maintenance Bills",
+          "craftsmenBills": "Craftsmen Bills",
+          "renovationProof": "Renovation and Modernization Proof",
+          "insurancePremiums": "Insurance Premiums (e.g., Building Insurance)",
+          "brokerFees": "Broker Fees",
+          "rentalIncome": "Rental Income Overview",
+          "vacancyProof": "Vacancy Proof (e.g., Advertisements, Broker Assignments)",
+          "managementCosts": "Property Management Costs",
+          "depreciationProof": "Depreciation Documentation (e.g., Purchase Contract, Appraisals)"
+        }
+      }
+    }
+  }
+}

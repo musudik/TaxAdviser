@@ -9,6 +9,7 @@ import ClientDashboard from './components/dashboard/ClientDashboard';
 import TaxAgentDashboard from './components/dashboard/TaxAgentDashboard';
 import AdminDashboard from './components/dashboard/AdminDashboard';
 import TaxReturnPage from './components/forms/tax-return/TaxReturnPage';
+import TaxFormBase from './components/forms/tax-form/TaxFormBase';
 import './styles/globals.css';
 
 function App() {
@@ -54,6 +55,16 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={[UserRole.CLIENT]}>
                 <TaxReturnPage />
+              </ProtectedRoute>
+            }
+          />
+          
+          {/* Tax Form Route */}
+          <Route
+            path="/tax-form"
+            element={
+              <ProtectedRoute allowedRoles={[UserRole.CLIENT]}>
+                <TaxFormBase />
               </ProtectedRoute>
             }
           />

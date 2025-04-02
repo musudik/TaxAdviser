@@ -10,7 +10,7 @@ import PersonalInfoStep from './steps/PersonalInfoStep';
 import RentalStep from './steps/RentalStep';
 import ReviewStep from './steps/ReviewStep';
 import SignatureStep from './steps/SignatureStep';
-import { TaxFormData, initialTaxFormData, Address } from './taxTypes';
+import { TaxFormData, initialTaxFormData } from './taxTypes';
 import { validateTaxForm } from './validation';
 import { useLocation } from 'react-router-dom';
 import languageData from './i18n/language.json';

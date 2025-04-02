@@ -195,6 +195,33 @@ householdServices.forEach(service => {
   expensesY += 15;
 });
 
+// Add Employment Income section
+doc.addPage();
+doc.setFontSize(16);
+doc.setFont('helvetica', 'bold'); 
+doc.text(`${languageData.de.incomeInfo.employmentTitle} / ${languageData.en.incomeInfo.employmentTitle}`, 20, 20);
+
+doc.setFontSize(12);
+doc.setFont('helvetica', 'normal');
+let employmentY = 40;
+
+// Employment income
+doc.setFont('helvetica', 'bold');
+doc.text(`${languageData.de.incomeInfo.employmentIncome} / ${languageData.en.incomeInfo.employmentIncome}:`, 20, employmentY);
+doc.setFont('helvetica', 'normal');
+doc.text(`${formData.incomeInfo.employmentIncome || '0'} €`, 200, employmentY);
+employmentY += 15;  
+
+
+// Employment expenses hasTravelSubsidy
+if (formData.incomeInfo.hasTravelSubsidy) {
+  doc.setFont('helvetica', 'bold');
+  doc.text(`${languageData.de.incomeInfo.travelDistance} / ${languageData.en.incomeInfo.travelDistance}:`, 20, employmentY);
+  doc.setFont('helvetica', 'normal');
+  doc.text(formData.incomeInfo.travelDistance, employmentY);
+  employmentY += 15;
+}
+
 // Add Business Income section
 doc.addPage();
 doc.setFontSize(16);

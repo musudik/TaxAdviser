@@ -237,41 +237,41 @@ const ReviewStep: React.FC<ReviewStepProps> = ({ formData }) => {
 
       {/* Employment Income */}
       <FormSection 
-        germanTitle={languageData.de.incomeInfo.title || "Beschäftigungseinkommen"}
-        englishTitle={languageData.en.incomeInfo.title || "Employment Income"}
+        germanTitle={languageData.de.incomeInfo.employment.title || "Beschäftigungseinkommen"}
+        englishTitle={languageData.en.incomeInfo.employment.title || "Employment Income"}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InfoField 
-            germanLabel={languageData.de.incomeInfo.isEmployed}
-            englishLabel={languageData.en.incomeInfo.isEmployed}
+            germanLabel={languageData.de.incomeInfo.employment.isEmployed}
+            englishLabel={languageData.en.incomeInfo.employment.isEmployed}
             value={formatBoolean(formData.incomeInfo.isEmployed)} 
           />
           {formData.incomeInfo.isEmployed && (
             <>
               <InfoField 
-                germanLabel={languageData.de.incomeInfo.employer}
-                englishLabel={languageData.en.incomeInfo.employer}
+                germanLabel={languageData.de.incomeInfo.employment.employer}
+                englishLabel={languageData.en.incomeInfo.employment.employer}
                 value={formData.incomeInfo.employer} 
               />
               <InfoField 
-                germanLabel={languageData.de.incomeInfo.employmentIncome}
-                englishLabel={languageData.en.incomeInfo.employmentIncome}
+                germanLabel={languageData.de.incomeInfo.employment.employmentIncome}
+                englishLabel={languageData.en.incomeInfo.employment.employmentIncome}
                 value={formatCurrency(formData.incomeInfo.employmentIncome)} 
               />
               <InfoField 
-                germanLabel={languageData.de.incomeInfo.hasTaxCertificate}
-                englishLabel={languageData.en.incomeInfo.hasTaxCertificate}
+                germanLabel={languageData.de.incomeInfo.employment.hasTaxCertificate}
+                englishLabel={languageData.en.incomeInfo.employment.hasTaxCertificate}
                 value={formatBoolean(formData.incomeInfo.hasTaxCertificate)} 
               />
               <InfoField 
-                germanLabel={languageData.de.incomeInfo.hasTravelSubsidy}
-                englishLabel={languageData.en.incomeInfo.hasTravelSubsidy}
+                germanLabel={languageData.de.incomeInfo.employment.hasTravelSubsidy}
+                englishLabel={languageData.en.incomeInfo.employment.hasTravelSubsidy}
                 value={formatBoolean(formData.incomeInfo.hasTravelSubsidy)} 
               />
               {formData.incomeInfo.hasTravelSubsidy && (
                 <InfoField 
-                  germanLabel={languageData.de.incomeInfo.travelDistance}
-                  englishLabel={languageData.en.incomeInfo.travelDistance}
+                  germanLabel={languageData.de.incomeInfo.employment.travelDistance}
+                  englishLabel={languageData.en.incomeInfo.employment.travelDistance}
                   value={`${formData.incomeInfo.travelDistance} km`} 
                 />
               )}
