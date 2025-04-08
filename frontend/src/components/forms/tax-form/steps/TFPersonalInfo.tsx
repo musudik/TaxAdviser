@@ -3,12 +3,13 @@ import FKInputField from '../../../ui/FKInputField';
 import FKYesNo from '../../../ui/FKYesNo';
 import FKSelectField from '../../../ui/FKSelectField';
 import { ValidationErrors } from '../validation'; // Import type
+import { LanguageCode } from '../constants';
 
 // Define props passed from TaxFormBase
 interface TFPersonalInfoProps {
   formData: { [key: string]: any }; // Use the actual TaxFormData type later
   handleChange: (section: string, field: string, value: any) => void; // Update signature later if needed
-  selectedLanguage: 'en' | 'es' | 'fr' | 'it';
+  selectedLanguage: LanguageCode;
   i18nData: any; // Replace with specific LanguageData type later
   germanI18nData: any; // Replace with specific LanguageData type later
   validationErrors: ValidationErrors | null; // Add prop for validation errors
@@ -26,15 +27,15 @@ const FormSection = ({ title, children }: { title: React.ReactNode, children: Re
 );
 
 const TFPersonalInfo: React.FC<TFPersonalInfoProps> = ({ formData, handleChange, selectedLanguage, i18nData, germanI18nData, validationErrors, showValidationErrors }) => {
-  // Helper to get nested value safely, with type casting
-  const getValue = (path: string): any => { // Return type any for now
-    try {
-        return path.split('.').reduce((obj, key) => (obj && obj[key] !== undefined ? obj[key] : null), formData.personalInfo || {});
-    } catch (error) {
-        console.error("Error in getValue:", { path, formData });
-        return null; // Return null on error
-    }
-  };
+  // // Helper to get nested value safely, with type casting
+  // const getValue = (path: string): any => { // Return type any for now
+  //   try {
+  //       return path.split('.').reduce((obj, key) => (obj && obj[key] !== undefined ? obj[key] : null), formData.personalInfo || {});
+  //   } catch (error) {
+  //       console.error("Error in getValue:", { path, formData });
+  //       return null; // Return null on error
+  //   }
+  // };
 
   // Helper to call handleChange with section prefix
   const handleFieldChange = (field: string, value: any) => {
@@ -51,7 +52,6 @@ const TFPersonalInfo: React.FC<TFPersonalInfoProps> = ({ formData, handleChange,
   // --- Helper to get error message key for a field ---
   const getErrorKey = (field: string): string | undefined => {
     if (!showValidationErrors || !validationErrors?.personalInfo) {
-        console.log(`getErrorKey: No errors to show or no personalInfo errors for ${field}`);
         return undefined;
     }
 

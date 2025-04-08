@@ -223,7 +223,7 @@ export const validateIncomeInfo = (incomeInfo: TaxFormData['incomeInfo']) => {
     } else if (typeof incomeInfo.dividendEarnings === 'number' && incomeInfo.dividendEarnings < 0) {
       errors.dividendEarnings = 'Der Wert kann nicht negativ sein / Value cannot be negative';
     }
-
+    
     if (incomeInfo.hasStockSales) {
       if (incomeInfo.stockProfitLoss === undefined) {
         errors.stockProfitLoss = 'Bitte geben Sie Ihren Gewinn/Verlust an / Please enter your profit/loss';
@@ -495,11 +495,11 @@ export const validateTaxForm = (formData: TaxFormData, step: number): Validation
   // Validate based on current step
   switch (step) {
     case 0: // Personal Info Step
-      // Validate personal info
-      const personalInfoErrors = validatePersonalInfo(formData.personalInfo);
-      if (Object.values(personalInfoErrors).some(error => 
-          typeof error === 'boolean' ? error : Object.values(error).some(e => e))) {
-        errors.personalInfo = personalInfoErrors;
+  // Validate personal info
+  const personalInfoErrors = validatePersonalInfo(formData.personalInfo);
+  if (Object.values(personalInfoErrors).some(error => 
+      typeof error === 'boolean' ? error : Object.values(error).some(e => e))) {
+    errors.personalInfo = personalInfoErrors;
       }
       break;
       
@@ -664,7 +664,7 @@ export const validateTaxForm = (formData: TaxFormData, step: number): Validation
       
       // Only add rental errors if there are any
       if (Object.values(rentalErrors).some(error => 
-          typeof error === 'boolean' ? error : Object.values(error).some(e => e))) {
+      typeof error === 'boolean' ? error : Object.values(error).some(e => e))) {
         if (!errors.incomeInfo) errors.incomeInfo = {};
         Object.assign(errors.incomeInfo, rentalErrors);
       }

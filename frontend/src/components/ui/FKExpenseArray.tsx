@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FKInputField from './FKInputField';
-import { cn } from '@/lib/utils';
+import { cn } from '../../lib/utils';
 
 interface ExpenseItem {
   id: string;

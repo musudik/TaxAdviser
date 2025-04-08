@@ -11,6 +11,12 @@
     "spouseRequired": "Spouse information is required for married/registered partnerships",
     "childRequired": "Child information is required when you have children"
   },
+  "businessType": {
+    "freelance": "Freelance",
+    "trade": "Trade",
+    "agriculture": "Agriculture",
+    "other": "Other"
+  },
   "maritalStatus": {
     "single": "Single",
     "married": "Married",
@@ -274,49 +280,117 @@
     },
     "expenses": {
       "title": "Expenses & Deductions",
+      "workRelatedExpenses": {
+        "title": "Work-Related Expenses",
+        "commutation": {
+          "title": "Commuting Expenses",
+          "hasCommutingExpenses": "Do you have Commuting Expenses?",
+          "workingDaysCount": "Number of working days (230 Max)",
+          "route": {
+            "from": {
+              "street": "Street",
+              "houseNumber": "House Number",
+              "postalCode": "Postal Code",
+              "city": "City"
+            },
+            "firstOfficeAddress": {
+              "street": "Street",
+              "houseNumber": "House Number",
+              "postalCode": "Postal Code",
+              "city": "City"
+            },
+            "secondOfficeAddress": {
+              "street": "Street",
+              "houseNumber": "House Number",
+              "postalCode": "Postal Code",
+              "city": "City"
+            }
+          }
+        },
+        "businessTripsCosts": {
+          "title": "Business Trips and Training Costs",
+          "proof": "Upload Proof"
+        },
+        "workEquipment": {
+          "title": "Work Equipment",
+          "hasWorkEquipment": "Do you have Work Equipment expenses?"
+        },
+        "homeOffice": {
+          "title": "Home Office Allowance",
+          "hasHomeOffice": "Do you have a home office?",
+          "workingDaysCount": "Number of home office days (230 Max)"
+        },
+        "applicationCosts": {
+          "title": "Job Application Costs",
+          "online": "Number of Online Applications",
+          "inPerson": "Number of In-Person Applications"
+        },
+        "hasDoubleHouseholdMgmt": "Did you have double household management?"
+      },
+      "specialExpenses": {
+        "title": "Special Expenses",
+        "churchTax": "Church Tax",
+        "donationsAndFees": "Donations and Membership Fees",
+        "childcareCosts": "Childcare Costs",
+        "supportPayments": "Do you make payments to support needy persons?",
+        "privateSchoolFees": "Private School Fees",
+        "retirementProvisions": "Retirement Provisions",
+        "otherInsuranceExpenses": "Other Insurance Expenses",
+        "professionalTrainingCosts": "Professional Training Costs"
+      },
+      "extraordinaryExpenses": {
+        "title": "Extraordinary Expenses",
+        "medicalExpenses": "Medical Expenses (Doctor, Medicine, Hospital)",
+        "rehabilitationCosts": "Cure and Rehabilitation Costs",
+        "careCosts": "Care Costs",
+        "disabilityExpenses": "Disability-Related Expenses",
+        "funeralCosts": "Funeral Costs",
+        "relativesSupportCosts": "Support Costs for Needy Relatives",
+        "divorceCosts": "Divorce Costs"
+      },
       "insurancePremiums": {
         "title": "Insurance Premiums",
         "statutoryHealthInsurance": {
-          "statutory": "Statutory health",
-          "longterm": "Long-term care insurance"
+          "statutory": "Statutory Health",
+          "longterm": "Long-Term Care Insurance"
         },
         "privateHealthInsurance": {
-          "private": "Private health",
-          "longterm": "Long-term care insurance"
+          "private": "Private Health",
+          "longterm": "Long-Term Care Insurance"
         },
         "statutoryPensionInsurance": {
-          "title": "Statutory pension insurance contributions",
+          "title": "Statutory Pension Insurance Contributions",
           "employer": "Employer",
           "employee": "Employee"
         },
-        "privatePensionInsurance": "Private pension insurance contributions (Rürup pension)",
-        "unemploymentInsurance": "Unemployment insurance contributions",
-        "accidentLiabilityInsurance": "Accident and liability insurance contributions",
-        "disabilityInsurance": "Disability insurance contributions",
-        "termLifeInsurance": "Term life insurance contributions"
+        "privatePensionInsurance": "Private Pension Insurance Contributions (Rürup Pension)",
+        "unemploymentInsurance": "Unemployment Insurance Contributions",
+        "accidentLiabilityInsurance": "Accident and Liability Insurance Contributions",
+        "disabilityInsurance": "Disability Insurance Contributions",
+        "termLifeInsurance": "Term Life Insurance Contributions"
       },
       "craftsmenServices": {
-        "title": "Did you use craftsmen services?",
+        "title": "Did you hire craftsmen services?",
         "hasMaintenancePayments": "Did you make maintenance payments?",
-        "maintenanceRecipient": "Recipient of maintenance payments",
-        "maintenanceAmount": "Amount of maintenance payments",
+        "maintenanceRecipient": "Recipient of Maintenance Payments",
+        "maintenanceAmount": "Amount of Maintenance Payments",
         "invoiceCraftsmenServices": "Please upload the invoice for craftsmen services",
-        "householdServices": "Household services",
-        "craftsmenServices": "Craftsmen services",
-        "gardeningServices": "Gardening and winter services",
-        "cleaningServices": "Apartment and window cleaning",
-        "caretakerServices": "Caretaker and house cleaning services",
-        "householdCareCosts": "Care costs for children or persons in need of care",
-        "householdSupportServices": "Costs for household-related care and support services",
-        "chimneySweepFees": "Chimney sweep fees",
-        "emergencySystemCosts": "Costs for household emergency systems"
+        "householdServices": "Household Services",
+        "craftsmenServices": "Craftsmen Services",
+        "gardeningServices": "Gardening and Winter Services",
+        "cleaningServices": "Apartment and Window Cleaning",
+        "caretakerServices": "Caretaker and House Cleaning Services",
+        "householdCareCosts": "Care Costs for Children or Persons in Need of Care",
+        "householdSupportServices": "Costs for Household-Related Care and Support Services",
+        "chimneySweepFees": "Chimney Sweep Fees",
+        "emergencySystemCosts": "Costs for Household Emergency Systems"
       },
       "rentalAndLeasing": {
         "title": "Rental & Leasing",
         "ownerFirstName": "First Name",
         "ownerLastName": "Last Name",
         "address": "Address",
-        "Purchase Date": "Date of Purchase",
+        "purchaseDate": "Date of Purchase",
         "documents": {
           "rentalContracts": "Rental Contracts",
           "annualStatements": "Annual Property Management Statements",

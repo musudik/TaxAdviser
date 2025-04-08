@@ -333,11 +333,11 @@
     "incomeInfo": {
       "employment": {
         "title": "Einkommen aus Anstellung",
-        "isEmployed": "Sind Sie angestellt?",
-        "employer": "Arbeitgeber",
-        "employmentIncome": "Einkommen aus Anstellung",
-        "hasTaxCertificate": "Haben Sie eine Lohnsteuerbescheinigung?",
-        "hasTravelSubsidy": "Erhalten Sie einen Fahrtkostenzuschuss?",
+      "isEmployed": "Sind Sie angestellt?",
+      "employer": "Arbeitgeber",
+      "employmentIncome": "Einkommen aus Anstellung",
+      "hasTaxCertificate": "Haben Sie eine Lohnsteuerbescheinigung?",
+      "hasTravelSubsidy": "Erhalten Sie einen Fahrtkostenzuschuss?",
         "travelDistance": "Entfernung in km",
         "taxCertificate": "Lohnsteuerbescheinigung"
       },
@@ -822,12 +822,12 @@
     },
     "incomeInfo": {
       "employment": {
-        "title": "Income Information",
-        "isEmployed": "Are you employed?",
-        "employer": "Employer",
-        "employmentIncome": "Employment Income",
-        "hasTaxCertificate": "Do you have a tax certificate?",
-        "hasTravelSubsidy": "Do you receive a travel subsidy?",
+      "title": "Income Information",
+      "isEmployed": "Are you employed?",
+      "employer": "Employer",
+      "employmentIncome": "Employment Income",
+      "hasTaxCertificate": "Do you have a tax certificate?",
+      "hasTravelSubsidy": "Do you receive a travel subsidy?",
         "travelDistance": "Distance in km",
         "taxCertificate": "Tax Certificate"
       },

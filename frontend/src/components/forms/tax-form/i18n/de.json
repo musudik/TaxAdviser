@@ -11,6 +11,12 @@
     "spouseRequired": "Ehepartnerinformationen sind für Verheiratete/eingetragene Partnerschaften erforderlich",
     "childRequired": "Kinderinformationen sind erforderlich, wenn Sie Kinder haben"
   },
+  "businessType": {
+    "freelance": "Freiberuflich",
+    "trade": "Gewerblich",
+    "agriculture": "Landwirtschaftlich",
+    "other": "Sonstige"
+  },
   "maritalStatus": {
     "single": "Ledig",
     "married": "Verheiratet",
@@ -281,64 +287,126 @@
     },
     "expenses": {
       "title": "Ausgaben & Abzüge",
+      "workRelatedExpenses": {
+        "title": "Arbeitsbezogene Ausgaben",
+        "commutation": {
+          "title": "Fahrtenkosten",
+          "hasCommutingExpenses": "Haben Sie Fahrtenkosten?",
+          "workingDaysCount": "Anzahl der Arbeitstage (Max. 230)",
+          "route": {
+            "from": {
+              "street": "Straße",
+              "houseNumber": "Hausnummer",
+              "postalCode": "Postleitzahl",
+              "city": "Stadt" 
+            },
+            "to": {
+              "street": "Straße",
+              "houseNumber": "Hausnummer",
+              "postalCode": "Postleitzahl",
+              "city": "Stadt" 
+            }
+          }
+        },
+        "businessTripsCosts": {
+          "title": "Geschäftsfahrten und Ausbildungskosten",
+          "proof": "Bitte laden Sie die Belege hoch"
+        },
+        "workEquipment": {
+          "title": "Arbeitsausstattung",
+          "hasWorkEquipment": "Haben Sie Arbeitsausstattungskosten?"
+        },
+        "homeOffice": {
+          "title": "Hausarbeitsplatzzulage",
+          "hasHomeOffice": "Haben Sie einen Hausarbeitsplatz?",
+          "workingDaysCount": "Anzahl der Hausarbeitsplatztage (Max. 230)"
+        },
+        "applicationCosts": {
+          "title": "Antrags- und Bewerbungskosten",
+          "online": "Anzahl der Online-Anträge",
+          "inPerson": "Anzahl der persönlichen Anträge"
+        },
+        "hasDoubleHouseholdMgmt": "Haben Sie Mehrfamilienhaushalt?" 
+      },
+      "specialExpenses": {
+        "title": "Sonderausgaben",
+        "churchTax": "Kirchensteuer",
+        "donationsAndFees": "Spenden und Mitgliedsbeiträge",
+        "childcareCosts": "Kinderbetreuungskosten",
+        "supportPayments": "Haben Sie Zahlungen an Bedürftige geleistet?",
+        "privateSchoolFees": "Private Schulgebühren",
+        "retirementProvisions": "Rürup-Rente",
+        "otherInsuranceExpenses": "Andere Versicherungsausgaben",
+        "professionalTrainingCosts": "Berufsausbildungskosten"
+      },
+      "extraordinaryExpenses": {
+        "title": "Extraordinary Expenses",
+        "medicalExpenses": "Ärztekosten (Arzt, Medizin, Krankenhaus)",
+        "rehabilitationCosts": "Heilung und Rehabilitationskosten",
+        "careCosts": "Pflegekosten",
+        "disabilityExpenses": "Behindertenausgaben",
+        "funeralCosts": "Begräbniskosten",
+        "relativesSupportCosts": "Unterstützungskosten für Bedürftige",
+        "divorceCosts": "Scheidungskosten"
+      },
       "insurancePremiums": {
-        "title": "Versicherungsbeiträge",
+        "title": "Versicherungsprämien",
         "statutoryHealthInsurance": {
           "statutory": "Gesetzliche Krankenversicherung",
-          "longterm": "Pflegeversicherung"
+          "longterm": "Langfristige Pflegeversicherung"
         },
         "privateHealthInsurance": {
           "private": "Private Krankenversicherung",
-          "longterm": "Pflegeversicherung"
+          "longterm": "Langfristige Pflegeversicherung"
         },
         "statutoryPensionInsurance": {
-          "title": "Beiträge zur gesetzlichen Rentenversicherung",
-          "employer": "Arbeitgeberanteil",
-          "employee": "Arbeitnehmeranteil"
+          "title": "Gesetzliche Rentenversicherung Beiträge",
+          "employer": "Arbeitgeber",
+          "employee": "Arbeitnehmer"
         },
-        "privatePensionInsurance": "Beiträge zur privaten Rentenversicherung (Rürup-Rente)",
-        "unemploymentInsurance": "Beiträge zur Arbeitslosenversicherung",
-        "accidentLiabilityInsurance": "Beiträge zur Unfall- und Haftpflichtversicherung",
-        "disabilityInsurance": "Beiträge zur Berufsunfähigkeitsversicherung",
-        "termLifeInsurance": "Beiträge zur Risikolebensversicherung"
+        "privatePensionInsurance": "Private Rentenversicherung Beiträge (Rürup-Rente)",
+        "unemploymentInsurance": "Arbeitslosigkeitsversicherung Beiträge",
+        "accidentLiabilityInsurance": "Unfall- und Haftpflichtversicherung Beiträge",
+        "disabilityInsurance": "Erwerbsunfähigkeitsversicherung Beiträge",
+        "termLifeInsurance": "Term Life Insurance Beiträge"
       },
       "craftsmenServices": {
         "title": "Haben Sie Handwerkerleistungen in Anspruch genommen?",
-        "hasMaintenancePayments": "Haben Sie Unterhaltszahlungen geleistet?",
-        "maintenanceRecipient": "Empfänger der Unterhaltszahlungen",
-        "maintenanceAmount": "Höhe der Unterhaltszahlungen",
+        "hasMaintenancePayments": "Haben Sie Reparaturzahlungen geleistet?",
+        "maintenanceRecipient": "Empfänger der Reparaturzahlungen",
+        "maintenanceAmount": "Betrag der Reparaturzahlungen",
         "invoiceCraftsmenServices": "Bitte laden Sie die Rechnung für Handwerkerleistungen hoch",
-        "householdServices": "Haushaltsnahe Dienstleistungen",
+        "householdServices": "Haushaltsleistungen",
         "craftsmenServices": "Handwerkerleistungen",
-        "gardeningServices": "Garten- und Winterdienste",
-        "cleaningServices": "Wohnungs- und Fensterreinigung",
-        "caretakerServices": "Hausmeister- und Reinigungsdienste",
-        "householdCareCosts": "Betreuungskosten für Kinder oder pflegebedürftige Personen",
-        "householdSupportServices": "Kosten für haushaltsnahe Betreuungs- und Unterstützungsleistungen",
-        "chimneySweepFees": "Schornsteinfegergebühren",
-        "emergencySystemCosts": "Kosten für Notrufsysteme im Haushalt"
+        "gardeningServices": "Gärtner- und Winterleistungen",
+        "cleaningServices": "Wohnungs- und Fensterputz",
+        "caretakerServices": "Hausmeister- und Hausputzleistungen",
+        "householdCareCosts": "Kosten für Haushaltsbetreuung und -unterstützung",
+        "householdSupportServices": "Kosten für Haushaltsbezogene Versorgungsleistungen",
+        "chimneySweepFees": "Kaminreinigungskosten",
+        "emergencySystemCosts": "Kosten für Haushaltsnotfälle"
       },
       "rentalAndLeasing": {
-        "title": "Vermietung & Verpachtung",
+        "title": "Miet- und Pachtverträge",
         "ownerFirstName": "Vorname",
         "ownerLastName": "Nachname",
         "address": "Adresse",
-        "Purchase Date": "Kaufdatum",
+        "purchaseDate": "Erwerbungsdatum",
         "documents": {
           "rentalContracts": "Mietverträge",
-          "annualStatements": "Jahresabrechnungen der Hausverwaltung",
-          "operatingCosts": "Betriebskostenabrechnungen",
-          "propertyTax": "Grundsteuerbescheide",
-          "loanContracts": "Darlehensverträge und Zinsbescheinigungen",
-          "repairBills": "Reparatur- und Instandhaltungsrechnungen",
+          "annualStatements": "Jahresverwaltungsergebnisse",
+          "operatingCosts": "Betriebskosten",
+          "propertyTax": "Grundsteuer",
+          "loanContracts": "Kredite und Zinsbescheinigungen",
+          "repairBills": "Reparatur- und Wartungsbescheinigungen",
           "craftsmenBills": "Handwerkerrechnungen",
-          "renovationProof": "Nachweis über Renovierung und Modernisierung",
-          "insurancePremiums": "Versicherungsbeiträge (z.B. Gebäudeversicherung)",
-          "brokerFees": "Maklergebühren",
-          "rentalIncome": "Übersicht Mieteinnahmen",
-          "vacancyProof": "Nachweis für Leerstand (z.B. Anzeigen, Makleraufträge)",
+          "renovationProof": "Renovation und Modernisierungsbescheinigungen",
+          "insurancePremiums": "Versicherungsprämien (z.B. Gebäudeversicherung)",
+          "brokerFees": "Brokergebühren",
+          "rentalIncome": "Mieteinnahmenübersicht",
+          "vacancyProof": "Mietausfallbeweise (z.B. Anzeigen, Maklervergütungen)",
           "managementCosts": "Verwaltungskosten",
-          "depreciationProof": "Abschreibungsnachweis (z.B. Kaufvertrag, Gutachten)"
+          "depreciationProof": "Abschreibungsbescheinigungen (z.B. Erwerbspreis, Bewertungen)"
         }
       }
     }

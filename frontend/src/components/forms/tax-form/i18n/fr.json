@@ -9,6 +9,12 @@
     "invalidPostalCode": "Veuillez saisir un code postal valide",
     "selectionRequired": "Veuillez faire une sélection"
   },
+  "businessType": {
+    "freelance": "Freelance",
+    "trade": "Commerce",
+    "agriculture": "Agriculture",
+    "other": "Autre"
+  },
   "maritalStatus": {
     "single": "Célibataire",
     "married": "Marié",
@@ -281,6 +287,74 @@
     },
     "expenses": {
       "title": "Dépenses et Déductions",
+      "workRelatedExpenses": {
+        "title": "Dépenses Relatives au Travail",
+        "commutation": {
+          "title": "Dépenses de Déplacement",
+          "hasCommutingExpenses": "Avez-vous des dépenses de déplacement ?",
+          "workingDaysCount": "Nombre de jours travaillés (230 Max)",
+          "route": {
+            "from": {
+              "street": "Rue",
+              "houseNumber": "Numéro",
+              "postalCode": "Code Postal",
+              "city": "Ville"
+            },
+            "firstOfficeAddress": {
+              "street": "Rue",
+              "houseNumber": "Numéro",
+              "postalCode": "Code Postal",
+              "city": "Ville"
+            },
+            "secondOfficeAddress": {
+              "street": "Rue",
+              "houseNumber": "Numéro",
+              "postalCode": "Code Postal",
+              "city": "Ville"
+            }
+          }
+        },
+        "businessTripsCosts": {
+          "title": "Dépenses de Voyage et de Formation",
+          "proof": "Télécharger la preuve"
+        },
+        "workEquipment": {
+          "title": "Équipement de Travail",
+          "hasWorkEquipment": "Avez-vous des dépenses d'équipement de travail ?"
+        },
+        "homeOffice": {
+          "title": "Subvention de Bureau à la Maison",
+          "hasHomeOffice": "Avez-vous un bureau à la maison ?",
+          "workingDaysCount": "Nombre de jours de bureau à la maison (230 Max)"
+        },
+        "applicationCosts": {
+          "title": "Dépenses de Postulation",
+          "online": "Nombre de Postulations en Ligne",
+          "inPerson": "Nombre de Postulations en Personne"
+        },
+        "hasDoubleHouseholdMgmt": "Avez-vous une gestion de double ménage ?"
+      },
+      "specialExpenses": {
+        "title": "Dépenses Spéciales",
+        "churchTax": "Taxe de l'Église",
+        "donationsAndFees": "Dons et Frais de Membre",
+        "childcareCosts": "Dépenses de Garde d'Enfants",
+        "supportPayments": "Faites-vous des paiements pour soutenir des personnes nécessiteuses ?",
+        "privateSchoolFees": "Frais de l'École Privée",
+        "retirementProvisions": "Provisions pour la Retraite",
+        "otherInsuranceExpenses": "Autres Dépenses d'Assurance",
+        "professionalTrainingCosts": "Dépenses de Formation Professionnelle"
+      },
+      "extraordinaryExpenses": {
+        "title": "Dépenses Extraordinaires",
+        "medicalExpenses": "Dépenses Médicales (Médecin, Médicament, Hôpital)",
+        "rehabilitationCosts": "Cure et Coûts de Réhabilitation",
+        "careCosts": "Coûts de Soins",
+        "disabilityExpenses": "Dépenses liées à la Handicap",
+        "funeralCosts": "Coûts de Funérailles",
+        "relativesSupportCosts": "Coûts de Soutien aux Personnes Nécessiteuses",
+        "divorceCosts": "Coûts de Divorce"
+      },
       "insurancePremiums": {
         "title": "Primes d'Assurance",
         "statutoryHealthInsurance": {

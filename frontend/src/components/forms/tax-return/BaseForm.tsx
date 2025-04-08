@@ -214,8 +214,8 @@ const TaxReturnForm: React.FC = () => {
             // Otherwise, update a specific field in the signature object
             newData.signature = {
               ...newData.signature,
-              [field]: value
-            };
+          [field]: value
+        };
           } else {
             // If signature object doesn't exist yet, create it with the field
             newData.signature = {
@@ -965,19 +965,19 @@ const TaxReturnForm: React.FC = () => {
         
         {isSubmitted ? (
           <div className="text-center mt-6">
-            <div className="mt-5 flex justify-center space-x-4">
-              <Button
-                onClick={handleExportPdf}
+          <div className="mt-5 flex justify-center space-x-4">
+            <Button
+              onClick={handleExportPdf}
                 className="auth-btn-secondary"
-              >
+            >
                 {languageData.de.common.exportPdf} / {languageData.en.common.exportPdf}
-              </Button>
-              <Button
-                onClick={() => window.location.href = '/'}
+            </Button>
+            <Button
+              onClick={() => window.location.href = '/'}
                 className="auth-btn"
-              >
-                Return to Home
-              </Button>
+            >
+              Return to Home
+            </Button>
             </div>
           </div>
         ) : (

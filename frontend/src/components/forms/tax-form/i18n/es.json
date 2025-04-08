@@ -9,6 +9,12 @@
     "invalidPostalCode": "Por favor, introduce un código postal válido",
     "selectionRequired": "Por favor, haz una selección"
   },
+  "businessType": {
+    "freelance": "Autónomo",
+    "trade": "Comercio",
+    "agriculture": "Agricultura",
+    "other": "Otro"
+  },
   "maritalStatus": {
     "single": "Soltero",
     "married": "Casado",
@@ -281,6 +287,74 @@
     },
     "expenses": {
       "title": "Gastos y Deducciones",
+      "workRelatedExpenses": {
+        "title": "Gastos Laborales",
+        "commutation": {
+          "title": "Gastos de Viaje",
+          "hasCommutingExpenses": "¿Tiene Gastos de Viaje?",
+          "workingDaysCount": "Número de días laborales (230 Máx.)",
+          "route": {
+            "from": {
+              "street": "Calle",
+              "houseNumber": "Número",
+              "postalCode": "Código Postal",
+              "city": "Ciudad"
+            },
+            "firstOfficeAddress": {
+              "street": "Street",
+              "houseNumber": "Número",
+              "postalCode": "Código Postal",
+              "city": "Ciudad"
+            },
+            "secondOfficeAddress": {
+              "street": "Calle",
+              "houseNumber": "Número",
+              "postalCode": "Código Postal",
+              "city": "Ciudad"
+            }
+          }
+        },
+        "businessTripsCosts": {
+          "title": "Gastos de Viaje y Formación",
+          "proof": "Suba la prueba"
+        },
+        "workEquipment": {
+          "title": "Equipo de Trabajo",
+          "hasWorkEquipment": "¿Tiene gastos de equipo de trabajo?"
+        },
+        "homeOffice": {
+          "title": "Subsidio de Hogar de Trabajo",
+          "hasHomeOffice": "¿Tiene un hogar de trabajo?",
+          "workingDaysCount": "Número de días de hogar de trabajo (230 Máx.)"
+        },
+        "applicationCosts": {
+          "title": "Gastos de Postulación",
+          "online": "Número de Postulaciones en Línea",
+          "inPerson": "Número de Postulaciones en Persona"
+        },
+        "hasDoubleHouseholdMgmt": "¿Tiene doble gestión de hogar?"
+      },
+      "specialExpenses": {
+        "title": "Gastos Especiales",
+        "churchTax": "Impuesto de Iglesia",
+        "donationsAndFees": "Donaciones y Gastos de Membresía",
+        "childcareCosts": "Gastos de Cuidado de los Niños",
+        "supportPayments": "¿Realiza pagos para apoyar a personas necesitadas?",
+        "privateSchoolFees": "Gastos de Escuelas Privadas",
+        "retirementProvisions": "Provisión para la Acción",
+        "otherInsuranceExpenses": "Otros Gastos de Seguro",
+        "professionalTrainingCosts": "Gastos de Formación Profesional"
+      },
+      "extraordinaryExpenses": {
+        "title": "Gastos Extraordinarios",
+        "medicalExpenses": "Gastos Médicos (Doctor, Medicina, Hospital)",
+        "rehabilitationCosts": "Cura y Gastos de Rehabilitación",
+        "careCosts": "Gastos de Cuidado",
+        "disabilityExpenses": "Gastos por Discapacidad",
+        "funeralCosts": "Gastos de Funeral",
+        "relativesSupportCosts": "Gastos de Apoyo a Familiares Necesitados",
+        "divorceCosts": "Gastos de Divorcio"
+      },
       "insurancePremiums": {
         "title": "Primas de Seguro",
         "statutoryHealthInsurance": {

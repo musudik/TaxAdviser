@@ -9,6 +9,12 @@
     "invalidPostalCode": "Inserisci un CAP valido",
     "selectionRequired": "Effettua una selezione"
   },
+  "businessType": {
+    "freelance": "Libero Professionista",
+    "trade": "Commercio",
+    "agriculture": "Agricoltura",
+    "other": "Altro"
+  },
   "maritalStatus": {
     "single": "Single",
     "married": "Matrimonio",
@@ -281,6 +287,74 @@
     },
     "expenses": {
       "title": "Spese e Deduzioni",
+      "workRelatedExpenses": {
+        "title": "Spese Relate al Lavoro",
+        "commutation": {
+          "title": "Spese di Viaggio",
+          "hasCommutingExpenses": "Hai spese di viaggio?",
+          "workingDaysCount": "Numero di giorni lavorativi (230 Massimo)",
+          "route": {
+            "from": {
+              "street": "Via",
+              "houseNumber": "Numero",
+              "postalCode": "CAP",
+              "city": "Città"
+            },
+            "firstOfficeAddress": {
+              "street": "Via",
+              "houseNumber": "Numero",
+              "postalCode": "CAP",
+              "city": "Città"
+            },
+            "secondOfficeAddress": {
+              "street": "Via",
+              "houseNumber": "Numero",
+              "postalCode": "CAP",
+              "city": "Città"
+            }
+          }
+        },
+        "businessTripsCosts": {
+          "title": "Spese per Viaggi e Formazione",
+          "proof": "Carica la prova"
+        },
+        "workEquipment": {
+          "title": "Equipaggiamento di Lavoro",
+          "hasWorkEquipment": "Hai spese per equipaggiamento di lavoro?"
+        },
+        "homeOffice": {
+          "title": "Subvenzione per Ufficio a Domicilio",
+          "hasHomeOffice": "Hai un ufficio a domicilio?",
+          "workingDaysCount": "Numero di giorni di ufficio a domicilio (230 Massimo)"
+        },
+        "applicationCosts": {
+          "title": "Spese per Postulazioni",
+          "online": "Numero di Postulazioni Online",
+          "inPerson": "Numero di Postulazioni In Persona"
+        },
+        "hasDoubleHouseholdMgmt": "Hai una gestione di doppio nucleo familiare?"
+      },
+      "specialExpenses": {
+        "title": "Spese Speciali",
+        "churchTax": "Imposta Eclesiastica",
+        "donationsAndFees": "Donazioni e Costi di Membri",
+        "childcareCosts": "Costi di Custodia dei Bambini",
+        "supportPayments": "Fai pagamenti per sostenere persone in difficoltà?",
+        "privateSchoolFees": "Costi delle Scuole Private",
+        "retirementProvisions": "Provisi per la Pensione",
+        "otherInsuranceExpenses": "Altre Spese di Assicurazione",
+        "professionalTrainingCosts": "Costi di Formazione Professionale"
+      },
+      "extraordinaryExpenses": {
+        "title": "Spese Extraordinarie",
+        "medicalExpenses": "Spese mediche (Dottore, Medicina, Ospedale)",
+        "rehabilitationCosts": "Cura e Costi di Reabilitazione",
+        "careCosts": "Costi di Assistenza",
+        "disabilityExpenses": "Spese per Disabilità",
+        "funeralCosts": "Costi di Funerali",
+        "relativesSupportCosts": "Costi di Assistenza per Parenti in Difficoltà",
+        "divorceCosts": "Costi di Divorcio"
+      },
       "insurancePremiums": {
         "title": "Premi Assicurativi",
         "statutoryHealthInsurance": {

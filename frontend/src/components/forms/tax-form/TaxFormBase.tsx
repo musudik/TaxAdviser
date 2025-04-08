@@ -6,10 +6,10 @@ import TFRentalIncome from './steps/TFRentalIncome';
 import TFForeignIncome from './steps/TFForeignIncome';
 import TFExpenses from './steps/TFExpenses';
 import TFBusinessExpenses from './steps/TFBusinessExpenses';
-import TFInvestments from './steps/TFInvestments';
 import TFReview from './steps/TFReview';
 import TFSignature from './steps/TFSignature';
 import { validateTaxForm, ValidationErrors } from './validation'; // Import validation
+import { generateTaxFormPdf } from '../../../lib/generateTaxFormPdf'; // Import the new utility
 
 // Define a more specific type for form data later
 interface TaxFormData {
@@ -26,6 +26,7 @@ interface LanguageData {
     incomeInfo: any;
     expenses: any;
     // ... other sections
+    [key: string]: any; // Allow indexing by string keys for steps
   };
 }
 
@@ -89,15 +90,14 @@ const TaxFormBase: React.FC = () => {
 
   // Define steps with actual components
   const steps = [
-    { name: 'Personal Info', component: TFPersonalInfo },
-    { name: 'Income Info', component: TFIncomeInfo },
-    { name: 'Rental Income', component: TFRentalIncome },
-    { name: 'Foreign Income', component: TFForeignIncome },
-    { name: 'Expenses', component: TFExpenses },
-    { name: 'Business Expenses', component: TFBusinessExpenses },
-    { name: 'Investments', component: TFInvestments },
-    { name: 'Review', component: TFReview },
-    { name: 'Signature', component: TFSignature }
+    { name: 'Personal Info', component: TFPersonalInfo, key: 'personalInfo' },
+    { name: 'Income Info', component: TFIncomeInfo, key: 'incomeInfo' },
+    { name: 'Rental Income', component: TFRentalIncome, key: 'rentalIncome' },
+    { name: 'Foreign Income', component: TFForeignIncome, key: 'foreignIncome' },
+    { name: 'Expenses', component: TFExpenses, key: 'expenses' },
+    { name: 'Business Expenses', component: TFBusinessExpenses, key: 'businessExpenses' },
+    { name: 'Review', component: TFReview, key: 'review' },
+    { name: 'Signature', component: TFSignature, key: 'signature' }
   ];
 
   // Effect to load language files dynamically
@@ -135,11 +135,11 @@ const TaxFormBase: React.FC = () => {
 
   // Updated handleChange to handle nested fields
   const handleChange = (section: keyof TaxFormData, field: string, value: any) => {
-     console.log('handleChange:', { section, field, value }); // Debug log
-     setFormData(prevData => {
-      // Use immer or structuredClone for safer deep updates if needed
-      const newData = JSON.parse(JSON.stringify(prevData)) as TaxFormData;
-
+    console.log('handleChange:', { section, field, value }); // Debug log
+    setFormData(prevData => {
+      // Create a new object without using JSON.stringify
+      const newData = { ...prevData };
+      
       // Ensure the section exists
       if (!newData[section]) {
         newData[section] = {};
@@ -148,19 +148,25 @@ const TaxFormBase: React.FC = () => {
       // Handle nested fields (e.g., address.street)
       if (field.includes('.')) {
         const keys = field.split('.');
-        let currentLevel = newData[section];
+        let currentLevel = { ...newData[section] };
+        const sectionCopy = currentLevel;
 
         for (let i = 0; i < keys.length - 1; i++) {
           const key = keys[i];
           if (!currentLevel[key]) {
-            currentLevel[key] = {}; // Create nested object if it doesn't exist
+            currentLevel[key] = {};
           }
+          currentLevel[key] = { ...currentLevel[key] };
           currentLevel = currentLevel[key];
         }
         currentLevel[keys[keys.length - 1]] = value;
+        newData[section] = sectionCopy;
       } else {
         // Handle direct fields within the section
-        newData[section][field] = value;
+        newData[section] = {
+          ...newData[section],
+          [field]: value
+        };
       }
 
       console.log('New formData:', newData); // Debug log
@@ -203,14 +209,51 @@ const TaxFormBase: React.FC = () => {
     }
   };
 
-  // Handle form submission - placeholder
+  // Handle form submission
   const handleSubmit = async () => {
-    console.log('Form submitted (placeholder)', formData);
-    // Add submission logic here later
+    console.log('Attempting form submission...', formData);
+    
+    // Re-validate the entire form or at least the signature step before final submission
+    const errors = validateTaxForm(formData, currentStep, i18nData);
+    setValidationErrors(errors);
+    setShowValidationErrors(true);
+
+    const hasErrors = Object.keys(errors).length > 0;
+    console.log('Final Validation:', { hasErrors, errors });
+
+    if (hasErrors) {
+      console.log("Submission prevented due to validation errors.");
+      // Maybe show a general error message to the user
+      return; // Stop submission if errors exist
+    }
+
+    // --- PDF Generation --- 
+    try {
+      console.log("Generating PDF...");
+      await generateTaxFormPdf(formData, germanI18nData, i18nData);
+      console.log("PDF generation successful.");
+    } catch (pdfError) {
+      console.error("Error generating PDF:", pdfError);
+      // Optionally inform the user about the PDF generation error
+      alert('Could not generate PDF summary. Please try again or contact support.');
+      // Decide if you want to proceed with submission anyway or stop
+      // return; // Uncomment to stop submission if PDF fails
+    }
+    // --- End PDF Generation ---
+    
+    // Add your actual backend submission logic here
+    console.log('Proceeding with backend submission (placeholder)...');
+    // Example:
     // setIsSubmitting(true);
-    // ... try/catch block ...
-    // setIsSubmitted(true);
-    // setIsSubmitting(false);
+    // try {
+    //   await submitFormDataToBackend(formData); // Replace with your API call
+    //   setIsSubmitted(true);
+    // } catch (submissionError) {
+    //   console.error("Error submitting to backend:", submissionError);
+    //   // Handle backend submission error (e.g., show message to user)
+    // } finally {
+    //   setIsSubmitting(false);
+    // }
   };
 
   // Handle language change
@@ -225,13 +268,24 @@ const TaxFormBase: React.FC = () => {
     }
 
     const StepComponent = steps[currentStep].component;
+    const stepKey = steps[currentStep].key; // Get the key for translations
+
+    // Extract specific translations for the current step
+    // Use optional chaining and provide empty objects as fallbacks
+    const germanT_form = germanI18nData?.taxForm?.[stepKey] || {};
+    const t = i18nData?.taxForm?.[stepKey] || {};
+
     return (
       <StepComponent
         formData={formData}
         handleChange={handleChange}
         selectedLanguage={selectedLanguage}
+        // Pass the full objects for potential top-level access if needed (e.g., in Review)
         i18nData={i18nData}
         germanI18nData={germanI18nData}
+        // Pass the specific step translations with the expected prop names
+        germanT={germanT_form} // Prop name expected by step components
+        selectedT={t}         // Prop name expected by step components
         validationErrors={validationErrors} // Pass errors
         showValidationErrors={showValidationErrors} // Pass flag
       />
