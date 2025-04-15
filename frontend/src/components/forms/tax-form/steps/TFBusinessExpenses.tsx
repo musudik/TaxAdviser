@@ -2,13 +2,16 @@ import React from 'react';
 import FKYesNo from '../../../ui/FKYesNo';
 import FKInputField from '../../../ui/FKInputField';
 import FKSelectField from '../../../ui/FKSelectField';
+import { LanguageCode } from '../constants';
+import { ValidationErrors } from '../validation';
 
 interface TFBusinessExpensesProps {
-  formData: any;
+  formData: { [key: string]: any };
   handleChange: (section: string, field: string, value: any) => void;
-  germanT: any;
-  selectedT: any;
-  validationErrors: Record<string, any> | null;
+  selectedLanguage: LanguageCode;
+  i18nData: any;
+  germanI18nData: any;
+  validationErrors: ValidationErrors | null;
   showValidationErrors: boolean;
 }
 
@@ -30,8 +33,8 @@ interface BusinessInfo {
 const TFBusinessExpenses: React.FC<TFBusinessExpensesProps> = ({
   formData,
   handleChange,
-  germanT,
-  selectedT,
+  i18nData,
+  germanI18nData,
   validationErrors,
   showValidationErrors
 }) => {
@@ -81,8 +84,8 @@ const TFBusinessExpenses: React.FC<TFBusinessExpensesProps> = ({
     const errorKey = getErrorKey(field);
     if (!errorKey) return undefined;
 
-    const germanMsg = germanT?.validation?.[errorKey];
-    const selectedMsg = selectedT?.validation?.[errorKey];
+    const germanMsg = germanI18nData?.validation?.[errorKey];
+    const selectedMsg = i18nData?.validation?.[errorKey];
 
     if (germanMsg && selectedMsg && germanMsg !== selectedMsg) {
       return `${germanMsg} / ${selectedMsg}`;
@@ -95,12 +98,16 @@ const TFBusinessExpenses: React.FC<TFBusinessExpensesProps> = ({
     handleChange('businessInfo', field, value);
   };
 
+  // Get translations
+  const t = i18nData?.taxForm?.expenses?.businessExpenses || {};
+  const germanT = germanI18nData?.taxForm?.expenses?.businessExpenses || {};    
+
   return (
     <div className="space-y-6">
       <FKYesNo
         id="isBusinessOwner"
         mainLanguage={germanT?.isBusinessOwner || 'Sind Sie Geschäftsinhaber?'}
-        selectedLanguage={selectedT?.isBusinessOwner || 'Are you a business owner?'}
+        selectedLanguage={t.isBusinessOwner || 'Are you a business owner?'}
         value={businessInfo.isBusinessOwner}
         onChange={(value) => handleFieldChange('isBusinessOwner', value)}
         hasError={fieldHasError('isBusinessOwner')}
@@ -113,7 +120,7 @@ const TFBusinessExpenses: React.FC<TFBusinessExpensesProps> = ({
             <FKSelectField
               id="businessType"
               mainLanguage={germanT?.businessType || 'Art des Geschäfts'}
-              selectedLanguage={selectedT?.businessType || 'Type of Business'}
+              selectedLanguage={t.businessType || 'Type of Business'}
               value={businessInfo.businessType || ''}
               onChange={value => handleFieldChange('businessType', typeof value === 'object' ? value.target.value : value)}
               options={businessTypeOptions}
@@ -126,7 +133,7 @@ const TFBusinessExpenses: React.FC<TFBusinessExpensesProps> = ({
               id="businessEarnings"
               type="number"
               mainLanguage={germanT?.businessEarnings || 'Geschäftliche Einnahmen'}
-              selectedLanguage={selectedT?.businessEarnings || 'Business Earnings'}
+              selectedLanguage={t.businessEarnings || 'Business Earnings'}
               value={businessInfo.businessEarnings || ''}
               onChange={(e) => handleFieldChange('businessEarnings', e.target.value)}
               mandatory={true}
@@ -138,7 +145,7 @@ const TFBusinessExpenses: React.FC<TFBusinessExpensesProps> = ({
               id="businessExpenses"
               type="number"
               mainLanguage={germanT?.businessExpenses || 'Geschäftliche Ausgaben'}
-              selectedLanguage={selectedT?.businessExpenses || 'Business Expenses'}
+              selectedLanguage={t.businessExpenses || 'Business Expenses'}
               value={businessInfo.businessExpenses || ''}
               onChange={(e) => handleFieldChange('businessExpenses', e.target.value)}
               mandatory={true}
@@ -151,13 +158,13 @@ const TFBusinessExpenses: React.FC<TFBusinessExpensesProps> = ({
             <h3 className="text-lg font-semibold mb-4">
               <span className="font-bold">{germanT?.businessAddress || 'Geschäftsadresse'}</span>
               {' / '}
-              <span className="text-neutral-600">{selectedT?.businessAddress || 'Business Address'}</span>
+              <span className="text-neutral-600">{t.businessAddress || 'Business Address'}</span>
             </h3>
             <div className="grid grid-cols-2 gap-6">
               <FKInputField
                 id="businessAddress.street"
                 mainLanguage={germanT?.street || 'Straße'}
-                selectedLanguage={selectedT?.street || 'Street'}
+                selectedLanguage={t.street || 'Street'}
                 value={businessInfo.businessAddress?.street || ''}
                 onChange={(e) => handleFieldChange('businessAddress.street', e.target.value)}
                 mandatory={true}
@@ -168,7 +175,7 @@ const TFBusinessExpenses: React.FC<TFBusinessExpensesProps> = ({
               <FKInputField
                 id="businessAddress.houseNumber"
                 mainLanguage={germanT?.houseNumber || 'Hausnummer'}
-                selectedLanguage={selectedT?.houseNumber || 'House Number'}
+                selectedLanguage={t.houseNumber || 'House Number'}
                 value={businessInfo.businessAddress?.houseNumber || ''}
                 onChange={(e) => handleFieldChange('businessAddress.houseNumber', e.target.value)}
                 mandatory={true}
@@ -179,7 +186,7 @@ const TFBusinessExpenses: React.FC<TFBusinessExpensesProps> = ({
               <FKInputField
                 id="businessAddress.postalCode"
                 mainLanguage={germanT?.postalCode || 'Postleitzahl'}
-                selectedLanguage={selectedT?.postalCode || 'Postal Code'}
+                selectedLanguage={t.postalCode || 'Postal Code'}
                 value={businessInfo.businessAddress?.postalCode || ''}
                 onChange={(e) => handleFieldChange('businessAddress.postalCode', e.target.value)}
                 mandatory={true}
@@ -190,7 +197,7 @@ const TFBusinessExpenses: React.FC<TFBusinessExpensesProps> = ({
               <FKInputField
                 id="businessAddress.city"
                 mainLanguage={germanT?.city || 'Stadt'}
-                selectedLanguage={selectedT?.city || 'City'}
+                selectedLanguage={t.city || 'City'}
                 value={businessInfo.businessAddress?.city || ''}
                 onChange={(e) => handleFieldChange('businessAddress.city', e.target.value)}
                 mandatory={true}

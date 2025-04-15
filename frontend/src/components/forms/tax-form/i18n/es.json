@@ -21,6 +21,16 @@
     "divorced": "Divorciado",
     "widowed": "Viudo"
   },
+  "addExpense": {
+    "title": "Agregar Gastos",
+    "description": "Descripción",
+    "amount": "Cantidad",
+    "file": "Comprobante de Gastos",
+    "fileUpload": "Subir Archivo",
+    "type": "Tipo de Gastos",
+    "add": "Agregar",
+    "remove": "Eliminar"
+  },
   "countries": {
     "afghan": "Afgano",
     "albanian": "Albanés",
@@ -246,13 +256,13 @@
         "title": "Información de los Hijos",
         "hasChildren": "¿Tiene hijos?",
         "childCount": "Número de Hijos",
-        "childInfo": {
-          "title": "Información del Hijo",
-          "firstName": "Nombre del Hijo",
-          "lastName": "Apellido del Hijo",
-          "dateOfBirth": "Fecha de Nacimiento del Hijo",
-          "taxId": "Identificación Fiscal del Hijo"
-        }
+        "child": "Hijo",
+        "firstName": "Nombre",
+        "lastName": "Apellido",
+        "dateOfBirth": "Fecha de Nacimiento",
+        "taxId": "Identificación Fiscal",
+        "add": "Agregar Hijo",
+        "remove": "Eliminar"
       }
     },
     "incomeInfo": {
@@ -272,6 +282,26 @@
         "businessType": "Tipo de Trabajo Autónomo",
         "businessEarnings": "Ganancias por Trabajo Autónomo",
         "businessExpenses": "Gastos por Trabajo Autónomo"
+      },
+      "foreignIncome": {
+        "title": "Ingresos por Trabajo Autónomo en el Extranjero",
+        "hasForeignIncome": "¿Tiene ingresos por trabajo autónomo en el extranjero?",
+        "country": "País",
+        "typeOfIncome": "Tipo de ingresos",
+        "totalAmountQuestion": "Monto total de ingresos por trabajo autónomo en el extranjero",
+        "foreignTaxPaid": "Impuesto Extranjero Pagado",
+        "certificateUpload": "Subir Certificado Fiscal"
+      },
+      "rentalIncome": {
+        "title": "Ingresos por Alquiler",
+        "hasRentalProperty": "¿Tiene una propiedad de alquiler?",
+        "rentalIncome": "Ingresos por Alquiler",
+        "rentalCosts": "Gastos por Alquiler",
+        "rentalPropertyAddress": "Dirección de la Propiedad de Alquiler",
+        "street": "Calle",
+        "houseNumber": "Número",
+        "postalCode": "Código Postal",
+        "city": "Ciudad"
       },
       "investments": {
         "title": "Ingresos por Inversiones",
@@ -320,12 +350,20 @@
         },
         "workEquipment": {
           "title": "Equipo de Trabajo",
-          "hasWorkEquipment": "¿Tiene gastos de equipo de trabajo?"
+          "hasWorkEquipment": "¿Tiene gastos de equipo de trabajo?",
+          "expenses": "Gastos de Equipo de Trabajo",
+          "expensesTypes": {
+            "office": "Equipo de Oficina",
+            "computer": "Equipo de Computadora",
+            "tools": "Herramientas",
+            "other": "Otro"
+          }
         },
         "homeOffice": {
           "title": "Subsidio de Hogar de Trabajo",
           "hasHomeOffice": "¿Tiene un hogar de trabajo?",
-          "workingDaysCount": "Número de días de hogar de trabajo (230 Máx.)"
+          "workingDaysCount": "Número de días de hogar de trabajo (230 Máx.)",
+          "expenses": "Subsidio de Hogar de Trabajo"
         },
         "applicationCosts": {
           "title": "Gastos de Postulación",
@@ -334,23 +372,91 @@
         },
         "hasDoubleHouseholdMgmt": "¿Tiene doble gestión de hogar?"
       },
+      "businessExpenses": {
+        "title": "Gastos de Negocio",
+        "isBusinessOwner": "¿Es dueño de un negocio?",
+        "businessType": "Tipo de Negocio",
+        "businessEarnings": "Ganancias de Negocio",
+        "businessExpenses": "Gastos de Negocio",
+        "businessAddress": "Dirección de Negocio",
+        "street": "Calle",
+        "houseNumber": "Número",
+        "postalCode": "Código Postal",
+        "city": "Ciudad"
+      },
       "specialExpenses": {
         "title": "Gastos Especiales",
-        "churchTax": "Impuesto de Iglesia",
-        "donationsAndFees": "Donaciones y Gastos de Membresía",
-        "childcareCosts": "Gastos de Cuidado de los Niños",
-        "supportPayments": "¿Realiza pagos para apoyar a personas necesitadas?",
-        "privateSchoolFees": "Gastos de Escuelas Privadas",
-        "retirementProvisions": "Provisión para la Acción",
-        "otherInsuranceExpenses": "Otros Gastos de Seguro",
-        "professionalTrainingCosts": "Gastos de Formación Profesional"
+        "insurance": {
+          "title": "Gastos de Seguro",
+          "hasInsurance": "¿Tiene gastos de seguro?",
+          "expenses": "Gastos de Seguro",
+          "expensesTypes": {  
+            "health": "Seguro de Salud",
+            "life": "Seguro de Vida",
+            "liability": "Seguro de Responsabilidad",
+            "accident": "Seguro de Accidentes",
+            "disability": "Seguro de Incapacidad",
+            "other": "Otro"
+          } 
+        },
+        "donations": {
+          "title": "Donaciones",
+          "hasDonations": "¿Tiene donaciones?",
+          "expenses": "Donaciones"
+        },
+        "churchTax": {
+          "title": "Impuesto de Iglesia",
+          "hasChurchTax": "¿Tiene impuesto de iglesia?",
+          "expenses": "Impuesto de Iglesia"
+        },
+        "childcareCosts": {
+          "title": "Gastos de Cuidado de los Niños",
+          "hasChildcareCosts": "¿Tiene gastos de cuidado de los niños?",
+          "expenses": "Gastos de Cuidado de los Niños"
+        },
+        "supportPayments": {
+          "title": "Gastos de Apoyo",
+          "hasSupportPayments": "¿Realiza pagos para apoyar a personas necesitadas?",
+          "expenses": "Gastos de Apoyo"
+        },
+        "privateSchoolFees": {
+          "title": "Gastos de Escuelas Privadas",
+          "hasPrivateSchoolFees": "¿Tiene gastos de escuelas privadas?",
+          "expenses": "Gastos de Escuelas Privadas"
+        },
+        "professionalDevelopment": {
+          "title": "Desarrollo Profesional",
+          "hasProfessionalDevelopment": "¿Tiene gastos de desarrollo profesional?",
+          "expenses": "Gastos de Desarrollo Profesional"
+        },
+        "otherInsuranceExpenses": {
+          "title": "Otros Gastos de Seguro",
+          "hasOtherInsuranceExpenses": "¿Tiene otros gastos de seguro?",
+          "expenses": "Otros Gastos de Seguro" 
+        } 
       },
       "extraordinaryExpenses": {
         "title": "Gastos Extraordinarios",
-        "medicalExpenses": "Gastos Médicos (Doctor, Medicina, Hospital)",
-        "rehabilitationCosts": "Cura y Gastos de Rehabilitación",
-        "careCosts": "Gastos de Cuidado",
-        "disabilityExpenses": "Gastos por Discapacidad",
+        "medicalExpenses": {
+          "title": "Gastos Médicos (Doctor, Medicina, Hospital)",
+          "hasMedicalExpenses": "¿Tiene gastos médicos?",
+          "expenses": "Gastos Médicos"
+        },
+        "rehabilitationCosts": {
+          "title": "Cura y Gastos de Rehabilitación",
+          "hasRehabilitationCosts": "¿Tiene gastos de cura y rehabilitación?",
+          "expenses": "Cura y Gastos de Rehabilitación"
+        },
+        "careCosts": {
+          "title": "Gastos de Cuidado",
+          "hasCareCosts": "¿Tiene gastos de cuidado?",
+          "expenses": "Gastos de Cuidado"
+        },
+        "disabilityExpenses": {
+          "title": "Gastos por Discapacidad",
+          "hasDisabilityExpenses": "¿Tiene gastos por discapacidad?",
+          "expenses": "Gastos por Discapacidad"
+        },
         "funeralCosts": "Gastos de Funeral",
         "relativesSupportCosts": "Gastos de Apoyo a Familiares Necesitados",
         "divorceCosts": "Gastos de Divorcio"
@@ -358,11 +464,11 @@
       "insurancePremiums": {
         "title": "Primas de Seguro",
         "statutoryHealthInsurance": {
-          "statutory": "Seguro de Salud Obligatorio",
+          "title": "Seguro de Salud Obligatorio",
           "longterm": "Seguro de Cuidados a Largo Plazo"
         },
         "privateHealthInsurance": {
-          "private": "Seguro de Salud Privado",
+          "title": "Seguro de Salud Privado",
           "longterm": "Seguro de Cuidados a Largo Plazo"
         },
         "statutoryPensionInsurance": {
@@ -370,11 +476,13 @@
           "employer": "Empleador",
           "employee": "Empleado"
         },
-        "privatePensionInsurance": "Contribuciones a un Plan de Pensiones Privado",
-        "unemploymentInsurance": "Contribuciones al Seguro de Desempleo",
-        "accidentLiabilityInsurance": "Contribuciones al Seguro de Accidentes y Responsabilidad",
-        "disabilityInsurance": "Seguro de Incapacidad",
-        "termLifeInsurance": "Seguro de Vida a Plazo"
+        "privatePensionInsurance": {
+          "title": "Contribuciones a un Plan de Pensiones Privado",
+          "unemploymentInsurance": "Contribuciones al Seguro de Desempleo",
+          "accidentLiabilityInsurance": "Contribuciones al Seguro de Accidentes y Responsabilidad",
+          "disabilityInsurance": "Seguro de Incapacidad",
+          "termLifeInsurance": "Seguro de Vida a Plazo"
+        }
       },
       "craftsmenServices": {
         "title": "Servicios de Artesanía",
@@ -415,6 +523,16 @@
           "depreciationProof": "Documentación de Amortización (e.g., Contrato de Compra, Tasaciones)"
         }
       }
+    },
+    "signature": {
+      "title": "Declaración",
+      "declaration": "Declaración",
+      "placeAndDate": "Lugar y Fecha",
+      "place": "Lugar",
+      "date": "Fecha",
+      "signature": "Firma",
+      "consent1": "Declaro que la información proporcionada en esta declaración de impuestos es cierta y correcta al mejor conocimiento y creencia. Todos los documentos y recibos adjuntos son completos y auténticos. Entiendo que puedo ser responsabilizado penalmente por información falsa o omitida.",
+      "consent2": "Doy mi consentimiento para que mis datos sean procesados y almacenados con fines de preparación de la declaración de impuestos. El procesamiento se realizará de conformidad con las regulaciones aplicables de protección de datos."
     }
   }
 }

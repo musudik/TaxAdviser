@@ -38,8 +38,8 @@ const TFRentalIncome: React.FC<TFRentalIncomeProps> = ({
   };
 
   // Get translations
-  const t = i18nData?.taxForm?.incomeInfo || {};
-  const germanT = germanI18nData?.taxForm?.incomeInfo;
+  const t = i18nData?.taxForm?.incomeInfo.rentalIncome || {};
+  const germanT = germanI18nData?.taxForm?.incomeInfo.rentalIncome;
 
   // Ensure section exists in formData
   const incomeData = formData.incomeInfo || {};
@@ -148,8 +148,8 @@ const TFRentalIncome: React.FC<TFRentalIncomeProps> = ({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FKInputField
                   id="street"
-                  mainLanguage={germanT?.rental?.street || 'Straße'}
-                  selectedLanguage={t.rental?.street || 'Street'}
+                  mainLanguage={germanT?.street || 'Straße'}
+                  selectedLanguage={t.street || 'Street'}
                   value={incomeData.rentalPropertyAddress?.street || ''}
                   onChange={(e) => handleAddressChange('street', e.target.value)}
                   mandatory={true}
@@ -159,8 +159,8 @@ const TFRentalIncome: React.FC<TFRentalIncomeProps> = ({
 
                 <FKInputField
                   id="houseNumber"
-                  mainLanguage={germanT?.rental?.houseNumber || 'Hausnummer'}
-                  selectedLanguage={t.rental?.houseNumber || 'House Number'}
+                  mainLanguage={germanT?.houseNumber || 'Hausnummer'}
+                  selectedLanguage={t.houseNumber || 'House Number'}
                   value={incomeData.rentalPropertyAddress?.houseNumber || ''}
                   onChange={(e) => handleAddressChange('houseNumber', e.target.value)}
                   mandatory={true}
@@ -170,8 +170,8 @@ const TFRentalIncome: React.FC<TFRentalIncomeProps> = ({
 
                 <FKInputField
                   id="postalCode"
-                  mainLanguage={germanT?.rental?.postalCode || 'Postleitzahl'}
-                  selectedLanguage={t.rental?.postalCode || 'Postal Code'}
+                  mainLanguage={germanT?.postalCode || 'Postleitzahl'}
+                  selectedLanguage={t.postalCode || 'Postal Code'}
                   value={incomeData.rentalPropertyAddress?.postalCode || ''}
                   onChange={(e) => handleAddressChange('postalCode', e.target.value)}
                   mandatory={true}
@@ -181,8 +181,8 @@ const TFRentalIncome: React.FC<TFRentalIncomeProps> = ({
 
                 <FKInputField
                   id="city"
-                  mainLanguage={germanT?.rental?.city || 'Stadt'}
-                  selectedLanguage={t.rental?.city || 'City'}
+                  mainLanguage={germanT?.city || 'Stadt'}
+                  selectedLanguage={t.city || 'City'}
                   value={incomeData.rentalPropertyAddress?.city || ''}
                   onChange={(e) => handleAddressChange('city', e.target.value)}
                   mandatory={true}

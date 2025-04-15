@@ -9,11 +9,14 @@ interface SignaturePadProps {
 export const SignaturePad: React.FC<SignaturePadProps> = ({ onSave, initialValue }) => {
   const signatureRef = useRef<SignatureCanvas | null>(null);
   const [isSigned, setIsSigned] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
   const [dataURL, setDataURL] = useState<string>(initialValue || '');
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [isDrawing, setIsDrawing] = useState(false);
 
-  // Load initial value if provided
+  // Load initial value if provided, but only once
   useEffect(() => {
-    if (initialValue && signatureRef.current) {
+    if (initialValue && signatureRef.current && isInitialLoad) {
       const img = new Image();
       img.onload = () => {
         if (signatureRef.current) {
@@ -21,46 +24,53 @@ export const SignaturePad: React.FC<SignaturePadProps> = ({ onSave, initialValue
           if (ctx) {
             ctx.drawImage(img, 0, 0);
             setIsSigned(true);
+            setIsSaved(true);
             setDataURL(initialValue);
+            setIsInitialLoad(false);
           }
         }
       };
       img.src = initialValue;
     }
-  }, [initialValue]);
+  }, [initialValue, isInitialLoad]);
 
   const handleClear = () => {
     if (signatureRef.current) {
       signatureRef.current.clear();
       setIsSigned(false);
+      setIsSaved(false);
       setDataURL('');
       onSave('');
     }
   };
 
   const handleSave = () => {
-    if (signatureRef.current) {
+    if (signatureRef.current && !isSaved) {
       if (signatureRef.current.isEmpty()) {
         alert('Bitte unterschreiben Sie / Please sign before saving');
         return;
       }
       
       const newDataURL = signatureRef.current.toDataURL('image/png');
-      setDataURL(newDataURL);
-      onSave(newDataURL);
-      setIsSigned(true);
+      // Only update if the data URL has changed
+      if (newDataURL !== dataURL) {
+        setDataURL(newDataURL);
+        setIsSaved(true);
+        onSave(newDataURL);
+      }
     }
   };
 
   const handleBegin = () => {
-    setIsSigned(true);
+    setIsDrawing(true);
+    setIsSaved(false);
+    setIsInitialLoad(false); // Ensure we don't reload initial value after user starts signing
   };
 
   const handleEnd = () => {
+    setIsDrawing(false);
     if (signatureRef.current && !signatureRef.current.isEmpty()) {
-      const newDataURL = signatureRef.current.toDataURL('image/png');
-      setDataURL(newDataURL);
-      onSave(newDataURL);
+      setIsSigned(true);
     }
   };
 
@@ -94,18 +104,20 @@ export const SignaturePad: React.FC<SignaturePadProps> = ({ onSave, initialValue
           type="button"
           onClick={handleSave}
           className={`flex-1 px-4 py-2 border rounded-md text-sm font-medium ${
-            isSigned 
+            isSigned && !isSaved
               ? 'bg-indigo-600 text-white hover:bg-indigo-700 border-transparent' 
+              : isSaved
+              ? 'bg-green-600 text-white border-transparent cursor-not-allowed'
               : 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
           } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
-          disabled={!isSigned}
+          disabled={!isSigned || isSaved || isDrawing}
         >
-          Unterschrift speichern / Save Signature
+          {isSaved ? 'Unterschrift gespeichert / Signature saved' : 'Unterschrift speichern / Save Signature'}
         </button>
       </div>
-      {dataURL && (
+      {isSaved && (
         <div className="mt-2 text-sm text-green-600">
-          Unterschrift gespeichert / Signature saved ✓
+          ✓ Sie können jetzt fortfahren / You can now proceed
         </div>
       )}
     </div>

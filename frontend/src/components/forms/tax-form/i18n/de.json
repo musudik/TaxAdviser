@@ -23,6 +23,16 @@
     "divorced": "Geschieden",
     "widowed": "Verwitwet"
   },
+  "addExpense": {
+    "title": "Ausgabe hinzufügen",
+    "description": "Beschreibung",
+    "amount": "Betrag",
+    "file": "Beleg",
+    "fileUpload": "Datei hochladen",
+    "type": "Art der Ausgabe",
+    "add": "Hinzufügen",
+    "remove": "Entfernen"
+  },
   "countries": {
     "afghan": "Afghanisch",
     "albanian": "Albanisch",
@@ -272,6 +282,26 @@
         "businessType": "Art der Selbstständigkeit",
         "businessEarnings": "Einnahmen aus Selbstständigkeit",
         "businessExpenses": "Ausgaben aus Selbstständigkeit"
+      },  
+      "foreignIncome": {
+        "title": "Einkommen aus dem Ausland",
+        "hasForeignIncome": "Haben Sie Einkommen aus dem Ausland?",
+        "country": "Land der Einkünfte",
+        "typeOfIncome": "Art der Einkünfte",
+        "totalAmountQuestion": "Gesamtbetrag der ausländischen Einkünfte",
+        "foreignTaxPaid": "Im Ausland gezahlte Steuern",
+        "certificateUpload": "Steuerbescheinigung hochladen"
+      },
+      "rentalIncome": {
+        "title": "Mieteinnahmen",
+        "hasRentalProperty": "Haben Sie eine Mietimmobilie?",
+        "rentalIncome": "Mieteinnahmen",
+        "rentalCosts": "Mietnebenkosten",
+        "rentalPropertyAddress": "Adresse der Mietimmobilie",
+        "street": "Straße",
+        "houseNumber": "Hausnummer",
+        "postalCode": "Postleitzahl",
+        "city": "Stadt"
       },
       "investments": {
         "title": "Kapitalerträge",
@@ -314,12 +344,20 @@
         },
         "workEquipment": {
           "title": "Arbeitsausstattung",
-          "hasWorkEquipment": "Haben Sie Arbeitsausstattungskosten?"
+          "hasWorkEquipment": "Haben Sie Arbeitsausstattungskosten?",
+          "expenses": "Arbeitsausstattungskosten",
+          "expensesTypes": {
+            "office": "Büroausstattung",
+            "computer": "Computerausstattung",
+            "tools": "Werkzeuge",
+            "other": "Andere"
+          }
         },
         "homeOffice": {
           "title": "Hausarbeitsplatzzulage",
           "hasHomeOffice": "Haben Sie einen Hausarbeitsplatz?",
-          "workingDaysCount": "Anzahl der Hausarbeitsplatztage (Max. 230)"
+          "workingDaysCount": "Anzahl der Hausarbeitsplatztage (Max. 230)",
+          "expenses": "Hausarbeitsplatzzulage"
         },
         "applicationCosts": {
           "title": "Antrags- und Bewerbungskosten",
@@ -328,35 +366,120 @@
         },
         "hasDoubleHouseholdMgmt": "Haben Sie Mehrfamilienhaushalt?" 
       },
+      "businessExpenses": {
+        "title": "Geschäftliche Ausgaben",
+        "isBusinessOwner": "Sind Sie Geschäftsinhaber?",
+        "businessType": "Art des Geschäfts",
+        "businessEarnings": "Geschäftliche Einnahmen",
+        "businessExpenses": "Geschäftliche Ausgaben",
+        "businessAddress": "Geschäftsadresse",
+        "street": "Straße",
+        "houseNumber": "Hausnummer",
+        "postalCode": "Postleitzahl",
+        "city": "Stadt"
+      },
       "specialExpenses": {
         "title": "Sonderausgaben",
-        "churchTax": "Kirchensteuer",
-        "donationsAndFees": "Spenden und Mitgliedsbeiträge",
-        "childcareCosts": "Kinderbetreuungskosten",
-        "supportPayments": "Haben Sie Zahlungen an Bedürftige geleistet?",
-        "privateSchoolFees": "Private Schulgebühren",
-        "retirementProvisions": "Rürup-Rente",
-        "otherInsuranceExpenses": "Andere Versicherungsausgaben",
-        "professionalTrainingCosts": "Berufsausbildungskosten"
+        "insurance": {
+          "title": "Versicherungsausgaben",
+          "hasInsurance": "Haben Sie Versicherungsausgaben?",
+          "expenses": "Versicherungsausgaben",
+          "expensesTypes": {
+            "health": "Krankenversicherung",
+            "life": "Lebensversicherung",
+            "liability": "Haftpflichtversicherung",
+            "accident": "Unfallversicherung",
+            "disability": "Erwerbsunfähigkeitsversicherung",
+            "other": "Andere"
+          }
+        },
+        "donations": {
+          "title": "Spenden",
+          "hasDonations": "Haben Sie Spenden geleistet?",
+          "expenses": "Spendenbeträge"
+        },
+        "churchTax": {
+          "title": "Kirchensteuer",
+          "hasChurchTax": "Haben Sie Kirchensteuer?",
+          "expenses": "Kirchensteuer"
+        },
+        "childcareCosts": {
+          "title": "Kinderbetreuungskosten",
+          "hasChildcareCosts": "Haben Sie Kinderbetreuungskosten?",
+          "expenses": "Kinderbetreuungskosten"
+        },
+        "supportPayments": {
+          "title": "Unterstützungskosten",
+          "hasSupportPayments": "Haben Sie Unterstützungskosten?",
+          "expenses": "Unterstützungskosten"
+        },
+        "privateSchoolFees": {
+          "title": "Privatschulkosten",
+          "hasPrivateSchoolFees": "Haben Sie Privatschulkosten?",
+          "expenses": "Privatschulkosten"
+        },
+        "professionalDevelopment": {
+          "title": "Berufliche Weiterbildungskosten",
+          "hasProfessionalDevelopment": "Haben Sie berufliche Weiterbildungskosten?",
+          "expenses": "Berufliche Weiterbildungskosten"
+        },
+        "professionalTrainingCosts": {
+          "title": "Berufsausbildungskosten",
+          "hasProfessionalTrainingCosts": "Haben Sie Berufsausbildungskosten?",
+          "expenses": "Berufsausbildungskosten"
+        },
+        "otherInsuranceExpenses": {
+          "title": "Andere Versicherungsausgaben",
+          "hasOtherInsuranceExpenses": "Haben Sie andere Versicherungsausgaben?",
+          "expenses": "Andere Versicherungsausgaben"
+        }
       },
       "extraordinaryExpenses": {
-        "title": "Extraordinary Expenses",
-        "medicalExpenses": "Ärztekosten (Arzt, Medizin, Krankenhaus)",
-        "rehabilitationCosts": "Heilung und Rehabilitationskosten",
-        "careCosts": "Pflegekosten",
-        "disabilityExpenses": "Behindertenausgaben",
-        "funeralCosts": "Begräbniskosten",
-        "relativesSupportCosts": "Unterstützungskosten für Bedürftige",
-        "divorceCosts": "Scheidungskosten"
+        "title": "Ausnahmeausgaben",
+        "medicalExpenses": {
+          "title": "Krankheitskosten",
+          "hasMedicalExpenses": "Haben Sie Krankheitskosten?",
+          "expenses": "Krankheitskosten"
+        },
+        "rehabilitationCosts": {  
+          "title": "Heilung und Rehabilitationskosten",
+          "hasRehabilitationCosts": "Haben Sie Heilung und Rehabilitationskosten?",
+          "expenses": "Heilung und Rehabilitationskosten"
+        },
+        "careCosts": {  
+          "title": "Pflegekosten",  
+          "hasCareCosts": "Haben Sie Pflegekosten?",
+          "expenses": "Pflegekosten"
+        },
+        "disabilityExpenses": {
+          "title": "Behindertenausgaben",
+          "hasDisabilityExpenses": "Haben Sie Behindertenausgaben?",  
+          "expenses": "Behindertenausgaben"
+        },
+        "funeralCosts": {
+          "title": "Begräbniskosten",
+          "hasFuneralCosts": "Haben Sie Begräbniskosten?",
+          "expenses": "Begräbniskosten" 
+        },
+        "relativesSupportCosts": {
+          "title": "Unterstützungskosten für Bedürftige",
+          "hasRelativesSupportCosts": "Haben Sie Unterstützungskosten für Bedürftige?",
+          "expenses": "Unterstützungskosten für Bedürftige"
+        },
+        "divorceCosts": {
+          "title": "Scheidungskosten",
+          "hasDivorceCosts": "Haben Sie Scheidungskosten?",
+          "expenses": "Scheidungskosten"
+        }
       },
       "insurancePremiums": {
         "title": "Versicherungsprämien",
         "statutoryHealthInsurance": {
-          "statutory": "Gesetzliche Krankenversicherung",
+          "title": "Gesetzliche Krankenversicherung",
           "longterm": "Langfristige Pflegeversicherung"
         },
         "privateHealthInsurance": {
-          "private": "Private Krankenversicherung",
+          "title": "Private Krankenversicherung",
           "longterm": "Langfristige Pflegeversicherung"
         },
         "statutoryPensionInsurance": {
@@ -364,11 +487,13 @@
           "employer": "Arbeitgeber",
           "employee": "Arbeitnehmer"
         },
-        "privatePensionInsurance": "Private Rentenversicherung Beiträge (Rürup-Rente)",
-        "unemploymentInsurance": "Arbeitslosigkeitsversicherung Beiträge",
-        "accidentLiabilityInsurance": "Unfall- und Haftpflichtversicherung Beiträge",
-        "disabilityInsurance": "Erwerbsunfähigkeitsversicherung Beiträge",
-        "termLifeInsurance": "Term Life Insurance Beiträge"
+        "privatePensionInsurance": {
+          "title": "Private Rentenversicherung Beiträge (Rürup-Rente)",
+          "unemploymentInsurance": "Arbeitslosigkeitsversicherung Beiträge",
+          "accidentLiabilityInsurance": "Unfall- und Haftpflichtversicherung Beiträge",
+          "disabilityInsurance": "Erwerbsunfähigkeitsversicherung Beiträge",
+          "termLifeInsurance": "Term Life Insurance Beiträge"
+        }
       },
       "craftsmenServices": {
         "title": "Haben Sie Handwerkerleistungen in Anspruch genommen?",
@@ -409,6 +534,16 @@
           "depreciationProof": "Abschreibungsbescheinigungen (z.B. Erwerbspreis, Bewertungen)"
         }
       }
+    },
+    "signature": {    
+      "title": "Erklärung",
+      "declaration": "Erklärung",
+      "placeAndDate": "Ort und Datum",
+      "place": "Ort",
+      "date": "Datum",
+      "signature": "Unterschrift",
+      "consent1": "Ich versichere, dass ich die Angaben in dieser Steuererklärung wahrheitsgemäß nach bestem Wissen und Gewissen gemacht habe. Die beigefügten Unterlagen und Belege sind vollständig und authentisch. Mir ist bekannt, dass ich für falsche oder unterlassene Angaben strafrechtlich zur Verantwortung gezogen werden kann.",
+      "consent2": "Ich stimme zu, dass meine Daten zum Zweck der Steuererklärung verarbeitet und gespeichert werden. Die Verarbeitung erfolgt unter Beachtung der geltenden Datenschutzbestimmungen."
     }
   }
 }

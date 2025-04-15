@@ -4,7 +4,11 @@ import TFPersonalInfo from './steps/TFPersonalInfo';
 import TFIncomeInfo from './steps/TFIncomeInfo';
 import TFRentalIncome from './steps/TFRentalIncome';
 import TFForeignIncome from './steps/TFForeignIncome';
-import TFExpenses from './steps/TFExpenses';
+// Replace TFExpenses with the new split components
+import TFWorkRelatedExpenses from './steps/TFWorkRelatedExpenses';
+import TFSpecialExpenses from './steps/TFSpecialExpenses';
+import TFExtraordinaryBurdens from './steps/TFExtraordinaryBurdens';
+import TFCraftsmenServices from './steps/TFCraftsmenServices';
 import TFBusinessExpenses from './steps/TFBusinessExpenses';
 import TFReview from './steps/TFReview';
 import TFSignature from './steps/TFSignature';
@@ -88,13 +92,16 @@ const TaxFormBase: React.FC = () => {
   const [validationErrors, setValidationErrors] = useState<ValidationErrors | null>(null);
   const [showValidationErrors, setShowValidationErrors] = useState(false);
 
-  // Define steps with actual components
+  // Define steps with actual components - update with the new split steps
   const steps = [
     { name: 'Personal Info', component: TFPersonalInfo, key: 'personalInfo' },
     { name: 'Income Info', component: TFIncomeInfo, key: 'incomeInfo' },
     { name: 'Rental Income', component: TFRentalIncome, key: 'rentalIncome' },
     { name: 'Foreign Income', component: TFForeignIncome, key: 'foreignIncome' },
-    { name: 'Expenses', component: TFExpenses, key: 'expenses' },
+    { name: 'Work-Related Expenses', component: TFWorkRelatedExpenses, key: 'workRelatedExpenses' },
+    { name: 'Special Expenses', component: TFSpecialExpenses, key: 'specialExpenses' },
+    { name: 'Extraordinary Burdens', component: TFExtraordinaryBurdens, key: 'extraordinaryBurdens' },
+    { name: 'Craftsmen Services', component: TFCraftsmenServices, key: 'craftsmenServices' },
     { name: 'Business Expenses', component: TFBusinessExpenses, key: 'businessExpenses' },
     { name: 'Review', component: TFReview, key: 'review' },
     { name: 'Signature', component: TFSignature, key: 'signature' }

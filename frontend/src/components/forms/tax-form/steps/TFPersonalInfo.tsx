@@ -26,7 +26,14 @@ const FormSection = ({ title, children }: { title: React.ReactNode, children: Re
   </div>
 );
 
-const TFPersonalInfo: React.FC<TFPersonalInfoProps> = ({ formData, handleChange, selectedLanguage, i18nData, germanI18nData, validationErrors, showValidationErrors }) => {
+const TFPersonalInfo: React.FC<TFPersonalInfoProps> = ({ 
+  formData, 
+  handleChange, 
+  selectedLanguage, 
+  i18nData, 
+  germanI18nData, 
+  validationErrors, 
+  showValidationErrors }) => {
   // // Helper to get nested value safely, with type casting
   // const getValue = (path: string): any => { // Return type any for now
   //   try {
@@ -509,7 +516,7 @@ const TFPersonalInfo: React.FC<TFPersonalInfoProps> = ({ formData, handleChange,
             {(personalInfoData.children || []).map((child: any, index: number) => (
               <div key={index} className="border border-gray-200 rounded p-3 relative space-y-3">
                 <h4 className="text-sm font-medium text-neutral-700">
-                  {germanT.children?.child || 'Kind'} {index + 1} / {t.children?.child || 'Child'} {index + 1}
+                  {germanT.children?.child} {index + 1} / {t.children?.child} {index + 1}
                 </h4>
                  {/* Remove Button - Absolute Positioned */}
                  <button 
@@ -524,8 +531,8 @@ const TFPersonalInfo: React.FC<TFPersonalInfoProps> = ({ formData, handleChange,
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FKInputField
                     id={`children.${index}.firstName`}
-                    mainLanguage={germanT.children?.firstName || 'Vorname'}
-                    selectedLanguage={t.children?.firstName || 'First Name'}
+                    mainLanguage={germanT.children?.firstName || 'Vorname des Kindes2'}
+                    selectedLanguage={t.children?.firstName || 'Child First Name2'}
                     value={child.firstName || ''}
                     onChange={(e) => handleChildChange(index, 'firstName', e.target.value)}
                     mandatory={true}
@@ -534,8 +541,8 @@ const TFPersonalInfo: React.FC<TFPersonalInfoProps> = ({ formData, handleChange,
                   />
                   <FKInputField
                     id={`children.${index}.lastName`}
-                    mainLanguage={germanT.children?.lastName || 'Nachname'}
-                    selectedLanguage={t.children?.lastName || 'Last Name'}
+                    mainLanguage={germanI18nData?.taxForm?.personalInfo?.children?.lastName || 'Nachname des Kindes'}
+                    selectedLanguage={i18nData?.taxForm?.personalInfo?.children?.lastName || 'Child Last Name'}
                     value={child.lastName || ''}
                     onChange={(e) => handleChildChange(index, 'lastName', e.target.value)}
                     mandatory={true}
@@ -545,8 +552,8 @@ const TFPersonalInfo: React.FC<TFPersonalInfoProps> = ({ formData, handleChange,
                   <FKInputField
                     id={`children.${index}.dateOfBirth`}
                     type="date"
-                    mainLanguage={germanT.children?.dateOfBirth || 'Geburtsdatum'}
-                    selectedLanguage={t.children?.dateOfBirth || 'Date of Birth'}
+                    mainLanguage={germanI18nData?.taxForm?.personalInfo?.children?.dateOfBirth || 'Geburtsdatum des Kindes'}
+                    selectedLanguage={i18nData?.taxForm?.personalInfo?.children?.dateOfBirth || 'Child Date of Birth'}
                     value={child.dateOfBirth || ''}
                     onChange={(e) => handleChildChange(index, 'dateOfBirth', e.target.value)}
                     mandatory={true}
@@ -555,8 +562,8 @@ const TFPersonalInfo: React.FC<TFPersonalInfoProps> = ({ formData, handleChange,
                   />
                   <FKInputField
                     id={`children.${index}.taxId`}
-                    mainLanguage={germanT.children?.taxId || 'Steuer-ID'}
-                    selectedLanguage={t.children?.taxId || 'Tax ID'}
+                    mainLanguage={germanI18nData?.taxForm?.personalInfo?.children?.taxId || 'Steuer-ID des Kindes'}
+                    selectedLanguage={i18nData?.taxForm?.personalInfo?.children?.taxId || 'Child Tax ID'}
                     value={child.taxId || ''}
                     onChange={(e) => handleChildChange(index, 'taxId', e.target.value)}
                     mandatory={true}
@@ -572,7 +579,7 @@ const TFPersonalInfo: React.FC<TFPersonalInfoProps> = ({ formData, handleChange,
               onClick={addChild}
               className="mt-2 px-3 py-1.5 text-sm border border-blue-600 text-blue-600 rounded hover:bg-blue-50 transition-colors"
             >
-              {germanT.children?.add || 'Kind hinzufügen'} / {t.children?.add || 'Add Child'}
+              {germanI18nData?.taxForm?.personalInfo?.children?.add || 'Kind hinzufügen'} / {i18nData?.taxForm?.personalInfo?.children?.add || 'Add Child'}
             </button>
           </div>
         )}

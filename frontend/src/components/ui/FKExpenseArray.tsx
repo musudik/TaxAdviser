@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FKInputField from './FKInputField';
+import FKFileField from './FKFileField';
 import { cn } from '../../lib/utils';
+
+interface FileWithPreview extends File {
+  preview?: string;
+}
 
 interface ExpenseItem {
   id: string;
   description: string;
   type: string;
   amount: string;
+  file?: FileWithPreview[] | null;
 }
 
 interface FKExpenseArrayProps {
@@ -14,7 +20,10 @@ interface FKExpenseArrayProps {
   expenseTypes: Record<string, string>;
   className?: string;
   onChange: (expenses: ExpenseItem[]) => void;
-  selectedLanguage: string;
+  value?: ExpenseItem[];
+  withFile?: boolean;
+  germanT?: any;
+  t?: any;
 }
 
 const FKExpenseArray: React.FC<FKExpenseArrayProps> = ({
@@ -22,16 +31,28 @@ const FKExpenseArray: React.FC<FKExpenseArrayProps> = ({
   expenseTypes,
   className,
   onChange,
-  selectedLanguage
+  value = [],
+  withFile = false,
+  germanT,
+  t
 }) => {
-  const [expenses, setExpenses] = useState<ExpenseItem[]>([]);
+  const [expenses, setExpenses] = useState<ExpenseItem[]>(value);
+
+  // Always sync with value prop to ensure state persistence during language changes
+  useEffect(() => {
+    console.log("FKExpenseArray value prop changed:", value);
+    // Always update state from props, even if array is empty
+    // This ensures state is preserved during language changes
+    setExpenses(value || []);
+  }, [value]);
 
   const handleAddExpense = () => {
     const newExpense = {
       id: Date.now().toString(),
       description: '',
       type: Object.keys(expenseTypes)[0],
-      amount: ''
+      amount: '',
+      file: null
     };
     const updatedExpenses = [...expenses, newExpense];
     setExpenses(updatedExpenses);
@@ -44,7 +65,7 @@ const FKExpenseArray: React.FC<FKExpenseArrayProps> = ({
     onChange(updatedExpenses);
   };
 
-  const handleChange = (id: string, field: keyof ExpenseItem, value: string) => {
+  const handleChange = (id: string, field: keyof ExpenseItem, value: any) => {
     const updatedExpenses = expenses.map(expense => 
       expense.id === id ? { ...expense, [field]: value } : expense
     );
@@ -61,7 +82,7 @@ const FKExpenseArray: React.FC<FKExpenseArrayProps> = ({
           onClick={handleAddExpense}
           className="px-3 py-1 bg-primary-500 text-white rounded-md hover:bg-primary-600"
         >
-          + Add
+          {germanT?.addExpense?.add || "Add"}
         </button>
       </div>
 
@@ -74,21 +95,21 @@ const FKExpenseArray: React.FC<FKExpenseArrayProps> = ({
               onClick={() => handleRemoveExpense(expense.id)}
               className="text-red-500 hover:text-red-700"
             >
-              - Remove
+              {germanT?.addExpense?.remove || "Remove"}
             </button>
           </div>
 
           <FKInputField
-            selectedLanguage={selectedLanguage}
             id={`${expense.id}-description`}
             value={expense.description}
             onChange={(e) => handleChange(expense.id, 'description', e.target.value)}
-            mainLanguage="Description"
+            mainLanguage={germanT?.addExpense?.description}
+            selectedLanguage={t?.addExpense?.description}
             mandatory
           />
 
           <div className="space-y-1">
-            <label className="font-medium text-sm">Type</label>
+            <label className="font-medium text-sm">{germanT?.addExpense?.type}</label>
             <select
               value={expense.type}
               onChange={(e) => handleChange(expense.id, 'type', e.target.value)}
@@ -103,14 +124,26 @@ const FKExpenseArray: React.FC<FKExpenseArrayProps> = ({
           </div>
 
           <FKInputField
-            selectedLanguage={selectedLanguage}
             id={`${expense.id}-amount`}
             type="number"
             value={expense.amount}
             onChange={(e) => handleChange(expense.id, 'amount', e.target.value)}
-            mainLanguage="Amount"
+            mainLanguage={germanT?.addExpense?.amount}
+            selectedLanguage={t?.addExpense?.amount}
             mandatory
           />
+
+          {withFile && (
+            <FKFileField
+              id={`${expense.id}-file`}
+              mainLanguage={germanT?.addExpense?.fileUpload || "Datei hochladen"}
+              selectedLanguage={t?.addExpense?.fileUpload || "Upload File"}
+              onChange={(files) => handleChange(expense.id, 'file', files)}
+              value={expense.file || null}
+              accept=".pdf,.jpg,.jpeg,.png"
+              maxSize={5}
+            />
+          )}
         </div>
       ))}
     </div>

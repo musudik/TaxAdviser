@@ -335,127 +335,135 @@ export const validateTaxForm = (
       }
       break;
 
-    case 4: // Expenses Step
-      const ex = formData.expenses || {};
+    case 4: // Work-Related Expenses Step
+      const wrExpenses = formData.expenses || {};
       section = 'expenses';
 
-      // Work-Related Expenses - Commutation
-      if (ex.workRelatedExpenses?.commutation?.hasCommutingExpenses === undefined) {
+      // Commuting Expenses validation
+      if (wrExpenses.workRelatedExpenses?.commutation?.hasCommutingExpenses === undefined) {
         setError(section, 'workRelatedExpenses.commutation.hasCommutingExpenses', 'selectionRequired');
-      } else if (ex.workRelatedExpenses?.commutation?.hasCommutingExpenses === true) {
-        // Working Days Count
-        if (isEmpty(ex.workRelatedExpenses?.commutation?.workingDaysCount)) {
+      } else if (wrExpenses.workRelatedExpenses?.commutation?.hasCommutingExpenses === true) {
+        // Working days count validation
+        if (isEmpty(wrExpenses.workRelatedExpenses?.commutation?.workingDaysCount)) {
           setError(section, 'workRelatedExpenses.commutation.workingDaysCount', 'required');
-        } else if (!isValidWorkingDays(Number(ex.workRelatedExpenses?.commutation?.workingDaysCount))) {
+        } else if (!isValidWorkingDays(Number(wrExpenses.workRelatedExpenses?.commutation?.workingDaysCount))) {
           setError(section, 'workRelatedExpenses.commutation.workingDaysCount', 'invalidWorkingDays');
         }
 
-        // Route Validation
-        const route = ex.workRelatedExpenses?.commutation?.route;
-        if (!isValidAddress(route?.from)) {
+        // From Address validation
+        if (!isValidAddress(wrExpenses.workRelatedExpenses?.commutation?.route?.from)) {
           setError(section, 'workRelatedExpenses.commutation.route.from', 'invalidAddress');
         }
-        if (!isValidAddress(route?.firstOfficeAddress)) {
+
+        // Office Address validation
+        if (!isValidAddress(wrExpenses.workRelatedExpenses?.commutation?.route?.firstOfficeAddress)) {
           setError(section, 'workRelatedExpenses.commutation.route.firstOfficeAddress', 'invalidAddress');
         }
       }
 
-      // Home Office
-      if (ex.workRelatedExpenses?.homeOffice?.hasHomeOffice === undefined) {
+      // Business Trips and Training Costs validation
+      if (Number(wrExpenses.workRelatedExpenses?.businessTripsCosts?.amount) > 0) {
+        if (!wrExpenses.workRelatedExpenses?.businessTripsCosts?.proof ||
+            !Array.isArray(wrExpenses.workRelatedExpenses?.businessTripsCosts?.proof) ||
+            wrExpenses.workRelatedExpenses?.businessTripsCosts?.proof.length === 0) {
+          setError(section, 'workRelatedExpenses.businessTripsCosts.proof', 'fileRequired');
+        }
+      }
+
+      // Work Equipment validation
+      if (wrExpenses.workRelatedExpenses?.workEquipment?.hasWorkEquipment === undefined) {
+        setError(section, 'workRelatedExpenses.workEquipment.hasWorkEquipment', 'selectionRequired');
+      }
+
+      // Home Office validation
+      if (wrExpenses.workRelatedExpenses?.homeOffice?.hasHomeOffice === undefined) {
         setError(section, 'workRelatedExpenses.homeOffice.hasHomeOffice', 'selectionRequired');
-      } else if (ex.workRelatedExpenses?.homeOffice?.hasHomeOffice === true) {
-        if (isEmpty(ex.workRelatedExpenses?.homeOffice?.workingDaysCount)) {
+      } else if (wrExpenses.workRelatedExpenses?.homeOffice?.hasHomeOffice === true) {
+        if (isEmpty(wrExpenses.workRelatedExpenses?.homeOffice?.workingDaysCount)) {
           setError(section, 'workRelatedExpenses.homeOffice.workingDaysCount', 'required');
-        } else if (!isValidWorkingDays(Number(ex.workRelatedExpenses?.homeOffice?.workingDaysCount))) {
+        } else if (!isValidWorkingDays(Number(wrExpenses.workRelatedExpenses?.homeOffice?.workingDaysCount))) {
           setError(section, 'workRelatedExpenses.homeOffice.workingDaysCount', 'invalidWorkingDays');
         }
       }
 
-      // Application Costs
-      if (!isEmpty(ex.workRelatedExpenses?.applicationCosts?.online) && 
-          !isValidAmount(Number(ex.workRelatedExpenses?.applicationCosts?.online))) {
-        setError(section, 'workRelatedExpenses.applicationCosts.online', 'invalidAmount');
+      // Job Application Costs validation - no mandatory fields
+
+      // Double Household Management validation
+      if (wrExpenses.workRelatedExpenses?.hasDoubleHouseholdMgmt === undefined) {
+        setError(section, 'workRelatedExpenses.hasDoubleHouseholdMgmt', 'selectionRequired');
       }
-      if (!isEmpty(ex.workRelatedExpenses?.applicationCosts?.inPerson) && 
-          !isValidAmount(Number(ex.workRelatedExpenses?.applicationCosts?.inPerson))) {
-        setError(section, 'workRelatedExpenses.applicationCosts.inPerson', 'invalidAmount');
+      break;
+
+    case 5: // Special Expenses Step
+      const specialExpenses = formData.expenses || {};
+      section = 'expenses';
+
+      // Insurance Expenses validation
+      if (specialExpenses.specialExpenses?.insurance?.hasInsurance === undefined) {
+        setError(section, 'specialExpenses.insurance.hasInsurance', 'selectionRequired');
       }
 
-      // Special Expenses
-      const specialExpenses = ex.specialExpenses || {};
-      ['churchTax', 'donationsAndFees', 'childcareCosts', 'privateSchoolFees', 
-       'retirementProvisions', 'otherInsuranceExpenses', 'professionalTrainingCosts'].forEach(field => {
-        if (!isEmpty(specialExpenses[field]) && !isValidAmount(Number(specialExpenses[field]))) {
-          setError(section, `specialExpenses.${field}`, 'invalidAmount');
-        }
-      });
-
-      // Extraordinary Expenses
-      const extraordinaryExpenses = ex.extraordinaryExpenses || {};
-      ['medicalExpenses', 'rehabilitationCosts', 'careCosts', 'disabilityExpenses', 
-       'funeralCosts', 'relativesSupportCosts', 'divorceCosts'].forEach(field => {
-        if (!isEmpty(extraordinaryExpenses[field]) && !isValidAmount(Number(extraordinaryExpenses[field]))) {
-          setError(section, `extraordinaryExpenses.${field}`, 'invalidAmount');
-        }
-      });
-
-      // Insurance Premiums
-      const insurancePremiums = ex.insurancePremiums || {};
-      
-      // Statutory Health Insurance
-      if (!isEmpty(insurancePremiums.statutoryHealthInsurance?.statutory) && 
-          !isValidAmount(Number(insurancePremiums.statutoryHealthInsurance?.statutory))) {
-        setError(section, 'insurancePremiums.statutoryHealthInsurance.statutory', 'invalidAmount');
-      }
-      if (!isEmpty(insurancePremiums.statutoryHealthInsurance?.longterm) && 
-          !isValidAmount(Number(insurancePremiums.statutoryHealthInsurance?.longterm))) {
-        setError(section, 'insurancePremiums.statutoryHealthInsurance.longterm', 'invalidAmount');
+      // Donations validation
+      if (specialExpenses.specialExpenses?.donations?.hasDonations === undefined) {
+        setError(section, 'specialExpenses.donations.hasDonations', 'selectionRequired');
       }
 
-      // Private Health Insurance
-      if (!isEmpty(insurancePremiums.privateHealthInsurance?.private) && 
-          !isValidAmount(Number(insurancePremiums.privateHealthInsurance?.private))) {
-        setError(section, 'insurancePremiums.privateHealthInsurance.private', 'invalidAmount');
+      // Professional Development validation
+      if (specialExpenses.specialExpenses?.professionalDevelopment?.hasProfessionalDevelopment === undefined) {
+        setError(section, 'specialExpenses.professionalDevelopment.hasProfessionalDevelopment', 'selectionRequired');
       }
-      if (!isEmpty(insurancePremiums.privateHealthInsurance?.longterm) && 
-          !isValidAmount(Number(insurancePremiums.privateHealthInsurance?.longterm))) {
-        setError(section, 'insurancePremiums.privateHealthInsurance.longterm', 'invalidAmount');
+      break;
+
+    case 6: // Extraordinary Burdens Step
+      const extraBurdens = formData.expenses || {};
+      section = 'expenses';
+
+      // Medical Expenses validation
+      if (extraBurdens.extraordinaryBurdens?.medicalExpenses?.hasMedicalExpenses === undefined) {
+        setError(section, 'extraordinaryBurdens.medicalExpenses.hasMedicalExpenses', 'selectionRequired');
       }
 
-      // Craftsmen Services
-      if (ex.craftsmenServices?.hasMaintenancePayments === undefined) {
+      // Care Expenses validation
+      if (extraBurdens.extraordinaryBurdens?.careCosts?.hasCareCosts === undefined) {
+        setError(section, 'extraordinaryBurdens.careCosts.hasCareCosts', 'selectionRequired');
+      }
+
+      // Disability Expenses validation
+      if (extraBurdens.extraordinaryBurdens?.disabilityExpenses?.hasDisabilityExpenses === undefined) {
+        setError(section, 'extraordinaryBurdens.disabilityExpenses.hasDisabilityExpenses', 'selectionRequired');
+      }
+      break;
+
+    case 7: // Craftsmen Services Step
+      const craftsmenServices = formData.expenses || {};
+      section = 'expenses';
+
+      // Craftsmen Services validation
+      if (craftsmenServices.craftsmenServices?.hasMaintenancePayments === undefined) {
         setError(section, 'craftsmenServices.hasMaintenancePayments', 'selectionRequired');
-      } else if (ex.craftsmenServices?.hasMaintenancePayments === true) {
-        if (isEmpty(ex.craftsmenServices?.maintenanceRecipient)) {
+      } else if (craftsmenServices.craftsmenServices?.hasMaintenancePayments === true) {
+        // Maintenance Recipient validation
+        if (isEmpty(craftsmenServices.craftsmenServices?.maintenanceRecipient)) {
           setError(section, 'craftsmenServices.maintenanceRecipient', 'required');
         }
-        if (isEmpty(ex.craftsmenServices?.maintenanceAmount)) {
+
+        // Maintenance Amount validation
+        if (isEmpty(craftsmenServices.craftsmenServices?.maintenanceAmount)) {
           setError(section, 'craftsmenServices.maintenanceAmount', 'required');
-        } else if (!isValidAmount(Number(ex.craftsmenServices?.maintenanceAmount))) {
+        } else if (!isValidAmount(Number(craftsmenServices.craftsmenServices?.maintenanceAmount))) {
           setError(section, 'craftsmenServices.maintenanceAmount', 'invalidAmount');
         }
-        if (!ex.craftsmenServices?.invoiceCraftsmenServices) {
-          setError(section, 'craftsmenServices.invoiceCraftsmenServices', 'fileRequired');
-        }
-      }
 
-      // Rental and Leasing
-      const rental = ex.rentalAndLeasing || {};
-      if (!isEmpty(rental.ownerFirstName) || !isEmpty(rental.ownerLastName) || !isEmpty(rental.purchaseDate)) {
-        if (isEmpty(rental.ownerFirstName)) setError(section, 'rentalAndLeasing.ownerFirstName', 'required');
-        if (isEmpty(rental.ownerLastName)) setError(section, 'rentalAndLeasing.ownerLastName', 'required');
-        if (isEmpty(rental.purchaseDate)) {
-          setError(section, 'rentalAndLeasing.purchaseDate', 'required');
-        } else if (!isValidDate(rental.purchaseDate)) {
-          setError(section, 'rentalAndLeasing.purchaseDate', 'invalidDate');
-        }
-        if (!isValidAddress(rental.address)) {
-          setError(section, 'rentalAndLeasing.address', 'invalidAddress');
+        // Invoice validation
+        if (!craftsmenServices.craftsmenServices?.invoiceCraftsmenServices || 
+            !Array.isArray(craftsmenServices.craftsmenServices?.invoiceCraftsmenServices) || 
+            craftsmenServices.craftsmenServices?.invoiceCraftsmenServices.length === 0) {
+          setError(section, 'craftsmenServices.invoiceCraftsmenServices', 'fileRequired');
         }
       }
       break;
 
-    case 5: // Business Expenses Step
+    case 8: // Business Expenses Step
       const be = formData.businessInfo || {};
       section = 'businessInfo';
 
@@ -499,7 +507,11 @@ export const validateTaxForm = (
       }
       break;
 
-    case 9: // Signature Step (Final Step)
+    case 9: // Review Step
+      // No validation needed for review step
+      break;
+
+    case 10: // Signature Step
       const sig = formData.signature || {};
       section = 'signature';
 
@@ -527,8 +539,8 @@ export const validateTaxForm = (
       }
       break;
 
-    // Add other step validations here
     default:
+      // No validation for unknown step
       break;
   }
 

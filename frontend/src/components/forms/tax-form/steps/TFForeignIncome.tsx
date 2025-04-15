@@ -40,10 +40,8 @@ const TFForeignIncome: React.FC<TFForeignIncomeProps> = ({
   };
 
   // Get translations
-  const t = i18nData?.taxForm?.incomeInfo || {};
-  const germanT = germanI18nData?.taxForm?.incomeInfo;
-  const foreignT = i18nData?.taxForm?.foreignIncome || {};
-  const germanForeignT = germanI18nData?.taxForm?.foreignIncome;
+  const t = i18nData?.taxForm?.incomeInfo.foreignIncome || {};  
+  const germanT = germanI18nData?.taxForm?.incomeInfo.foreignIncome;
 
   // Get country options
   const countryOptions = Object.entries(i18nData?.countries || {}).map(([key, value]) => ({
@@ -135,8 +133,8 @@ const TFForeignIncome: React.FC<TFForeignIncomeProps> = ({
               <div className="space-y-4">
                 <FKSelectField
                   id="foreignIncomeCountry"
-                  mainLanguage={germanForeignT?.countryQuestion || 'Land der Einkünfte'}
-                  selectedLanguage={foreignT.countryQuestion || 'Country of Income'}
+                  mainLanguage={germanT?.countryQuestion || 'Land der Einkünfte'}
+                  selectedLanguage={t.countryQuestion || 'Country of Income'}
                   value={incomeData.foreignIncomeCountry || ''}
                   onChange={(e) => handleCountryChange(e.target.value)}
                   options={countryOptions}
@@ -148,8 +146,8 @@ const TFForeignIncome: React.FC<TFForeignIncomeProps> = ({
                 {incomeData.foreignIncomeCountry === 'other' && (
                   <FKInputField
                     id="foreignIncomeOtherCountry"
-                    mainLanguage={germanForeignT?.otherCountryQuestion || 'Anderes Land angeben'}
-                    selectedLanguage={foreignT.otherCountryQuestion || 'Specify Other Country'}
+                    mainLanguage={germanT?.otherCountryQuestion || 'Anderes Land angeben'}
+                    selectedLanguage={t.otherCountryQuestion || 'Specify Other Country'}
                     value={incomeData.foreignIncomeOtherCountry || ''}
                     onChange={(e) => handleFieldChange('foreignIncomeOtherCountry', e.target.value)}
                     mandatory={true}
@@ -161,8 +159,8 @@ const TFForeignIncome: React.FC<TFForeignIncomeProps> = ({
 
               <FKInputField
                 id="foreignIncomeType"
-                mainLanguage={germanForeignT?.incomeTypeQuestion || 'Art der Einkünfte'}
-                selectedLanguage={foreignT.incomeTypeQuestion || 'Type of Income'}
+                mainLanguage={germanT?.typeOfIncome || 'Art der Einkünfte'}
+                selectedLanguage={t.typeOfIncome || 'Type of Income'}
                 value={incomeData.foreignIncomeType || ''}
                 onChange={(e) => handleFieldChange('foreignIncomeType', e.target.value)}
                 mandatory={true}
@@ -173,8 +171,8 @@ const TFForeignIncome: React.FC<TFForeignIncomeProps> = ({
               <FKInputField
                 id="foreignIncomeAmount"
                 type="number"
-                mainLanguage={germanForeignT?.totalAmountQuestion || 'Gesamtbetrag der ausländischen Einkünfte'}
-                selectedLanguage={foreignT.totalAmountQuestion || 'Total Amount of Foreign Income'}
+                mainLanguage={germanT?.totalAmountQuestion || 'Gesamtbetrag der ausländischen Einkünfte'}
+                selectedLanguage={t.totalAmountQuestion || 'Total Amount of Foreign Income'}
                 value={incomeData.foreignIncomeAmount || ''}
                 onChange={(e) => handleFieldChange('foreignIncomeAmount', e.target.value)}
                 mandatory={true}
@@ -186,8 +184,8 @@ const TFForeignIncome: React.FC<TFForeignIncomeProps> = ({
               <FKInputField
                 id="foreignIncomeTaxPaid"
                 type="number"
-                mainLanguage={germanForeignT?.taxPaidQuestion || 'Gezahlte ausländische Steuer'}
-                selectedLanguage={foreignT.taxPaidQuestion || 'Foreign Tax Paid'}
+                mainLanguage={germanT?.foreignTaxPaid || 'Gezahlte ausländische Steuer'}
+                selectedLanguage={t.foreignTaxPaid || 'Foreign Tax Paid'}
                 value={incomeData.foreignIncomeTaxPaid || ''}
                 onChange={(e) => handleFieldChange('foreignIncomeTaxPaid', e.target.value)}
                 mandatory={true}
@@ -199,8 +197,8 @@ const TFForeignIncome: React.FC<TFForeignIncomeProps> = ({
 
             <FKFileField
               id="foreignIncomeTaxCertificateFile"
-              mainLanguage={germanForeignT?.certificateUpload || 'Steuerbescheinigung hochladen'}
-              selectedLanguage={foreignT.certificateUpload || 'Upload Tax Certificate'}
+              mainLanguage={germanT?.certificateUpload || 'Steuerbescheinigung hochladen'}
+              selectedLanguage={t.certificateUpload || 'Upload Tax Certificate'}
               value={incomeData.foreignIncomeTaxCertificateFile || []}
               onChange={(files) => handleFieldChange('foreignIncomeTaxCertificateFile', files)}
               mandatory={true}

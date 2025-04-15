@@ -23,6 +23,16 @@
     "divorced": "Divorced",
     "widowed": "Widowed"
   },
+  "addExpense": {
+    "title": "Add Expense",
+    "description": "Description",
+    "amount": "Amount",
+    "file": "Proof of Expense",
+    "fileUpload": "Upload File",
+    "type": "Expense Type",
+    "add": "Add",
+    "remove": "Remove"
+  },
   "countries": {
     "afghan": "Afghan",
     "albanian": "Albanian",
@@ -266,6 +276,26 @@
         "businessEarnings": "Self-employment earnings",
         "businessExpenses": "Self-employment expenses"
       },
+      "foreignIncome": {
+        "title": "Foreign Income",
+        "hasForeignIncome": "Do you have income from abroad?",
+        "country": "Country of income",
+        "typeOfIncome": "Type of income",
+        "totalAmountOfIncome": "Total amount of foreign income",
+        "foreignTaxPaid": "Foreign Tax paid",
+        "certificateUpload": "Upload Tax Certificate"
+      },
+      "rentalIncome": {
+        "title": "Rental Income",
+        "hasRentalProperty": "Do you have rental income?",
+        "rentalIncome": "Rental income",
+        "rentalCosts": "Rental costs",
+        "rentalPropertyAddress": "Rental Property Address",
+        "street": "Street",
+        "houseNumber": "House Number",
+        "postalCode": "Postal Code",
+        "city": "City"
+      },
       "investments": {
         "title": "Investment Income",
         "hasStockIncome": "Do you have income from stocks?",
@@ -313,12 +343,20 @@
         },
         "workEquipment": {
           "title": "Work Equipment",
-          "hasWorkEquipment": "Do you have Work Equipment expenses?"
+          "hasWorkEquipment": "Do you have Work Equipment expenses?",
+          "expenses": "Work Equipment expenses",
+          "expensesTypes": {
+            "office": "Office Supplies",
+            "computer": "Computer Equipment",
+            "tools": "Tools",
+            "other": "Other"
+          }
         },
         "homeOffice": {
           "title": "Home Office Allowance",
           "hasHomeOffice": "Do you have a home office?",
-          "workingDaysCount": "Number of home office days (230 Max)"
+          "workingDaysCount": "Number of home office days (230 Max)",
+          "expenses": "Home Office expenses"
         },
         "applicationCosts": {
           "title": "Job Application Costs",
@@ -327,35 +365,115 @@
         },
         "hasDoubleHouseholdMgmt": "Did you have double household management?"
       },
+      "businessExpenses": {
+        "title": "Business Expenses",
+        "isBusinessOwner": "Are you a business owner?",
+        "businessType": "Type of Business",
+        "businessEarnings": "Business Earnings",
+        "businessExpenses": "Business Expenses",
+        "businessAddress": "Business Address",
+        "street": "Street",
+        "houseNumber": "House Number",
+        "postalCode": "Postal Code",
+        "city": "City"
+      },
       "specialExpenses": {
         "title": "Special Expenses",
-        "churchTax": "Church Tax",
-        "donationsAndFees": "Donations and Membership Fees",
-        "childcareCosts": "Childcare Costs",
-        "supportPayments": "Do you make payments to support needy persons?",
-        "privateSchoolFees": "Private School Fees",
-        "retirementProvisions": "Retirement Provisions",
-        "otherInsuranceExpenses": "Other Insurance Expenses",
-        "professionalTrainingCosts": "Professional Training Costs"
+        "insurance": {
+          "title": "Insurance Expenses",
+          "hasInsurance": "Do you have insurance expenses?",
+          "expenses": "Insurance Expenses",
+          "expensesTypes": {
+            "health": "Health Insurance",
+            "life": "Life Insurance",
+            "liability": "Liability Insurance",
+            "accident": "Accident Insurance",
+            "disability": "Disability Insurance",
+            "other": "Other"
+          }
+        },
+        "donations": {  
+          "title": "Donations and Membership Fees",
+          "hasDonations": "Do you have donations and membership fees?",
+          "expenses": "Donations and Membership Fees"
+        },
+        "churchTax": {
+          "title": "Church Tax",
+          "hasChurchTax": "Do you have church tax?",
+          "expenses": "Church Tax"
+        },
+        "childcareCosts": {
+          "title": "Childcare Costs",
+          "hasChildcareCosts": "Do you have childcare costs?",
+          "expenses": "Childcare Costs"
+        },
+        "supportPayments": {
+          "title": "Support Payments",
+          "hasSupportPayments": "Do you make payments to support needy persons?",
+          "expenses": "Support Payments"
+        },
+        "privateSchoolFees": {
+          "title": "Private School Fees",
+          "hasPrivateSchoolFees": "Do you have private school fees?",
+          "expenses": "Private School Fees"
+        },
+        "professionalDevelopment": {
+          "title": "Professional Development",
+          "hasProfessionalDevelopment": "Do you have professional development expenses?",
+          "expenses": "Professional Development Expenses"
+        },
+        "otherInsuranceExpenses": {
+          "title": "Other Insurance Expenses",
+          "hasOtherInsuranceExpenses": "Do you have other insurance expenses?",
+          "expenses": "Other Insurance Expenses"
+        }
       },
       "extraordinaryExpenses": {
         "title": "Extraordinary Expenses",
-        "medicalExpenses": "Medical Expenses (Doctor, Medicine, Hospital)",
-        "rehabilitationCosts": "Cure and Rehabilitation Costs",
-        "careCosts": "Care Costs",
-        "disabilityExpenses": "Disability-Related Expenses",
-        "funeralCosts": "Funeral Costs",
-        "relativesSupportCosts": "Support Costs for Needy Relatives",
-        "divorceCosts": "Divorce Costs"
+        "medicalExpenses": {
+          "title": "Medical Expenses",
+          "hasMedicalExpenses": "Do you have medical expenses?",
+          "expenses": "Medical Expenses"
+        },
+        "rehabilitationCosts": {
+          "title": "Cure and Rehabilitation Costs",
+          "hasRehabilitationCosts": "Do you have cure and rehabilitation costs?",
+          "expenses": "Cure and Rehabilitation Costs"
+        },
+        "careCosts": {
+          "title": "Care Costs",
+          "hasCareCosts": "Do you have care costs?",
+          "expenses": "Care Costs"
+        },
+        "disabilityExpenses": {
+          "title": "Disability-Related Expenses",
+          "hasDisabilityExpenses": "Do you have disability-related expenses?",
+          "expenses": "Disability-Related Expenses"
+        },
+        "funeralCosts": {
+          "title": "Funeral Costs",
+          "hasFuneralCosts": "Do you have funeral costs?",
+          "expenses": "Funeral Costs"
+        },
+        "relativesSupportCosts": {
+          "title": "Support Costs for Needy Relatives",
+          "hasRelativesSupportCosts": "Do you have support costs for needy relatives?",
+          "expenses": "Support Costs for Needy Relatives"
+        },
+        "divorceCosts": {
+          "title": "Divorce Costs",
+          "hasDivorceCosts": "Do you have divorce costs?",
+          "expenses": "Divorce Costs"
+        }
       },
       "insurancePremiums": {
         "title": "Insurance Premiums",
         "statutoryHealthInsurance": {
-          "statutory": "Statutory Health",
+          "title": "Statutory Health",
           "longterm": "Long-Term Care Insurance"
         },
         "privateHealthInsurance": {
-          "private": "Private Health",
+          "title": "Private Health",
           "longterm": "Long-Term Care Insurance"
         },
         "statutoryPensionInsurance": {
@@ -363,11 +481,13 @@
           "employer": "Employer",
           "employee": "Employee"
         },
-        "privatePensionInsurance": "Private Pension Insurance Contributions (Rürup Pension)",
-        "unemploymentInsurance": "Unemployment Insurance Contributions",
-        "accidentLiabilityInsurance": "Accident and Liability Insurance Contributions",
-        "disabilityInsurance": "Disability Insurance Contributions",
-        "termLifeInsurance": "Term Life Insurance Contributions"
+        "privatePensionInsurance": {
+          "title": "Private Pension Insurance Contributions (Rürup Pension)",
+          "unemploymentInsurance": "Unemployment Insurance Contributions",
+          "accidentLiabilityInsurance": "Accident and Liability Insurance Contributions",
+          "disabilityInsurance": "Disability Insurance Contributions",
+          "termLifeInsurance": "Term Life Insurance Contributions"
+        }
       },
       "craftsmenServices": {
         "title": "Did you hire craftsmen services?",
@@ -408,6 +528,17 @@
           "depreciationProof": "Depreciation Documentation (e.g., Purchase Contract, Appraisals)"
         }
       }
+    },
+    "signature": {
+      "title": "Signature",
+      "declaration": "Declaration",
+      "placeAndDate": "Place and Date",
+      "place": "Place",
+      "date": "Date",
+      "signature": "Signature",
+      "consent1": "I declare that the information provided in this tax return is true and correct to the best of my knowledge and belief. All attached documents and receipts are complete and authentic. I understand that I may be held criminally liable for false or omitted information.",
+      "consent2": "I consent to my data being processed and stored for the purpose of tax return preparation. The processing will be carried out in compliance with applicable data protection regulations."
     }
+    
   }
 } 
