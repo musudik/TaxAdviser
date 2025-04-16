@@ -1,4 +1,340 @@
-import jsPDF from 'jspdf';
+// Add declaration for import.meta.env
+declare global {
+  interface ImportMetaEnv {
+    VITE_FIREBASE_STORAGE_BUCKET: string;
+    VITE_FIREBASE_API_KEY: string;
+    VITE_FIREBASE_AUTH_DOMAIN: string;
+    VITE_FIREBASE_PROJECT_ID: string;
+    VITE_FIREBASE_MESSAGING_SENDER_ID: string;
+    VITE_FIREBASE_APP_ID: string;
+  }
+}
+
+// Import Firebase SDK
+import { initializeApp } from 'firebase/app';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { jsPDF } from 'jspdf';
+
+// Define PDF type extending from jsPDF but with explicit method definitions
+type PDF = jsPDF;
+
+// Initialize Firebase with the configuration from environment variables
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
+
+// Helper to upload files to Firebase Storage
+const uploadFilesToFirebase = async (formData: any, fullName: string): Promise<void> => {
+  try {
+    // Format the date for the folder structure: YYYY-MM-DD
+    const today = new Date();
+    const dateString = today.toISOString().split('T')[0];
+    
+    // Create a sanitized version of the full name for the folder name (remove special chars)
+    const sanitizedName = fullName.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+    
+    // Base path for uploads
+    const basePath = `Tax-form/${dateString}/${sanitizedName}/files`;
+    
+    // Collect all files from the form data
+    const files: Array<{ path: string, file: File }> = [];
+    
+    // Extract files from personalInfo section
+    if (formData.personalInfo) {
+      // Potentially add personal documents like ID scans, etc.
+    }
+    
+    // Extract files from incomeInfo section
+    if (formData.incomeInfo) {
+      const income = formData.incomeInfo;
+      
+      // Tax certificate
+      if (income.employment?.taxCertificate?.length > 0) {
+        income.employment.taxCertificate.forEach((file: any, index: number) => {
+          if (file && file.name) {
+            files.push({
+              path: `${basePath}/income/employment/tax-certificate-${index + 1}`,
+              file
+            });
+          }
+        });
+      }
+      
+      // Bank certificate
+      if (income.investments?.bankCertificate?.length > 0) {
+        income.investments.bankCertificate.forEach((file: any, index: number) => {
+          if (file && file.name) {
+            files.push({
+              path: `${basePath}/income/investments/bank-certificate-${index + 1}`,
+              file
+            });
+          }
+        });
+      }
+      
+      // Foreign income tax certificate
+      if (income.foreignIncomeTaxCertificateFile?.length > 0) {
+        income.foreignIncomeTaxCertificateFile.forEach((file: any, index: number) => {
+          if (file && file.name) {
+            files.push({
+              path: `${basePath}/income/foreign/tax-certificate-${index + 1}`,
+              file
+            });
+          }
+        });
+      }
+    }
+    
+    // Extract files from expenses section
+    if (formData.expenses) {
+      const expenses = formData.expenses;
+      
+      // Work-related expenses files
+      const workRelatedExpenses = expenses.workRelatedExpenses || formData.workRelatedExpenses;
+      if (workRelatedExpenses) {
+        // Business trip proofs
+        if (workRelatedExpenses.businessTripsCosts?.proof?.length > 0) {
+          workRelatedExpenses.businessTripsCosts.proof.forEach((file: any, index: number) => {
+            if (file && file.name) {
+              files.push({
+                path: `${basePath}/expenses/work-related/business-trips-${index + 1}`,
+                file
+              });
+            }
+          });
+        }
+        
+        // Work equipment files
+        if (workRelatedExpenses.workEquipment?.expenses) {
+          workRelatedExpenses.workEquipment.expenses.forEach((expense: any, expIndex: number) => {
+            if (expense.file && expense.file.length > 0) {
+              expense.file.forEach((file: any, fileIndex: number) => {
+                if (file && file.name) {
+                  files.push({
+                    path: `${basePath}/expenses/work-related/equipment-${expIndex + 1}-${fileIndex + 1}`,
+                    file
+                  });
+                }
+              });
+            }
+          });
+        }
+      }
+      
+      // Special expenses files
+      if (expenses.specialExpenses) {
+        const specialExpenses = expenses.specialExpenses;
+        
+        // Insurance expenses
+        if (specialExpenses.insurance?.expenses) {
+          specialExpenses.insurance.expenses.forEach((expense: any, expIndex: number) => {
+            if (expense.file && expense.file.length > 0) {
+              expense.file.forEach((file: any, fileIndex: number) => {
+                if (file && file.name) {
+                  files.push({
+                    path: `${basePath}/expenses/special/insurance-${expIndex + 1}-${fileIndex + 1}`,
+                    file
+                  });
+                }
+              });
+            }
+          });
+        }
+        
+        // Donation expenses
+        if (specialExpenses.donations?.expenses) {
+          specialExpenses.donations.expenses.forEach((expense: any, expIndex: number) => {
+            if (expense.file && expense.file.length > 0) {
+              expense.file.forEach((file: any, fileIndex: number) => {
+                if (file && file.name) {
+                  files.push({
+                    path: `${basePath}/expenses/special/donations-${expIndex + 1}-${fileIndex + 1}`,
+                    file
+                  });
+                }
+              });
+            }
+          });
+        }
+        
+        // Professional development expenses
+        if (specialExpenses.professionalDevelopment?.expenses) {
+          specialExpenses.professionalDevelopment.expenses.forEach((expense: any, expIndex: number) => {
+            if (expense.file && expense.file.length > 0) {
+              expense.file.forEach((file: any, fileIndex: number) => {
+                if (file && file.name) {
+                  files.push({
+                    path: `${basePath}/expenses/special/professional-dev-${expIndex + 1}-${fileIndex + 1}`,
+                    file
+                  });
+                }
+              });
+            }
+          });
+        }
+      }
+      
+      // Extraordinary burdens files
+      if (expenses.extraordinaryBurdens) {
+        const extraBurdens = expenses.extraordinaryBurdens;
+        
+        // Medical expenses
+        if (extraBurdens.medicalExpenses?.expenses) {
+          extraBurdens.medicalExpenses.expenses.forEach((expense: any, expIndex: number) => {
+            if (expense.file && expense.file.length > 0) {
+              expense.file.forEach((file: any, fileIndex: number) => {
+                if (file && file.name) {
+                  files.push({
+                    path: `${basePath}/expenses/extraordinary/medical-${expIndex + 1}-${fileIndex + 1}`,
+                    file
+                  });
+                }
+              });
+            }
+          });
+        }
+        
+        // Care costs
+        if (extraBurdens.careCosts?.expenses) {
+          extraBurdens.careCosts.expenses.forEach((expense: any, expIndex: number) => {
+            if (expense.file && expense.file.length > 0) {
+              expense.file.forEach((file: any, fileIndex: number) => {
+                if (file && file.name) {
+                  files.push({
+                    path: `${basePath}/expenses/extraordinary/care-${expIndex + 1}-${fileIndex + 1}`,
+                    file
+                  });
+                }
+              });
+            }
+          });
+        }
+        
+        // Disability expenses
+        if (extraBurdens.disabilityExpenses?.expenses) {
+          extraBurdens.disabilityExpenses.expenses.forEach((expense: any, expIndex: number) => {
+            if (expense.file && expense.file.length > 0) {
+              expense.file.forEach((file: any, fileIndex: number) => {
+                if (file && file.name) {
+                  files.push({
+                    path: `${basePath}/expenses/extraordinary/disability-${expIndex + 1}-${fileIndex + 1}`,
+                    file
+                  });
+                }
+              });
+            }
+          });
+        }
+      }
+      
+      // Craftsmen services files
+      if (expenses.craftsmenServices?.invoiceCraftsmenServices?.length > 0) {
+        expenses.craftsmenServices.invoiceCraftsmenServices.forEach((file: any, index: number) => {
+          if (file && file.name) {
+            files.push({
+              path: `${basePath}/expenses/craftsmen/invoice-${index + 1}`,
+              file
+            });
+          }
+        });
+      }
+    }
+    
+    // Upload PDF itself
+    // Note: This will be handled separately after PDF generation
+    
+    // Upload all collected files
+    console.log(`Uploading ${files.length} files to Firebase Storage...`);
+    
+    // Upload files in parallel with max concurrency of 5
+    const uploadBatch = async (batch: typeof files) => {
+      const promises = batch.map(async ({path, file}) => {
+        try {
+          // Create a reference to the file location
+          const fileRef = ref(storage, path);
+          
+          // Upload the file
+          await uploadBytes(fileRef, file);
+          console.log(`File uploaded successfully: ${path}`);
+          
+          try {
+            // Get the download URL for future reference
+            // Note: This might fail for unauthorized users according to the security rules
+            const downloadURL = await getDownloadURL(fileRef);
+            console.log(`Download URL: ${downloadURL}`);
+            return { path, url: downloadURL, status: 'success' };
+          } catch (downloadError) {
+            // The file was uploaded but we can't get the download URL due to permission restrictions
+            console.log(`File uploaded successfully, but download URL cannot be retrieved due to permission restrictions: ${path}`);
+            return { path, url: null, status: 'upload-only' };
+          }
+        } catch (error) {
+          console.error(`Error uploading file ${path}:`, error);
+          return { path, url: null, status: 'failed' };
+        }
+      });
+      
+      return Promise.all(promises);
+    };
+    
+    // Process files in batches of 5
+    const batchSize = 5;
+    for (let i = 0; i < files.length; i += batchSize) {
+      const batch = files.slice(i, i + batchSize);
+      await uploadBatch(batch);
+    }
+    
+    console.log('All files uploaded successfully');
+    
+  } catch (error) {
+    console.error('Error uploading files to Firebase:', error);
+    throw new Error('Failed to upload files to Firebase Storage');
+  }
+};
+
+// Upload the generated PDF to Firebase Storage
+const uploadPdfToFirebase = async (pdfBlob: Blob, fullName: string): Promise<string | null> => {
+  try {
+    // Format the date for the folder structure: YYYY-MM-DD
+    const today = new Date();
+    const dateString = today.toISOString().split('T')[0];
+    
+    // Create a sanitized version of the full name for the folder name
+    const sanitizedName = fullName.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+    
+    // Path for the PDF
+    const pdfPath = `Tax-form/${dateString}/${sanitizedName}/tax-form-summary.pdf`;
+    
+    // Create a reference to the PDF location
+    const pdfRef = ref(storage, pdfPath);
+    
+    // Upload the PDF
+    await uploadBytes(pdfRef, pdfBlob);
+    console.log(`PDF uploaded successfully: ${pdfPath}`);
+    
+    try {
+      // Get the download URL
+      const downloadURL = await getDownloadURL(pdfRef);
+      console.log(`PDF Download URL: ${downloadURL}`);
+      return downloadURL;
+    } catch (downloadError) {
+      console.log(`PDF uploaded successfully, but download URL cannot be retrieved due to permission restrictions: ${pdfPath}`);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error uploading PDF to Firebase:', error);
+    throw new Error('Failed to upload PDF to Firebase Storage');
+  }
+};
 
 // Helper to format boolean values for PDF
 const formatBooleanPdf = (value: boolean | undefined | null, germanT: any, selectedT: any): string => {
@@ -20,7 +356,7 @@ const formatCurrencyPdf = (value: number | string | undefined | null): string =>
 
 // Helper to draw a field block (3 lines: DE label, Sel label, Value) vertically
 // Returns the total height used by the block.
-const addField = (doc: jsPDF, baseXPos: number, yPos: number, indent: number, germanLabel: string, selectedLabel: string, value: string, columnWidth: number): number => {
+const addField = (doc: PDF, baseXPos: number, yPos: number, indent: number, germanLabel: string, selectedLabel: string, value: string, columnWidth: number): number => {
   const finalXPos = baseXPos + indent;
   const actualWidth = columnWidth - indent;
   const labelLineHeight = 5; // Line height for labels
@@ -58,7 +394,7 @@ const addField = (doc: jsPDF, baseXPos: number, yPos: number, indent: number, ge
 };
 
 // Helper to add a section title - Resets columns
-const addSectionTitle = (doc: jsPDF, yPositions: { col1: number, col2: number }, columnState: { nextCol: number }, pageHeight: number, bottomMargin: number, germanTitle: string, selectedTitle: string, forceNewPage: boolean = true) => {
+const addSectionTitle = (doc: PDF, yPositions: { col1: number, col2: number }, columnState: { nextCol: number }, pageHeight: number, bottomMargin: number, germanTitle: string, selectedTitle: string, forceNewPage: boolean = true) => {
   const lineHeight = 10;
   const titleY = Math.max(yPositions.col1, yPositions.col2) + lineHeight; // Position below the highest column content + spacing
 
@@ -67,22 +403,34 @@ const addSectionTitle = (doc: jsPDF, yPositions: { col1: number, col2: number },
     doc.addPage();
     yPositions.col1 = 20;
     yPositions.col2 = 20;
+    
+    // Add page number at the bottom of each new page
+    addPageNumber(doc);
   } else {
     yPositions.col1 = titleY; // Align both columns before drawing title
     yPositions.col2 = titleY;
   }
 
+  // Draw title on two lines with different colors
   doc.setFontSize(14);
   doc.setFont('helvetica', 'bold');
-  doc.text(`${germanTitle} / ${selectedTitle}`, 20, yPositions.col1);
-  const newY = yPositions.col1 + lineHeight + (lineHeight / 2); // Position for next content
+  doc.setTextColor(0, 0, 0); // Main language in black
+  doc.text(germanTitle, 20, yPositions.col1);
+  
+  // Selected language in lighter gray below
+  doc.setFontSize(12);
+  doc.setTextColor(120, 120, 120); // Lighter gray color
+  doc.text(selectedTitle, 20, yPositions.col1 + 8);
+  doc.setTextColor(0); // Reset to black
+  
+  const newY = yPositions.col1 + lineHeight + (lineHeight); // Position for next content with additional space
   yPositions.col1 = newY;
   yPositions.col2 = newY;
   columnState.nextCol = 1; // Reset to start in column 1 after a title
 };
 
 // Helper to add a sub-section title - Resets columns and applies indent for drawing
-const addSubHeading = (doc: jsPDF, yPositions: { col1: number, col2: number }, columnState: { nextCol: number }, pageHeight: number, bottomMargin: number, indent: number, germanTitle: string, selectedTitle: string) => {
+const addSubHeading = (doc: PDF, yPositions: { col1: number, col2: number }, columnState: { nextCol: number }, pageHeight: number, bottomMargin: number, indent: number, germanTitle: string, selectedTitle: string) => {
   const lineHeight = 8;
   const titleY = Math.max(yPositions.col1, yPositions.col2) + lineHeight / 2; // Position below the highest column content + spacing
 
@@ -90,24 +438,50 @@ const addSubHeading = (doc: jsPDF, yPositions: { col1: number, col2: number }, c
     doc.addPage();
     yPositions.col1 = 20;
     yPositions.col2 = 20;
+    
+    // Add page number at the bottom of each new page
+    addPageNumber(doc);
   } else {
       yPositions.col1 = titleY; // Align both columns
       yPositions.col2 = titleY;
   }
 
-  doc.setFontSize(11);
+  // Draw sub-heading on two lines with different colors
+  doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(100);
-  doc.text(`${germanTitle} / ${selectedTitle}`, 20 + indent, yPositions.col1); // Apply indent here
-  doc.setTextColor(0);
-  const newY = yPositions.col1 + lineHeight + (lineHeight / 2);
+  doc.setTextColor(80, 80, 80); // Darker gray for main language
+  doc.text(germanTitle, 20 + indent, yPositions.col1);
+  
+  // Selected language in lighter gray below
+  doc.setFontSize(10);
+  doc.setTextColor(140, 140, 140); // Lighter gray
+  doc.text(selectedTitle, 20 + indent, yPositions.col1 + 6);
+  doc.setTextColor(0); // Reset to black
+  
+  const newY = yPositions.col1 + lineHeight + (lineHeight);
   yPositions.col1 = newY;
   yPositions.col2 = newY;
   columnState.nextCol = 1; // Reset to start in column 1
 };
 
+// Helper to add page number
+const addPageNumber = (doc: PDF) => {
+  const pageWidth = doc.internal.pageSize.width;
+  const pageHeight = doc.internal.pageSize.height;
+  
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  doc.setTextColor(100); // Gray color for page numbers
+  doc.text(`${doc.getNumberOfPages()}`, pageWidth/2, pageHeight - 10, { align: 'center' });
+  doc.setTextColor(0); // Reset to black
+};
+
 export const generateTaxFormPdf = async (formData: any, germanI18nData: any, i18nData: any) => {
-  const doc = new jsPDF();
+  const doc = new jsPDF({
+    orientation: "portrait",
+    unit: "mm",
+    format: "a4"
+  });
   
   // --- Layout Constants ---
   const pageHeight = doc.internal.pageSize.height;
@@ -143,6 +517,9 @@ export const generateTaxFormPdf = async (formData: any, germanI18nData: any, i18
         yPositions.col2 = topMargin;
         columnState.nextCol = 1; // Start new page in column 1
         targetY = topMargin; // Reset targetY for the new page
+        
+        // Add page number on new page
+        addPageNumber(doc);
     }
 
     // Draw the field and get its actual height
@@ -185,9 +562,11 @@ export const generateTaxFormPdf = async (formData: any, germanI18nData: any, i18
   
   // Subtitle in Selected Language - Medium, Centered
   doc.setFontSize(24);
+  doc.setTextColor(100); // Gray color for secondary language
   const selectedTitle = i18nData?.formTitle || 'German Tax Return';
   const selectedTitleWidth = doc.getStringUnitWidth(selectedTitle) * 24 / doc.internal.scaleFactor;
   doc.text(selectedTitle, (pageWidth - selectedTitleWidth) / 2, pageHeight / 3 + 15);
+  doc.setTextColor(0); // Reset to black
   
   // Tax year (optional)
   const taxYear = new Date().getFullYear() - 1; // Typically for previous year
@@ -216,17 +595,21 @@ export const generateTaxFormPdf = async (formData: any, germanI18nData: any, i18
   // Add "Steuerformular Zusammenfassung / Tax Form Summary" at the bottom after the line
   doc.setFontSize(16);
   doc.setFont('helvetica', 'bold');
-  const summaryText = 'Steuerformular Zusammenfassung / Tax Form Summary';
+  const summaryText = 'Steuerformular Zusammenfassung';
   const summaryTextWidth = doc.getStringUnitWidth(summaryText) * 16 / doc.internal.scaleFactor;
   doc.text(summaryText, (pageWidth - summaryTextWidth) / 2, pageHeight / 2 + 35);
   
-  // Add a footer with page number
-  doc.setFontSize(10);
-  doc.setTextColor(100);
-  doc.text('1 / ' + (doc.getNumberOfPages() + 1), pageWidth - 20, pageHeight - 10);
-  doc.setTextColor(0);
+  // Selected language title below
+  doc.setFontSize(14);
+  doc.setTextColor(100); // Gray for secondary language
+  const summaryEnglishText = 'Tax Form Summary';
+  const summaryEnglishWidth = doc.getStringUnitWidth(summaryEnglishText) * 14 / doc.internal.scaleFactor;
+  doc.text(summaryEnglishText, (pageWidth - summaryEnglishWidth) / 2, pageHeight / 2 + 45);
+  doc.setTextColor(0); // Reset to black
+  
+  // Add page number for cover page
+  addPageNumber(doc);
 
-  // Start actual content on a new page, but don't add the duplicate header
   // ---- Personal Information ----
   currentIndent = 0;
   const piGermanT = germanT_form.personalInfo || {};
@@ -673,5 +1056,43 @@ export const generateTaxFormPdf = async (formData: any, germanI18nData: any, i18
   }
 
   // ---- Save the PDF ----
+  // Instead of just saving the PDF locally, we'll also upload it to Firebase
+  
+  // First, save locally as usual
   doc.save('tax-form-summary.pdf');
+  
+  // Then, upload all files to Firebase Storage
+  try {
+    // Upload all attachments from the form
+    await uploadFilesToFirebase(formData, fullName);
+    
+    // Get the PDF as a blob and upload it too
+    const pdfBlob = doc.output('blob');
+    const pdfUrl = await uploadPdfToFirebase(pdfBlob, fullName);
+    
+    console.log('Tax form submission complete!');
+    if (pdfUrl) {
+      console.log('PDF URL:', pdfUrl);
+    } else {
+      console.log('PDF was uploaded successfully, but the download URL is not available due to permission restrictions.');
+    }
+    
+    // Return the URL if needed
+    return { 
+      success: true, 
+      pdfUrl,
+      message: pdfUrl 
+        ? 'Tax form submitted successfully.' 
+        : 'Tax form submitted successfully. PDF was uploaded but download URL is not available due to permission restrictions.'
+    };
+  } catch (error) {
+    console.error('Error during file upload:', error);
+    // Still return success for the PDF generation even if upload fails
+    return { 
+      success: true, 
+      pdfUrl: null, 
+      error: 'File upload failed',
+      message: 'PDF was generated but uploading to cloud storage failed.'
+    };
+  }
 }; 

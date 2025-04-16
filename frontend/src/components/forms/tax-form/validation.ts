@@ -515,10 +515,10 @@ export const validateTaxForm = (
       const sig = formData.signature || {};
       section = 'signature';
 
-      // Consent validation
-      if (sig.acceptTerms !== true) {
-        setError(section, 'acceptTerms', 'required');
-      }
+      // Consent validation - removing this requirement
+      // if (sig.acceptTerms !== true) {
+      //   setError(section, 'acceptTerms', 'required');
+      // }
 
       // Digital Signature validation
       if (isEmpty(sig.fullName)) {
@@ -533,10 +533,10 @@ export const validateTaxForm = (
         setError(section, 'confirmSignature', 'required');
       }
 
-      // Data Protection validation
-      if (sig.acceptDataProtection !== true) {
-        setError(section, 'acceptDataProtection', 'required');
-      }
+      // Data Protection validation - removing this requirement
+      // if (sig.acceptDataProtection !== true) {
+      //   setError(section, 'acceptDataProtection', 'required');
+      // }
       break;
 
     default:
