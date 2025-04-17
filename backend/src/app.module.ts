@@ -3,8 +3,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { getTypeOrmConfig } from './config/typeorm.config';
-import { TaxReturnsModule } from './tax-returns/tax-returns.module';
+import { TaxFormsModule } from './tax-forms/tax-forms.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -17,8 +18,11 @@ import { PrismaModule } from './prisma/prisma.module';
       inject: [ConfigService],
     }),
     PrismaModule,
+    UsersModule,
     AuthModule,
-    TaxReturnsModule,
+    TaxFormsModule,
   ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {} 

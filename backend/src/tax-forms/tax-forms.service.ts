@@ -6,7 +6,7 @@ import {
   SaveFormSectionDto,
   CreateDocumentDto,
   TaxFormStatus
-} from './dto/tax-return.dto';
+} from './dto/tax-form.dto';
 
 @Injectable()
 export class TaxFormsService {
@@ -14,6 +14,11 @@ export class TaxFormsService {
 
   async create(createTaxFormDto: CreateTaxFormDto) {
     try {
+      // Generate applicationId if not provided
+      if (!createTaxFormDto.applicationId) {
+        createTaxFormDto.applicationId = this.generateApplicationId();
+      }
+
       const result = await this.prisma.taxForm.create({
         data: {
           ...createTaxFormDto,
@@ -22,7 +27,7 @@ export class TaxFormsService {
           lastSavedAt: new Date(),
         },
       });
-      return { id: result.id };
+      return { id: result.id, applicationId: result.applicationId };
     } catch (error) {
       console.error('Error creating tax form:', error);
       throw new BadRequestException('Could not create tax form: ' + error.message);
@@ -283,5 +288,31 @@ export class TaxFormsService {
       console.error('Error deleting tax form:', error);
       throw new BadRequestException('Could not delete tax form: ' + error.message);
     }
+  }
+
+  // Add this method to find by application ID
+  async findByApplicationId(applicationId: string) {
+    const taxForm = await this.prisma.taxForm.findUnique({
+      where: { applicationId },
+      include: {
+        documents: true,
+      },
+    });
+
+    if (!taxForm) {
+      throw new NotFoundException(`Tax form with application ID ${applicationId} not found`);
+    }
+
+    return taxForm;
+  }
+
+  // Helper method to generate application ID
+  private generateApplicationId(): string {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < 12; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
   }
 } 

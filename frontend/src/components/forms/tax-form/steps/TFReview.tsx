@@ -1,10 +1,25 @@
 import React from 'react';
 import FKInputField from '../../../ui/FKInputField';
+import PDFExportButton from '../PDFExportButton';
+
+// Add the AppLanguageData interface here directly
+interface AppLanguageData {
+  taxForm?: {
+    [key: string]: any;
+  };
+}
 
 interface TFReviewProps {
   formData: { [key: string]: any };
   germanT: any;
   selectedT: any;
+  germanI18nData?: AppLanguageData | null;
+  i18nData?: AppLanguageData | null;
+  // Optional props (not required for review but might be passed)
+  handleChange?: any;
+  selectedLanguage?: any;
+  validationErrors?: any;
+  showValidationErrors?: any;
 }
 
 // Helper component for section styling
@@ -44,7 +59,13 @@ const FileDisplay = ({ label, value, germanLabel }: { label: string, value: stri
   </div>
 );
 
-const TFReview: React.FC<TFReviewProps> = ({ formData, germanT, selectedT }) => {
+const TFReview: React.FC<TFReviewProps> = ({ 
+  formData, 
+  germanT, 
+  selectedT,
+  germanI18nData,
+  i18nData
+}) => {
   // Debug logging to check structure of formData
   console.log('TFReview formData:', formData);
   console.log('workRelatedExpenses data:', formData.workRelatedExpenses);
@@ -95,6 +116,15 @@ const TFReview: React.FC<TFReviewProps> = ({ formData, germanT, selectedT }) => 
 
   return (
     <div className="space-y-6">
+      {/* Export button */}
+      <div className="flex justify-end mb-4">
+        <PDFExportButton 
+          formData={formData} 
+          germanI18nData={germanI18nData || null} 
+          i18nData={i18nData || null} 
+        />
+      </div>
+      
       {/* Personal Information Section */}
       <FormSection title={<>{germanT?.personalInfo?.title || 'Persönliche Informationen'} / {selectedT?.personalInfo?.title || 'Personal Information'}</>}>
         <FKInputField

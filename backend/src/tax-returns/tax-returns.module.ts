@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-import { TaxReturnsController } from './tax-returns.controller';
-import { TaxReturnsService } from './tax-returns.service';
-import { PrismaService } from '../prisma/prisma.service';
+import { TaxFormsController } from './tax-forms.controller';
+import { TaxFormsService } from './tax-forms.service';
+import { PrismaModule } from '../prisma/prisma.module';
 
 @Module({
-  controllers: [TaxReturnsController],
-  providers: [TaxReturnsService, PrismaService],
-  exports: [TaxReturnsService],
+  imports: [PrismaModule],
+  controllers: [TaxFormsController],
+  providers: [TaxFormsService],
+  exports: [TaxFormsService]
 })
-export class TaxReturnsModule {} 
+export class TaxFormsModule {} 

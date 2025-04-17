@@ -11,38 +11,81 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email     String   @unique
+  id        String     @id @default(uuid())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  email     String     @unique
   password  String
   firstName String
   lastName  String
   role      String // 'admin', 'tax_agent', 'client'
   phone     String?
-  active    Boolean  @default(true)
+  active    Boolean    @default(true)
+  taxForms  TaxForm[]
 }
 
-model TaxReturn {
-  id         String   @id @default(uuid())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  clientId   String
-  partnerId  String
-  type       String?
-  status     String   @default("draft") // draft, submitted, processing, completed, rejected
+// Enhanced TaxForm model (renamed from TaxReturn for clarity)
+model TaxForm {
+  id                String    @id @default(uuid())
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  userId            String
+  taxYear           Int
+  status            String    @default("draft") // draft, in_progress, completed, submitted, processing
+  currentStep       Int       @default(0)
+  applicationId     String?   @unique // Unique application ID for user reference
+  lastSavedAt       DateTime  @default(now())
+  submittedAt       DateTime?
   
-  // Store JSON data for each section
-  personalInfo Json
-  children     Json?
-  incomeInfo   Json
-  deductions   Json
-  taxCredits   Json
-  signature    Json?
-  
-  // Optional JSON fields for additional metadata
-  metadata     Json?
+  // Relations
+  user              User      @relation(fields: [userId], references: [id])
 
-  // Statistics and dates
-  submittedAt  DateTime?
+  // All form sections
+  personalInfo      Json?
+  incomeInfo        Json?
+  rentalIncome      Json?
+  foreignIncome     Json?
+  workRelatedExpenses Json?
+  specialExpenses   Json?
+  extraordinaryBurdens Json?
+  craftsmenServices Json?
+  businessExpenses  Json?
+  signature         Json?
+  
+  // Related document references
+  documents         Document[]
+}
+
+// Document references (for files stored in Firebase)
+model Document {
+  id                String    @id @default(uuid())
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  taxFormId         String
+  section           String    // e.g., "personalInfo", "incomeInfo", etc.
+  subsection        String?   // e.g., "taxCertificate", "businessTripProof", etc.
+  fieldName         String    // Field name in the form this document relates to
+  originalFilename  String    // Original uploaded file name
+  storageUrl        String    // Firebase storage URL
+  downloadUrl       String?   // Download URL (might not be available based on permissions)
+  fileType          String    // MIME type
+  fileSize          Int       // Size in bytes
+  uploadStatus      String    @default("pending") // pending, success, failed
+  uploadedAt        DateTime  @default(now())
+  
+  // Relations
+  taxForm           TaxForm   @relation(fields: [taxFormId], references: [id], onDelete: Cascade)
+}
+
+// Form activity log for tracking changes
+model FormActivity {
+  id                String    @id @default(uuid())
+  createdAt         DateTime  @default(now())
+  taxFormId         String
+  userId            String
+  action            String    // saved, submitted, updated_section
+  sectionName       String?   // Which section was affected, if applicable
+  details           Json?     // Additional details about the activity
+  ipAddress         String?   // IP address of the user
+  userAgent         String?   // Browser/device information
 } 

@@ -5,7 +5,7 @@ import {
   UpdateTaxFormDto,
   SaveFormSectionDto,
   CreateDocumentDto 
-} from './dto/tax-return.dto';
+} from './dto/tax-form.dto';
 
 // Since we don't have the auth guard yet, we'll temporarily disable it
 @Controller('api/tax-forms')
@@ -65,5 +65,11 @@ export class TaxFormsController {
   // @UseGuards(JwtAuthGuard)
   async remove(@Param('id') id: string) {
     return this.taxFormsService.remove(id);
+  }
+
+  @Get('application/:applicationId')
+  // @UseGuards(JwtAuthGuard)
+  async findByApplicationId(@Param('applicationId') applicationId: string) {
+    return this.taxFormsService.findByApplicationId(applicationId);
   }
 } 

@@ -29,6 +29,10 @@ export class CreateTaxFormDto {
   currentStep?: number;
 
   @IsOptional()
+  @IsString()
+  applicationId?: string;
+
+  @IsOptional()
   @IsObject()
   personalInfo?: Record<string, any>;
 
@@ -94,6 +98,10 @@ export class UpdateTaxFormDto {
   currentStep?: number;
 
   @IsOptional()
+  @IsString()
+  applicationId?: string;
+
+  @IsOptional()
   @IsObject()
   personalInfo?: Record<string, any>;
 
@@ -155,6 +163,10 @@ export class SaveFormSectionDto {
   @IsOptional()
   @IsInt()
   currentStep?: number;
+
+  @IsOptional()
+  @IsString()
+  applicationId?: string;
 }
 
 // DTO for document uploads
