@@ -219,6 +219,11 @@
     "other": "Altro"
   },  
   "taxForm": {
+    "title": "Modulo di Dichiarazione dei Redditi",
+    "taxYear": {
+      "title": "Anno Fiscale",
+      "description": "Seleziona l'anno per il quale vuoi presentare la dichiarazione dei redditi."
+    },
     "personalInfo": {
       "title": "Informazioni Personali", 
       "firstName": "Nome",

@@ -214,6 +214,11 @@
     "other": "Other"
   },
   "taxForm": {
+    "title": "German Tax Return",
+    "taxYear": {
+      "title": "Tax Year",
+      "description": "Please select the year for which you are filing this tax return."
+    },
     "personalInfo": {
       "title": "Personal Information",
       "firstName": "First Name",

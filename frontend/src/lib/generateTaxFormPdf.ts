@@ -552,6 +552,9 @@ export const generateTaxFormPdf = async (formData: any, germanI18nData: any, i18
                    `${personalInfo.firstName} ${personalInfo.lastName}` : 
                    'Tax Form User');
 
+  // Get tax year (use selected year from form or fallback to current year - 1)
+  const taxYear = formData.taxYear?.year || (new Date().getFullYear() - 1).toString();
+
   // ---- Cover Page ----
   // Main Title in German - Large, Bold, Centered
   doc.setFontSize(28);
@@ -568,12 +571,12 @@ export const generateTaxFormPdf = async (formData: any, germanI18nData: any, i18
   doc.text(selectedTitle, (pageWidth - selectedTitleWidth) / 2, pageHeight / 3 + 15);
   doc.setTextColor(0); // Reset to black
   
-  // Tax year (optional)
-  const taxYear = new Date().getFullYear() - 1; // Typically for previous year
-  doc.setFontSize(16);
+  // Tax year - prominently displayed
+  doc.setFontSize(22);
+  doc.setFont('helvetica', 'bold');
   const taxYearText = `${taxYear}`;
-  const taxYearWidth = doc.getStringUnitWidth(taxYearText) * 16 / doc.internal.scaleFactor;
-  doc.text(taxYearText, (pageWidth - taxYearWidth) / 2, pageHeight / 3 + 30);
+  const taxYearWidth = doc.getStringUnitWidth(taxYearText) * 22 / doc.internal.scaleFactor;
+  doc.text(taxYearText, (pageWidth - taxYearWidth) / 2, pageHeight / 3 + 35);
   
   // Full Name - Centered in the middle of the page
   doc.setFontSize(18);
@@ -609,6 +612,27 @@ export const generateTaxFormPdf = async (formData: any, germanI18nData: any, i18
   
   // Add page number for cover page
   addPageNumber(doc);
+
+  // ---- Tax Year Section ----
+  doc.addPage();
+  yPositions.col1 = topMargin;
+  yPositions.col2 = topMargin;
+  columnState.nextCol = 1;
+  
+  // Add page number
+  addPageNumber(doc);
+  
+  // Tax Year Title
+  doc.setFontSize(16);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Steuerjahr / Tax Year', 20, yPositions.col1);
+  yPositions.col1 += 15;
+  
+  // Tax Year Value
+  doc.setFontSize(24);
+  doc.text(taxYear, 20, yPositions.col1);
+  yPositions.col1 += 30;
+  yPositions.col2 = yPositions.col1;
 
   // ---- Personal Information ----
   currentIndent = 0;

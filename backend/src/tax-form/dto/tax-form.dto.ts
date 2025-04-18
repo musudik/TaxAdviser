@@ -15,6 +15,14 @@ export interface SignatureSection extends JsonSection {
   placeAndDate?: JsonSection;
 }
 
+// ExpensesSection - Define structure for the expenses object
+export interface ExpensesSection extends JsonSection {
+  workRelatedExpenses?: JsonSection;
+  specialExpenses?: JsonSection;
+  extraordinaryBurdens?: JsonSection;
+  craftsmenServices?: JsonSection;
+}
+
 // CreateTaxFormDto - Used when creating a new tax form
 export interface CreateTaxFormDto {
   applicationId: string;
@@ -24,11 +32,14 @@ export interface CreateTaxFormDto {
   incomeInfo?: JsonSection;
   rentalIncome?: JsonSection;
   foreignIncome?: JsonSection;
+  expenses?: ExpensesSection;
   workRelatedExpenses?: JsonSection;
   specialExpenses?: JsonSection;
   extraordinaryBurdens?: JsonSection;
   craftsmenServices?: JsonSection;
   businessExpenses?: JsonSection;
+  businessInfo?: JsonSection;
+  taxYear?: JsonSection;
   signature?: SignatureSection;
   language?: string;
 }
@@ -43,11 +54,14 @@ export interface UpdateTaxFormDto {
   incomeInfo?: JsonSection;
   rentalIncome?: JsonSection;
   foreignIncome?: JsonSection;
+  expenses?: ExpensesSection;
   workRelatedExpenses?: JsonSection;
   specialExpenses?: JsonSection;
   extraordinaryBurdens?: JsonSection;
   craftsmenServices?: JsonSection;
   businessExpenses?: JsonSection;
+  businessInfo?: JsonSection;
+  taxYear?: JsonSection;
   signature?: SignatureSection;
   language?: string;
   submittedAt?: Date;
@@ -66,11 +80,14 @@ export interface TaxFormResponse {
   incomeInfo?: JsonSection;
   rentalIncome?: JsonSection;
   foreignIncome?: JsonSection;
+  expenses?: ExpensesSection;
   workRelatedExpenses?: JsonSection;
   specialExpenses?: JsonSection;
   extraordinaryBurdens?: JsonSection;
   craftsmenServices?: JsonSection;
   businessExpenses?: JsonSection;
+  businessInfo?: JsonSection;
+  taxYear?: JsonSection;
   signature?: SignatureSection;
   placeAndDate?: JsonSection; // Keep for backwards compatibility with frontend
   language: string;

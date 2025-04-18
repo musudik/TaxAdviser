@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 // Import step components
+import TFTaxYear from './steps/TFTaxYear';
 import TFPersonalInfo from './steps/TFPersonalInfo';
 import TFIncomeInfo from './steps/TFIncomeInfo';
 import TFRentalIncome from './steps/TFRentalIncome';
@@ -17,6 +18,7 @@ import { generateTaxFormPdf } from '../../../lib/generateTaxFormPdf'; // Import 
 
 // Define a more specific type for form data later
 interface TaxFormData {
+  taxYear?: any; // Define specific structure later
   personalInfo?: any; // Define specific structure later
   incomeInfo?: any;
   // ... other sections
@@ -41,6 +43,7 @@ interface AppLanguageData extends LanguageData {
 
 // Initial empty form data
 const initialTaxFormData: TaxFormData = {
+  taxYear: {}, // Initialize tax year section
   personalInfo: {}, // Initialize sections to prevent errors
   incomeInfo: {},
   expenses: {},
@@ -94,6 +97,7 @@ const TaxFormBase: React.FC = () => {
 
   // Define steps with actual components - update with the new split steps
   const steps = [
+    { name: 'Tax Year', component: TFTaxYear, key: 'taxYear' },
     { name: 'Personal Info', component: TFPersonalInfo, key: 'personalInfo' },
     { name: 'Income Info', component: TFIncomeInfo, key: 'incomeInfo' },
     { name: 'Rental Income', component: TFRentalIncome, key: 'rentalIncome' },
@@ -258,19 +262,33 @@ const TaxFormBase: React.FC = () => {
         };
       }
       
+      // Create expenses object to match the backend structure
+      const expenses = {
+        workRelatedExpenses: formData.workRelatedExpenses || formData.expenses?.workRelatedExpenses || {},
+        specialExpenses: formData.specialExpenses || formData.expenses?.specialExpenses || {},
+        extraordinaryBurdens: formData.extraordinaryBurdens || formData.expenses?.extraordinaryBurdens || {},
+        craftsmenServices: formData.craftsmenServices || formData.expenses?.craftsmenServices || {}
+      };
+
+      // Make sure data matches the backend's expected structure
+      // directly use the sections from formData that match the backend model
       const submissionData = {
         applicationId,
         userId: formData.personalInfo?.userId,
         currentStep,
+        taxYear: formData.taxYear || {},
         personalInfo: formData.personalInfo || {},
         incomeInfo: formData.incomeInfo || {},
         rentalIncome: formData.rentalIncome || {},
         foreignIncome: formData.foreignIncome || {},
-        workRelatedExpenses: formData.workRelatedExpenses || {},
-        specialExpenses: formData.specialExpenses || {},
-        extraordinaryBurdens: formData.extraordinaryBurdens || {},
-        craftsmenServices: formData.craftsmenServices || {},
+        // Include both expenses object and individual fields to ensure backward compatibility
+        expenses: expenses,
+        workRelatedExpenses: formData.workRelatedExpenses || formData.expenses?.workRelatedExpenses || {},
+        specialExpenses: formData.specialExpenses || formData.expenses?.specialExpenses || {},
+        extraordinaryBurdens: formData.extraordinaryBurdens || formData.expenses?.extraordinaryBurdens || {},
+        craftsmenServices: formData.craftsmenServices || formData.expenses?.craftsmenServices || {},
         businessExpenses: formData.businessExpenses || {},
+        businessInfo: formData.businessInfo || {},
         signature: signature,
         language: selectedLanguage
       };

@@ -95,7 +95,17 @@ export const validateTaxForm = (
   };
 
   switch (step) {
-    case 0: // Personal Info Step
+    case 0: // Tax Year Step
+      const ty = formData.taxYear || {};
+      section = 'taxYear';
+
+      // Check if tax year is selected
+      if (isEmpty(ty.year)) {
+        setError(section, 'year', validationMessages?.taxYear?.required || 'Tax year is required');
+      }
+      break;
+
+    case 1: // Personal Info Step
       const pi = formData.personalInfo || {};
       section = 'personalInfo';
 
@@ -190,7 +200,7 @@ export const validateTaxForm = (
 
       break;
 
-    case 1: // Income Info Step
+    case 2: // Income Info Step
       const ii = formData.incomeInfo || {};
       section = 'incomeInfo';
 
@@ -256,7 +266,7 @@ export const validateTaxForm = (
       }
       break;
 
-    case 2: // Rental Income Step
+    case 3: // Rental Income Step
       const ri = formData.incomeInfo || {};
       section = 'incomeInfo';
 
@@ -295,7 +305,7 @@ export const validateTaxForm = (
       }
       break;
 
-    case 3: // Foreign Income Step
+    case 4: // Foreign Income Step
       const fi = formData.incomeInfo || {};
       section = 'incomeInfo';
 
@@ -335,7 +345,7 @@ export const validateTaxForm = (
       }
       break;
 
-    case 4: // Work-Related Expenses Step
+    case 5: // Work-Related Expenses Step
       const wrExpenses = formData.expenses || {};
       section = 'expenses';
 
@@ -394,7 +404,7 @@ export const validateTaxForm = (
       }
       break;
 
-    case 5: // Special Expenses Step
+    case 6: // Special Expenses Step
       const specialExpenses = formData.expenses || {};
       section = 'expenses';
 
@@ -414,7 +424,7 @@ export const validateTaxForm = (
       }
       break;
 
-    case 6: // Extraordinary Burdens Step
+    case 7: // Extraordinary Burdens Step
       const extraBurdens = formData.expenses || {};
       section = 'expenses';
 
@@ -434,7 +444,7 @@ export const validateTaxForm = (
       }
       break;
 
-    case 7: // Craftsmen Services Step
+    case 8: // Craftsmen Services Step
       const craftsmenServices = formData.expenses || {};
       section = 'expenses';
 
@@ -463,7 +473,7 @@ export const validateTaxForm = (
       }
       break;
 
-    case 8: // Business Expenses Step
+    case 9: // Business Expenses Step
       const be = formData.businessInfo || {};
       section = 'businessInfo';
 
@@ -507,11 +517,11 @@ export const validateTaxForm = (
       }
       break;
 
-    case 9: // Review Step
+    case 10: // Review Step
       // No validation needed for review step
       break;
 
-    case 10: // Signature Step
+    case 11: // Signature Step
       const sig = formData.signature || {};
       section = 'signature';
 

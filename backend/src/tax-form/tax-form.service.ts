@@ -10,23 +10,30 @@ export class TaxFormService {
   // Create a new tax form
   async create(createTaxFormDto: CreateTaxFormDto): Promise<TaxFormResponse> {
     try {
+      // Extract expenses from the DTO if present
+      const expenses = createTaxFormDto.expenses || {};
+
       // Create object with only valid fields for the schema
       const taxFormData: any = {
-        applicationId: createTaxFormDto.applicationId,
+        applicationId: createTaxFormDto.applicationId || `TAX-${Date.now()}`,
         userId: createTaxFormDto.userId,
         currentStep: createTaxFormDto.currentStep || 0,
         personalInfo: createTaxFormDto.personalInfo || {},
         incomeInfo: createTaxFormDto.incomeInfo || {},
         rentalIncome: createTaxFormDto.rentalIncome || {},
         foreignIncome: createTaxFormDto.foreignIncome || {},
-        workRelatedExpenses: createTaxFormDto.workRelatedExpenses || {},
-        specialExpenses: createTaxFormDto.specialExpenses || {},
-        extraordinaryBurdens: createTaxFormDto.extraordinaryBurdens || {},
-        craftsmenServices: createTaxFormDto.craftsmenServices || {},
+        // Use expenses object if specific expense types aren't directly provided
+        workRelatedExpenses: createTaxFormDto.workRelatedExpenses || expenses.workRelatedExpenses || {},
+        specialExpenses: createTaxFormDto.specialExpenses || expenses.specialExpenses || {},
+        extraordinaryBurdens: createTaxFormDto.extraordinaryBurdens || expenses.extraordinaryBurdens || {},
+        craftsmenServices: createTaxFormDto.craftsmenServices || expenses.craftsmenServices || {},
         businessExpenses: createTaxFormDto.businessExpenses || {},
         signature: createTaxFormDto.signature || {},
         language: createTaxFormDto.language || 'en',
       };
+
+      // Log the data for debugging
+      console.log('Tax form data being saved:', JSON.stringify(taxFormData, null, 2));
 
       const result = await this.prisma.taxForm.create({
         data: taxFormData
@@ -74,15 +81,38 @@ export class TaxFormService {
 
   // Update a tax form
   async update(id: string, updateTaxFormDto: UpdateTaxFormDto): Promise<TaxFormResponse> {
-    // Filter out properties that might not exist in the schema
-    const updateData: any = { ...updateTaxFormDto };
-    
-    const result = await this.prisma.taxForm.update({
-      where: { id },
-      data: updateData,
-    });
-    
-    return this.mapToTaxFormResponse(result);
+    try {
+      // Extract expenses from the DTO if present
+      const expenses = updateTaxFormDto.expenses || {};
+      
+      // Prepare update data
+      const updateData: any = { 
+        ...updateTaxFormDto,
+        // Handle expense fields from nested expenses object if present
+        workRelatedExpenses: updateTaxFormDto.workRelatedExpenses || expenses.workRelatedExpenses,
+        specialExpenses: updateTaxFormDto.specialExpenses || expenses.specialExpenses,
+        extraordinaryBurdens: updateTaxFormDto.extraordinaryBurdens || expenses.extraordinaryBurdens,
+        craftsmenServices: updateTaxFormDto.craftsmenServices || expenses.craftsmenServices,
+      };
+      
+      // Remove the expenses field as it's not in the database schema
+      if (updateData.expenses) {
+        delete updateData.expenses;
+      }
+      
+      // Log the data for debugging
+      console.log('Tax form data being updated:', JSON.stringify(updateData, null, 2));
+      
+      const result = await this.prisma.taxForm.update({
+        where: { id },
+        data: updateData,
+      });
+      
+      return this.mapToTaxFormResponse(result);
+    } catch (error) {
+      console.error("Error updating tax form:", error);
+      throw error;
+    }
   }
 
   // Remove a tax form
@@ -110,6 +140,14 @@ export class TaxFormService {
     const signature = data.signature || {};
     const placeAndDate = signature.placeAndDate || {};
     
+    // Reconstruct the expenses object for the response
+    const expenses = {
+      workRelatedExpenses: data.workRelatedExpenses || {},
+      specialExpenses: data.specialExpenses || {},
+      extraordinaryBurdens: data.extraordinaryBurdens || {},
+      craftsmenServices: data.craftsmenServices || {},
+    };
+    
     return {
       id: data.id,
       applicationId: data.applicationId,
@@ -127,10 +165,13 @@ export class TaxFormService {
       extraordinaryBurdens: data.extraordinaryBurdens as JsonSection,
       craftsmenServices: data.craftsmenServices as JsonSection,
       businessExpenses: data.businessExpenses as JsonSection,
+      expenses: expenses as JsonSection, // Add the reconstructed expenses object
       signature: data.signature as SignatureSection,
       placeAndDate: placeAndDate as JsonSection,
       language: data.language || 'en',
       submittedAt: data.submittedAt,
+      businessInfo: data.businessInfo || {},
+      taxYear: data.taxYear || {},
     };
   }
 } 

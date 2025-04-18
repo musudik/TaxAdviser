@@ -221,6 +221,11 @@
     "other": "Andere"
   },
   "taxForm": {
+    "title": "Deutsche Steuererklärung", 
+    "taxYear": {
+      "title": "Steuerjahr",
+      "description": "Bitte wählen Sie das Jahr aus, für das Sie die Steuererklärung einreichen möchten."
+    },
     "personalInfo": {
       "title": "Persönliche Informationen",
       "firstName": "Vorname",

@@ -219,6 +219,11 @@
     "other": "Other"
   },  
   "taxForm": {
+    "title": "Formulaire de Déclaration de Revenus",
+    "taxYear": {
+      "title": "Année Fiscale",
+      "description": "Veuillez sélectionner l'année pour laquelle vous souhaitez déposer votre déclaration de revenus."
+    },
     "personalInfo": {
       "title": "Informations Personnelles",
       "firstName": "Prénom",

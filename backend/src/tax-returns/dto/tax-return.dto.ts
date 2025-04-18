@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsOptional, IsString, IsBoolean, IsEnum, IsObject, IsArray, IsDateString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsBoolean, IsEnum, IsObject, IsArray, IsDateString, ValidateNested, IsNumber } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export enum TaxReturnStatus {
   DRAFT = 'draft',
@@ -8,98 +9,340 @@ export enum TaxReturnStatus {
   REJECTED = 'rejected'
 }
 
-export class CreateTaxReturnDto {
-  @IsNotEmpty()
+// Address DTO
+export class AddressDto {
   @IsString()
-  clientId: string;
-
   @IsNotEmpty()
+  street: string;
+
   @IsString()
-  partnerId: string;
+  @IsNotEmpty()
+  houseNumber: string;
 
-  @IsOptional()
   @IsString()
-  type?: string;
-
-  @IsOptional()
-  @IsEnum(TaxReturnStatus)
-  status?: TaxReturnStatus;
-
   @IsNotEmpty()
-  @IsObject()
-  personalInfo: any;
+  postalCode: string;
 
-  @IsOptional()
-  @IsArray()
-  children?: any[];
-
+  @IsString()
   @IsNotEmpty()
-  @IsObject()
-  incomeInfo: any;
-
-  @IsNotEmpty()
-  @IsObject()
-  deductions: any;
-
-  @IsNotEmpty()
-  @IsObject()
-  taxCredits: any;
-
-  @IsOptional()
-  @IsObject()
-  signature?: any;
-
-  @IsOptional()
-  @IsDateString()
-  submittedAt?: string;
-
-  [key: string]: any;
+  city: string;
 }
 
-export class UpdateTaxReturnDto {
-  @IsOptional()
+// Spouse DTO
+export class SpouseDto {
   @IsString()
-  clientId?: string;
+  @IsOptional()
+  firstName?: string;
 
-  @IsOptional()
   @IsString()
-  partnerId?: string;
+  @IsOptional()
+  lastName?: string;
 
+  @IsDateString()
   @IsOptional()
+  dateOfBirth?: string;
+
   @IsString()
-  type?: string;
+  @IsOptional()
+  taxId?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  hasIncome?: boolean;
+
+  @IsString()
+  @IsOptional()
+  incomeType?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  jointTaxation?: boolean;
+}
+
+// Child DTO
+export class ChildDto {
+  @IsString()
+  @IsNotEmpty()
+  firstName: string;
+
+  @IsString()
+  @IsNotEmpty()
+  lastName: string;
+
+  @IsDateString()
+  @IsNotEmpty()
+  dateOfBirth: string;
+
+  @IsString()
+  @IsOptional()
+  taxId?: string;
+}
+
+// Foreign Residence DTO
+export class ForeignResidenceDto {
+  @IsString()
+  @IsNotEmpty()
+  country: string;
+
+  @IsString()
+  @IsOptional()
+  otherCountry?: string;
+}
+
+// Personal Info DTO
+export class PersonalInfoDto {
+  @IsString()
+  @IsNotEmpty()
+  firstName: string;
+
+  @IsString()
+  @IsNotEmpty()
+  lastName: string;
+
+  @IsString()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsOptional()
+  phone?: string;
+
+  @IsObject()
+  @ValidateNested()
+  @Type(() => AddressDto)
+  address: AddressDto;
+
+  @IsString()
+  @IsNotEmpty()
+  taxId: string;
+
+  @IsDateString()
+  @IsNotEmpty()
+  dateOfBirth: string;
+
+  @IsString()
+  @IsNotEmpty()
+  maritalStatus: string;
+
+  @IsBoolean()
+  @IsOptional()
+  hasSpouse?: boolean;
+
+  @IsObject()
+  @ValidateNested()
+  @Type(() => SpouseDto)
+  @IsOptional()
+  spouse?: SpouseDto;
+
+  @IsBoolean()
+  @IsOptional()
+  hasForeignResidence?: boolean;
+
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ForeignResidenceDto)
+  @IsOptional()
+  foreignResidence?: ForeignResidenceDto;
+
+  @IsBoolean()
+  @IsOptional()
+  hasChildren?: boolean;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ChildDto)
+  @IsOptional()
+  children?: ChildDto[];
+}
+
+// Expense Item DTO (for nested expense objects)
+export class ExpenseItemDto {
+  @IsString()
+  @IsOptional()
+  id?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  description: string;
+
+  @IsString()
+  @IsNotEmpty()
+  type: string;
+
+  @IsString()
+  @IsNotEmpty()
+  amount: string;
+
+  @IsArray()
+  @IsOptional()
+  file?: any[];
+}
+
+// Signature DTO
+export class SignatureDto {
+  @IsString()
+  @IsOptional()
+  place?: string;
+
+  @IsDateString()
+  @IsOptional()
+  date?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  fullName: string;
+
+  @IsString()
+  @IsOptional()
+  signature?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  confirmSignature?: boolean;
+}
+
+// Tax Year DTO
+export class TaxYearDto {
+  @IsString()
+  @IsNotEmpty()
+  year: string;
+}
+
+// Create Tax Return DTO
+export class CreateTaxReturnDto {
+  @IsObject()
+  @ValidateNested()
+  @Type(() => TaxYearDto)
+  @IsNotEmpty()
+  taxYear: TaxYearDto;
+
+  @IsObject()
+  @ValidateNested()
+  @Type(() => PersonalInfoDto)
+  @IsNotEmpty()
+  personalInfo: PersonalInfoDto;
+
+  @IsObject()
+  @IsNotEmpty()
+  incomeInfo: any;
+
+  @IsObject()
+  @IsNotEmpty()
+  expenses: any;
+
+  @IsObject()
+  @IsOptional()
+  businessInfo?: any;
+
+  @IsObject()
+  @ValidateNested()
+  @Type(() => SignatureDto)
+  @IsOptional()
+  signature?: SignatureDto;
 
   @IsOptional()
   @IsEnum(TaxReturnStatus)
   status?: TaxReturnStatus;
 
   @IsOptional()
-  @IsObject()
-  personalInfo?: any;
+  @IsDateString()
+  submittedAt?: string;
 
+  // Additional fields for client identification
+  @IsString()
   @IsOptional()
-  @IsArray()
-  children?: any[];
+  clientId?: string;
 
+  @IsString()
   @IsOptional()
+  partnerId?: string;
+
+  @IsString()
+  @IsOptional()
+  applicationId?: string;
+}
+
+// Update Tax Return DTO
+export class UpdateTaxReturnDto {
   @IsObject()
+  @ValidateNested()
+  @Type(() => TaxYearDto)
+  @IsOptional()
+  taxYear?: TaxYearDto;
+
+  @IsObject()
+  @ValidateNested()
+  @Type(() => PersonalInfoDto)
+  @IsOptional()
+  personalInfo?: PersonalInfoDto;
+
+  @IsObject()
+  @IsOptional()
   incomeInfo?: any;
 
-  @IsOptional()
   @IsObject()
-  deductions?: any;
+  @IsOptional()
+  expenses?: any;
+
+  @IsObject()
+  @IsOptional()
+  businessInfo?: any;
+
+  @IsObject()
+  @ValidateNested()
+  @Type(() => SignatureDto)
+  @IsOptional()
+  signature?: SignatureDto;
 
   @IsOptional()
-  @IsObject()
-  taxCredits?: any;
-
-  @IsOptional()
-  @IsObject()
-  signature?: any;
+  @IsEnum(TaxReturnStatus)
+  status?: TaxReturnStatus;
 
   @IsOptional()
   @IsDateString()
   submittedAt?: string;
 
-  [key: string]: any;
+  // Additional fields for client identification
+  @IsString()
+  @IsOptional()
+  clientId?: string;
+
+  @IsString()
+  @IsOptional()
+  partnerId?: string;
+
+  @IsString()
+  @IsOptional()
+  applicationId?: string;
+}
+
+// Response DTO
+export class TaxReturnResponseDto extends CreateTaxReturnDto {
+  @IsString()
+  @IsNotEmpty()
+  id: string;
+
+  @IsDateString()
+  @IsNotEmpty()
+  createdAt: string;
+
+  @IsDateString()
+  @IsNotEmpty()
+  updatedAt: string;
+
+  // Helper properties for easy indexing/searching
+  @IsString()
+  get firstName(): string {
+    return this.personalInfo?.firstName || '';
+  }
+
+  @IsString()
+  get lastName(): string {
+    return this.personalInfo?.lastName || '';
+  }
+
+  @IsString()
+  get yearOfSubmission(): string {
+    return this.taxYear?.year || '';
+  }
 } 

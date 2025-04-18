@@ -79,6 +79,7 @@ const TFReview: React.FC<TFReviewProps> = ({ formData, germanT, selectedT }) => 
   };
 
   // Extract data from form sections with safety checks
+  const taxYear = formData.taxYear || {};
   const personalInfo = formData.personalInfo || {};
   const incomeInfo = formData.incomeInfo || {};
   const expenses = formData.expenses || {};
@@ -95,6 +96,17 @@ const TFReview: React.FC<TFReviewProps> = ({ formData, germanT, selectedT }) => 
 
   return (
     <div className="space-y-6">
+      {/* Tax Year Section */}
+      <FormSection title={<>Steuerjahr / Tax Year</>}>
+        <FKInputField
+          id="review-taxYear"
+          mainLanguage="Steuerjahr"
+          selectedLanguage="Tax Year"
+          value={taxYear.year || '-'}
+          readOnly={true} 
+        />
+      </FormSection>
+
       {/* Personal Information Section */}
       <FormSection title={<>{germanT?.personalInfo?.title || 'Persönliche Informationen'} / {selectedT?.personalInfo?.title || 'Personal Information'}</>}>
         <FKInputField

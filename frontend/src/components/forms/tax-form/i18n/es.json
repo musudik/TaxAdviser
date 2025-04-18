@@ -219,6 +219,11 @@
     "other": "Otro"
   },  
   "taxForm": {
+    "title": "Declaración de Impuestos",
+    "taxYear": {
+      "title": "Año Fiscal",
+      "description": "Por favor, seleccione el año para el que desea presentar su declaración de impuestos."
+    },
     "personalInfo": {
       "title": "Información Personal",
       "firstName": "Nombre",
