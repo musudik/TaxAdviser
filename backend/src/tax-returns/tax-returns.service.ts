@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTaxReturnDto, UpdateTaxReturnDto } from './dto/tax-return.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class TaxReturnsService {
@@ -8,7 +9,9 @@ export class TaxReturnsService {
 
   async create(createTaxReturnDto: CreateTaxReturnDto) {
     try {
-      const result = await this.prisma.taxReturn.create({
+      // We need to access the actual Prisma client
+      const client = this.prisma as any;
+      const result = await client.taxReturn.create({
         data: {
           ...createTaxReturnDto,
           createdAt: new Date(),
@@ -23,13 +26,15 @@ export class TaxReturnsService {
   }
 
   async findAll() {
-    return this.prisma.taxReturn.findMany({
+    const client = this.prisma as any;
+    return client.taxReturn.findMany({
       orderBy: { updatedAt: 'desc' },
     });
   }
 
   async findOne(id: string) {
-    const taxReturn = await this.prisma.taxReturn.findUnique({
+    const client = this.prisma as any;
+    const taxReturn = await client.taxReturn.findUnique({
       where: { id },
     });
 
@@ -41,14 +46,16 @@ export class TaxReturnsService {
   }
 
   async findByClient(clientId: string) {
-    return this.prisma.taxReturn.findMany({
+    const client = this.prisma as any;
+    return client.taxReturn.findMany({
       where: { clientId },
       orderBy: { updatedAt: 'desc' },
     });
   }
 
   async findByPartner(partnerId: string) {
-    return this.prisma.taxReturn.findMany({
+    const client = this.prisma as any;
+    return client.taxReturn.findMany({
       where: { partnerId },
       orderBy: { updatedAt: 'desc' },
     });
@@ -56,7 +63,8 @@ export class TaxReturnsService {
 
   async update(id: string, updateTaxReturnDto: UpdateTaxReturnDto) {
     try {
-      const existingTaxReturn = await this.prisma.taxReturn.findUnique({
+      const client = this.prisma as any;
+      const existingTaxReturn = await client.taxReturn.findUnique({
         where: { id },
       });
 
@@ -64,7 +72,7 @@ export class TaxReturnsService {
         throw new NotFoundException(`Tax return with ID ${id} not found`);
       }
 
-      return this.prisma.taxReturn.update({
+      return client.taxReturn.update({
         where: { id },
         data: {
           ...updateTaxReturnDto,
@@ -82,7 +90,8 @@ export class TaxReturnsService {
 
   async remove(id: string) {
     try {
-      const existingTaxReturn = await this.prisma.taxReturn.findUnique({
+      const client = this.prisma as any;
+      const existingTaxReturn = await client.taxReturn.findUnique({
         where: { id },
       });
 
@@ -90,7 +99,7 @@ export class TaxReturnsService {
         throw new NotFoundException(`Tax return with ID ${id} not found`);
       }
 
-      await this.prisma.taxReturn.delete({
+      await client.taxReturn.delete({
         where: { id },
       });
 

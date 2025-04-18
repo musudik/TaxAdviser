@@ -12,12 +12,26 @@ export class TaxFormService {
     try {
       // Extract expenses from the DTO if present
       const expenses = createTaxFormDto.expenses || {};
+      
+      // Extract firstName, lastName, and submissionYear for database columns
+      const personalInfo = createTaxFormDto.personalInfo || {};
+      const taxYear = createTaxFormDto.taxYear || {};
+      
+      // Extract key fields for searching
+      const firstName = personalInfo.firstName?.toString() || null;
+      const lastName = personalInfo.lastName?.toString() || null;
+      const submissionYear = taxYear.year?.toString() || null;
 
       // Create object with only valid fields for the schema
       const taxFormData: any = {
         applicationId: createTaxFormDto.applicationId || `TAX-${Date.now()}`,
         userId: createTaxFormDto.userId,
         currentStep: createTaxFormDto.currentStep || 0,
+        // Store extracted fields for search
+        firstName,
+        lastName,
+        submissionYear,
+        // Store JSON data
         personalInfo: createTaxFormDto.personalInfo || {},
         incomeInfo: createTaxFormDto.incomeInfo || {},
         rentalIncome: createTaxFormDto.rentalIncome || {},
@@ -28,9 +42,18 @@ export class TaxFormService {
         extraordinaryBurdens: createTaxFormDto.extraordinaryBurdens || expenses.extraordinaryBurdens || {},
         craftsmenServices: createTaxFormDto.craftsmenServices || expenses.craftsmenServices || {},
         businessExpenses: createTaxFormDto.businessExpenses || {},
+        taxYear: createTaxFormDto.taxYear || {},
         signature: createTaxFormDto.signature || {},
         language: createTaxFormDto.language || 'en',
       };
+
+      // Store businessInfo in businessExpenses since businessInfo is not in the schema
+      if (createTaxFormDto.businessInfo) {
+        taxFormData.businessExpenses = {
+          ...taxFormData.businessExpenses,
+          businessInfo: createTaxFormDto.businessInfo
+        };
+      }
 
       // Log the data for debugging
       console.log('Tax form data being saved:', JSON.stringify(taxFormData, null, 2));
@@ -43,7 +66,7 @@ export class TaxFormService {
       return this.mapToTaxFormResponse(result);
     } catch (error) {
       console.error("Error creating tax form:", error);
-      throw error;
+      throw new Error(`Failed to create tax form: \n${error.message}`);
     }
   }
 
@@ -85,21 +108,77 @@ export class TaxFormService {
       // Extract expenses from the DTO if present
       const expenses = updateTaxFormDto.expenses || {};
       
+      // Extract key fields for searching if present
+      const updateFields: any = {};
+      
+      if (updateTaxFormDto.personalInfo) {
+        if (updateTaxFormDto.personalInfo.firstName) {
+          updateFields.firstName = updateTaxFormDto.personalInfo.firstName.toString();
+        }
+        if (updateTaxFormDto.personalInfo.lastName) {
+          updateFields.lastName = updateTaxFormDto.personalInfo.lastName.toString();
+        }
+      }
+      
+      if (updateTaxFormDto.taxYear && updateTaxFormDto.taxYear.year) {
+        updateFields.submissionYear = updateTaxFormDto.taxYear.year.toString();
+      }
+      
       // Prepare update data
       const updateData: any = { 
-        ...updateTaxFormDto,
+        ...updateFields,
+        // Handle specific fields
+        userId: updateTaxFormDto.userId,
+        currentStep: updateTaxFormDto.currentStep,
+        status: updateTaxFormDto.status,
+        personalInfo: updateTaxFormDto.personalInfo,
+        incomeInfo: updateTaxFormDto.incomeInfo,
+        rentalIncome: updateTaxFormDto.rentalIncome,
+        foreignIncome: updateTaxFormDto.foreignIncome,
         // Handle expense fields from nested expenses object if present
         workRelatedExpenses: updateTaxFormDto.workRelatedExpenses || expenses.workRelatedExpenses,
         specialExpenses: updateTaxFormDto.specialExpenses || expenses.specialExpenses,
         extraordinaryBurdens: updateTaxFormDto.extraordinaryBurdens || expenses.extraordinaryBurdens,
         craftsmenServices: updateTaxFormDto.craftsmenServices || expenses.craftsmenServices,
+        signature: updateTaxFormDto.signature,
+        taxYear: updateTaxFormDto.taxYear,
+        language: updateTaxFormDto.language,
+        submittedAt: updateTaxFormDto.submittedAt,
       };
       
-      // Remove the expenses field as it's not in the database schema
-      if (updateData.expenses) {
-        delete updateData.expenses;
+      // Remove null/undefined fields
+      Object.keys(updateData).forEach(key => {
+        if (updateData[key] === undefined) {
+          delete updateData[key];
+        }
+      });
+      
+      // Handle businessInfo - store it in businessExpenses
+      if (updateTaxFormDto.businessInfo) {
+        if (!updateData.businessExpenses) {
+          // Get current businessExpenses first
+          const currentForm = await this.prisma.taxForm.findUnique({
+            where: { id },
+            select: { businessExpenses: true }
+          });
+          
+          updateData.businessExpenses = Object.assign({}, 
+            currentForm?.businessExpenses || {}, 
+            { businessInfo: updateTaxFormDto.businessInfo }
+          );
+        } else {
+          updateData.businessExpenses = Object.assign({},
+            typeof updateData.businessExpenses === 'object' ? updateData.businessExpenses : {}, 
+            { businessInfo: updateTaxFormDto.businessInfo }
+          );
+        }
       }
       
+      // If businessExpenses exist, add it to the update data
+      if (updateTaxFormDto.businessExpenses) {
+        updateData.businessExpenses = updateTaxFormDto.businessExpenses;
+      }
+            
       // Log the data for debugging
       console.log('Tax form data being updated:', JSON.stringify(updateData, null, 2));
       
@@ -111,7 +190,7 @@ export class TaxFormService {
       return this.mapToTaxFormResponse(result);
     } catch (error) {
       console.error("Error updating tax form:", error);
-      throw error;
+      throw new Error(`Failed to update tax form: \n${error.message}`);
     }
   }
 
@@ -139,6 +218,7 @@ export class TaxFormService {
   private mapToTaxFormResponse(data: any): TaxFormResponse {
     const signature = data.signature || {};
     const placeAndDate = signature.placeAndDate || {};
+    const businessExpenses = data.businessExpenses || {};
     
     // Reconstruct the expenses object for the response
     const expenses = {
@@ -147,6 +227,9 @@ export class TaxFormService {
       extraordinaryBurdens: data.extraordinaryBurdens || {},
       craftsmenServices: data.craftsmenServices || {},
     };
+    
+    // Extract businessInfo from businessExpenses if it exists
+    const businessInfo = businessExpenses.businessInfo || {};
     
     return {
       id: data.id,
@@ -170,8 +253,12 @@ export class TaxFormService {
       placeAndDate: placeAndDate as JsonSection,
       language: data.language || 'en',
       submittedAt: data.submittedAt,
-      businessInfo: data.businessInfo || {},
+      businessInfo: businessInfo as JsonSection, // Set from businessExpenses.businessInfo
       taxYear: data.taxYear || {},
+      // Include the extracted fields in the response
+      firstName: data.firstName,
+      lastName: data.lastName,
+      submissionYear: data.submissionYear,
     };
   }
 } 

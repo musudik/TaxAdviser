@@ -92,4 +92,8 @@ export interface TaxFormResponse {
   placeAndDate?: JsonSection; // Keep for backwards compatibility with frontend
   language: string;
   submittedAt?: Date;
+  // Fields extracted for easier searching/filtering
+  firstName?: string;
+  lastName?: string;
+  submissionYear?: string;
 } 
