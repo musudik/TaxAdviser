@@ -234,33 +234,69 @@ const TaxFormBase: React.FC = () => {
       return; // Stop submission if errors exist
     }
 
-    // --- PDF Generation --- 
+    // Generate PDF
     try {
       console.log("Generating PDF...");
       await generateTaxFormPdf(formData, germanI18nData, i18nData);
       console.log("PDF generation successful.");
     } catch (pdfError) {
       console.error("Error generating PDF:", pdfError);
-      // Optionally inform the user about the PDF generation error
       alert('Could not generate PDF summary. Please try again or contact support.');
-      // Decide if you want to proceed with submission anyway or stop
-      // return; // Uncomment to stop submission if PDF fails
     }
-    // --- End PDF Generation ---
     
-    // Add your actual backend submission logic here
-    console.log('Proceeding with backend submission (placeholder)...');
-    // Example:
-    // setIsSubmitting(true);
-    // try {
-    //   await submitFormDataToBackend(formData); // Replace with your API call
-    //   setIsSubmitted(true);
-    // } catch (submissionError) {
-    //   console.error("Error submitting to backend:", submissionError);
-    //   // Handle backend submission error (e.g., show message to user)
-    // } finally {
-    //   setIsSubmitting(false);
-    // }
+    // Submit form data to backend
+    try {
+      // Prepare the data to match the CreateTaxFormDto structure
+      const applicationId = formData.personalInfo?.applicationId || `TAX-${Date.now()}`;
+      
+      // Build signature with placeAndDate if both exist
+      let signature = formData.signature || {};
+      if (formData.placeAndDate) {
+        signature = {
+          ...signature,
+          placeAndDate: formData.placeAndDate
+        };
+      }
+      
+      const submissionData = {
+        applicationId,
+        userId: formData.personalInfo?.userId,
+        currentStep,
+        personalInfo: formData.personalInfo || {},
+        incomeInfo: formData.incomeInfo || {},
+        rentalIncome: formData.rentalIncome || {},
+        foreignIncome: formData.foreignIncome || {},
+        workRelatedExpenses: formData.workRelatedExpenses || {},
+        specialExpenses: formData.specialExpenses || {},
+        extraordinaryBurdens: formData.extraordinaryBurdens || {},
+        craftsmenServices: formData.craftsmenServices || {},
+        businessExpenses: formData.businessExpenses || {},
+        signature: signature,
+        language: selectedLanguage
+      };
+      
+      console.log('Submitting data to backend:', submissionData);
+      
+      const response = await fetch('http://localhost:3000/api/tax-forms', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submissionData),
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+      }
+      
+      const result = await response.json();
+      console.log('Submission successful:', result);
+      alert('Tax form submitted successfully!');
+      
+    } catch (submissionError) {
+      console.error("Error submitting to backend:", submissionError);
+      alert('Failed to submit tax form. Please try again or contact support.');
+    }
   };
 
   // Handle language change

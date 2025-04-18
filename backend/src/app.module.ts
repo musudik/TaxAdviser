@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { getTypeOrmConfig } from './config/typeorm.config';
 import { TaxReturnsModule } from './tax-returns/tax-returns.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { TaxFormModule } from './tax-form/tax-form.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { PrismaModule } from './prisma/prisma.module';
     PrismaModule,
     AuthModule,
     TaxReturnsModule,
+    TaxFormModule,
   ],
 })
 export class AppModule {} 

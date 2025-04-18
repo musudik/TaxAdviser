@@ -45,4 +45,30 @@ model TaxReturn {
 
   // Statistics and dates
   submittedAt  DateTime?
+}
+
+model TaxForm {
+  id             String    @id @default(uuid())
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  applicationId  String    @unique // Unique application ID for reference
+  userId         String?   // Optional connection to user
+  currentStep    Int       @default(0)
+  status         String    @default("draft") // draft, submitted, processing, completed, rejected
+  
+  // Store JSON data for each section based on frontend structure
+  personalInfo           Json?
+  incomeInfo             Json?
+  rentalIncome           Json?
+  foreignIncome          Json?
+  workRelatedExpenses    Json?
+  specialExpenses        Json?
+  extraordinaryBurdens   Json?
+  craftsmenServices      Json?
+  businessExpenses       Json?
+  signature              Json?
+  
+  // Metadata fields
+  submittedAt            DateTime?
+  language               String    @default("en")
 } 
