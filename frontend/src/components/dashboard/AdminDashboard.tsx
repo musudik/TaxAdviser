@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAuth } from '../../hooks/useAuth';
+import TALogo from '../../assets/TA.png';
 
 const AdminDashboard: React.FC = () => {
   const { user, logout } = useAuth();
@@ -8,7 +9,10 @@ const AdminDashboard: React.FC = () => {
     <div className="min-h-screen bg-neutral-50">
       <header className="border-b border-[#ddd6fe] bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-medium text-neutral-900 font-['Switzer-Medium']">Admin Dashboard</h1>
+          <div className="flex items-center">
+            <img src={TALogo} alt="Tax Adviser Logo" className="w-8 h-8 mr-3 rounded-lg shadow-sm" />
+            <h1 className="text-2xl font-medium text-neutral-900 font-['Switzer-Medium']">Admin Dashboard</h1>
+          </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-neutral-600 font-['Switzer-Regular']">
               Welcome, {user?.firstName} {user?.lastName}
