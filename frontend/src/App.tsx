@@ -10,6 +10,7 @@ import TaxAgentDashboard from './components/dashboard/TaxAgentDashboard';
 import AdminDashboard from './components/dashboard/AdminDashboard';
 import TaxReturnPage from './components/forms/tax-return/TaxReturnPage';
 import TaxFormBase from './components/forms/tax-form/TaxFormBase';
+import TaxFormDetails from './components/forms/tax-form/TaxFormDetails';
 import './styles/globals.css';
 
 function App() {
@@ -65,6 +66,16 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={[UserRole.CLIENT]}>
                 <TaxFormBase />
+              </ProtectedRoute>
+            }
+          />
+          
+          {/* Add Tax Form Details View Route */}
+          <Route
+            path="/tax-form/view/:id"
+            element={
+              <ProtectedRoute allowedRoles={[UserRole.CLIENT]}>
+                <TaxFormDetails />
               </ProtectedRoute>
             }
           />
