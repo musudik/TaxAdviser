@@ -1,13 +1,13 @@
 import React from 'react';
-import { TaxFormData } from './taxTypes';
+//import { TaxFormData } from './taxTypes';
 import TaxReturnForm from './BaseForm';
 import languageData from './i18n/language.json';
 const TaxReturnPage: React.FC = () => {
-  const handleSubmit = (data: TaxFormData) => {
-    console.log('Form submitted:', data);
-    // Here you would typically send the data to your backend
-    // For example: axios.post('/api/tax-returns', data)
-  };
+  // const handleSubmit = (data: TaxFormData) => {
+  //   console.log('Form submitted:', data);
+  //   // Here you would typically send the data to your backend
+  //   // For example: axios.post('/api/tax-returns', data)
+  // };
   
   return (
     <div className="min-h-screen bg-neutral-50 py-8 px-4 sm:px-6 lg:px-8">

@@ -24,6 +24,9 @@ const RegisterForm = () => {
       const response = await register(formData);
       const user = response.user;
 
+      // Display success message
+      toast.success('Registration successful!');
+
       // Navigate based on user role
       if (user.role === UserRole.CLIENT) {
         navigate('/dashboard/client');
@@ -32,8 +35,26 @@ const RegisterForm = () => {
       } else if (user.role === UserRole.ADMIN) {
         navigate('/dashboard/admin');
       }
-    } catch (error) {
-      toast.error('Registration failed. Please try again.');
+    } catch (error: any) {
+      console.error('Registration error:', error);
+      
+      // Display the specific error message if available
+      if (error.message) {
+        // Check if it's a duplicate email error (for better UX)
+        if (error.message.includes('email') && error.message.includes('already in use')) {
+          toast.error(error.message, {
+            duration: 5000, // Show longer for important errors
+            position: 'top-center',
+          });
+        } else {
+          toast.error(error.message);
+        }
+      } else if (error.response?.data?.message) {
+        // Try to get error directly from response if available
+        toast.error(error.response.data.message);
+      } else {
+        toast.error('Registration failed. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }

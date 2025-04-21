@@ -15,6 +15,7 @@ import TFReview from './steps/TFReview';
 import TFSignature from './steps/TFSignature';
 import { validateTaxForm, ValidationErrors } from './validation'; // Import validation
 import { generateTaxFormPdf } from '../../../lib/generateTaxFormPdf'; // Import the new utility
+import { useAuth } from '../../../hooks/useAuth'; // Import the auth hook
 
 // Define a more specific type for form data later
 interface TaxFormData {
@@ -94,6 +95,7 @@ const TaxFormBase: React.FC = () => {
   const [loadingLang, setLoadingLang] = useState(true);
   const [validationErrors, setValidationErrors] = useState<ValidationErrors | null>(null);
   const [showValidationErrors, setShowValidationErrors] = useState(false);
+  const { user } = useAuth(); // Extract user from auth store
 
   // Define steps with actual components - update with the new split steps
   const steps = [
@@ -274,8 +276,9 @@ const TaxFormBase: React.FC = () => {
       // directly use the sections from formData that match the backend model
       const submissionData = {
         applicationId,
-        userId: formData.personalInfo?.userId,
-        currentStep,
+        //userId: formData.personalInfo?.userId,
+        userId: user?.id, // Get userId from auth context
+
         taxYear: formData.taxYear || {},
         personalInfo: formData.personalInfo || {},
         incomeInfo: formData.incomeInfo || {},
