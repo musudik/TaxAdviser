@@ -135,7 +135,7 @@ const ClientDashboard: React.FC = () => {
             <h2 className="text-lg font-medium text-neutral-800 mb-4 font-['Switzer-Medium']">Tax Return Status</h2>
             <p className="text-neutral-600 font-['Switzer-Regular']">No tax returns submitted yet.</p>
             <div className="mt-4">
-              <Link to="/tax-return">
+              <Link to="/tax-form">
                 <button className="auth-btn-secondary text-sm">Submit Tax Return</button>
               </Link>
             </div>
@@ -160,22 +160,22 @@ const ClientDashboard: React.FC = () => {
           </div>
 
           {/* Documents Card */}
-          <div className="card rounded-lg border border-[#ddd6fe] bg-white p-6 shadow-sm hover:shadow-md transition-shadow duration-200">
+          {/* <div className="card rounded-lg border border-[#ddd6fe] bg-white p-6 shadow-sm hover:shadow-md transition-shadow duration-200">
             <h2 className="text-lg font-medium text-neutral-800 mb-4 font-['Switzer-Medium']">Documents</h2>
             <p className="text-neutral-600 font-['Switzer-Regular']">No documents uploaded yet.</p>
             <div className="mt-4">
               <button className="auth-btn-secondary text-sm">Upload Document</button>
             </div>
-          </div>
+          </div> */}
 
           {/* Messages Card */}
-          <div className="card rounded-lg border border-[#ddd6fe] bg-white p-6 shadow-sm hover:shadow-md transition-shadow duration-200">
+          {/* <div className="card rounded-lg border border-[#ddd6fe] bg-white p-6 shadow-sm hover:shadow-md transition-shadow duration-200">
             <h2 className="text-lg font-medium text-neutral-800 mb-4 font-['Switzer-Medium']">Messages</h2>
             <p className="text-neutral-600 font-['Switzer-Regular']">No new messages.</p>
             <div className="mt-4">
               <button className="auth-btn-secondary text-sm">View Messages</button>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Submitted Applications List */}
