@@ -10,14 +10,27 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  // Optimize for Replit deployment
   server: {
-    port: 5173,
-    host: true,
+    host: '0.0.0.0',
+    port: 3001,
+    hmr: {
+      // Use websocket for Replit
+      clientPort: 443,
+    },
   },
+  // Optimize build output
   build: {
+    outDir: 'dist',
+    sourcemap: false,
+    // Reduce chunk size
+    chunkSizeWarningLimit: 1600,
     rollupOptions: {
-      input: {
-        main: path.resolve(__dirname, 'index.html'),
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          firebase: ['firebase/app', 'firebase/storage', 'firebase/auth'],
+        },
       },
     },
   },

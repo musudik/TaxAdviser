@@ -1,33 +1,48 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { AppModule } from './app.module';
+import * as cookieParser from 'cookie-parser';
+import * as compression from 'compression';
+import * as helmet from 'helmet';
+import { PrismaService } from './prisma/prisma.service';
 
 async function bootstrap() {
+  // Create NestJS application
   const app = await NestFactory.create(AppModule);
-  const configService = app.get(ConfigService);
-
-  // Enable CORS
+  
+  // Enable shutdown hooks for Prisma
+  const prismaService = app.get(PrismaService);
+  await prismaService.enableShutdownHooks(app);
+  
+  // Security middleware
+  app.use(helmet());
+  app.use(compression());
+  app.use(cookieParser());
+  
+  // Enable CORS - configure for Replit
   app.enableCors({
-    origin: configService.get('NODE_ENV') === 'development' 
-      ? 'http://localhost:5173' // Vite's default port
-      : 'https://your-production-domain.com',
+    origin: process.env.FRONTEND_URL || '*',
     credentials: true,
   });
-
-  // Set global prefix
+  
+  // Set up global pipes for validation
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
+  
+  // Set global prefix for all routes
   app.setGlobalPrefix('api');
-
-  // Enable validation pipes
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,
-    transform: true,
-    forbidNonWhitelisted: true,
-  }));
-
-  const port = configService.get('PORT') || 3000;
+  
+  // Start the server
+  const port = process.env.PORT || 3000;
   await app.listen(port);
-  console.log(`Application is running on: http://localhost:${port}`);
+  console.log(`Application is running on: http://localhost:${port}/api`);
 }
 
-bootstrap(); 
+bootstrap().catch((err) => {
+  console.error('Error starting server:', err);
+}); 

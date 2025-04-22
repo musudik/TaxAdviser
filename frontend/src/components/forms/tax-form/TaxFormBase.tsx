@@ -240,17 +240,6 @@ const TaxFormBase: React.FC = () => {
       return; // Stop submission if errors exist
     }
 
-    // Generate PDF
-    try {
-      console.log("Generating PDF...");
-      await generateTaxFormPdf(formData, germanI18nData, i18nData);
-      console.log("PDF generation successful.");
-    } catch (pdfError) {
-      console.error("Error generating PDF:", pdfError);
-      alert('Could not generate PDF summary. Please try again or contact support.');
-    }
-    
-    // Submit form data to backend
     try {
       // Prepare the data to match the CreateTaxFormDto structure
       const applicationId = formData.personalInfo?.applicationId || `TAX-${Date.now()}`;
@@ -272,47 +261,76 @@ const TaxFormBase: React.FC = () => {
         craftsmenServices: formData.craftsmenServices || formData.expenses?.craftsmenServices || {}
       };
 
-      // Make sure data matches the backend's expected structure
-      // directly use the sections from formData that match the backend model
-      const submissionData = {
-        applicationId,
-        //userId: formData.personalInfo?.userId,
-        userId: user?.id, // Get userId from auth context
+      // Upload files to Firebase and update URLs - show loading state
+      console.log("Uploading files to Firebase...");
+      alert('Please wait while we process your files...');
+      
+      // Extract user's full name for file organization
+      const fullName = `${formData.personalInfo?.firstName || 'User'} ${formData.personalInfo?.lastName || ''}`;
 
-        taxYear: formData.taxYear || {},
-        personalInfo: formData.personalInfo || {},
-        incomeInfo: formData.incomeInfo || {},
-        rentalIncome: formData.rentalIncome || {},
-        foreignIncome: formData.foreignIncome || {},
-        // Include both expenses object and individual fields to ensure backward compatibility
-        expenses: expenses,
-        workRelatedExpenses: formData.workRelatedExpenses || formData.expenses?.workRelatedExpenses || {},
-        specialExpenses: formData.specialExpenses || formData.expenses?.specialExpenses || {},
-        extraordinaryBurdens: formData.extraordinaryBurdens || formData.expenses?.extraordinaryBurdens || {},
-        craftsmenServices: formData.craftsmenServices || formData.expenses?.craftsmenServices || {},
-        businessExpenses: formData.businessExpenses || {},
-        businessInfo: formData.businessInfo || {},
-        signature: signature,
-        language: selectedLanguage
-      };
-      
-      console.log('Submitting data to backend:', submissionData);
-      
-      const response = await fetch('http://localhost:3000/api/tax-forms', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(submissionData),
-      });
-      
-      if (!response.ok) {
-        throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+      try {
+        // Upload all files to Firebase
+        // Use dynamic import to avoid circular dependencies
+        const { uploadFilesToFirebase, generateTaxFormPdf } = await import('../../../lib/generateTaxFormPdf');
+        
+        // Create deep copy of the formData for processing
+        const formDataWithExpenses = {
+          ...formData,
+          expenses: expenses
+        };
+        
+        // Upload files and get updated form data with Firebase URLs
+        const updatedFormData = await uploadFilesToFirebase(formDataWithExpenses, fullName);
+        console.log("Files uploaded and URLs updated:", updatedFormData);
+        
+        // Generate the PDF
+        console.log("Generating PDF...");
+        const pdfUrl = await generateTaxFormPdf(updatedFormData, germanI18nData, i18nData);
+        console.log("PDF generated and uploaded:", pdfUrl);
+        
+        // Prepare the final data for submission to backend
+        const submissionData = {
+          applicationId,
+          userId: user?.id,
+          taxYear: updatedFormData.taxYear || {},
+          personalInfo: updatedFormData.personalInfo || {},
+          incomeInfo: updatedFormData.incomeInfo || {},
+          rentalIncome: updatedFormData.rentalIncome || {},
+          foreignIncome: updatedFormData.foreignIncome || {},
+          expenses: updatedFormData.expenses || {},
+          workRelatedExpenses: updatedFormData.workRelatedExpenses || updatedFormData.expenses?.workRelatedExpenses || {},
+          specialExpenses: updatedFormData.specialExpenses || updatedFormData.expenses?.specialExpenses || {},
+          extraordinaryBurdens: updatedFormData.extraordinaryBurdens || updatedFormData.expenses?.extraordinaryBurdens || {},
+          craftsmenServices: updatedFormData.craftsmenServices || updatedFormData.expenses?.craftsmenServices || {},
+          businessExpenses: updatedFormData.businessExpenses || {},
+          businessInfo: updatedFormData.businessInfo || {},
+          signature: signature,
+          language: selectedLanguage,
+          pdfSummaryUrl: pdfUrl
+        };
+        
+        console.log('Submitting data to backend with file URLs:', submissionData);
+        
+        const response = await fetch('http://localhost:3000/api/tax-forms', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(submissionData),
+        });
+        
+        if (!response.ok) {
+          throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+        }
+        
+        const result = await response.json();
+        console.log('Submission successful:', result);
+        alert('Tax form submitted successfully!');
+        
+      } catch (error) {
+        console.error("Error processing files or generating PDF:", error);
+        alert('There was an issue processing your files. Please try again or contact support.');
       }
-      
-      const result = await response.json();
-      console.log('Submission successful:', result);
-      alert('Tax form submitted successfully!');
       
     } catch (submissionError) {
       console.error("Error submitting to backend:", submissionError);
