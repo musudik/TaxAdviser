@@ -1,6 +1,7 @@
 run = "bash ./replit-setup.sh"
 entrypoint = "index.js"
 hidden = [".config", "package-lock.json"]
+modules = ["nodejs-20", "postgresql-16"]
 
 [env]
 POSTGRES_PASSWORD = "postgres"

@@ -1,6 +1,11 @@
 {
     "name": "TaxAdviser",
     "private": true,
-    "workspaces": ["frontend", "backend"]
-  }
-  
+    "workspaces": [
+        "frontend",
+        "backend"
+    ],
+    "dependencies": {
+        "cookie-parser": "^1.4.7"
+    }
+}
