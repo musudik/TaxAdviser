@@ -8,10 +8,11 @@ POSTGRES_PASSWORD = "postgres"
 DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/taxadviser"
 
 [nix]
-channel = "stable-22_11"
+channel = "stable-23_11"
 
 [deployment]
-run = ["sh", "-c", "node backend/dist/main"]
+build = ["sh", "-c", "cd backend && npm install && npx prisma generate"]
+run = ["sh", "-c", "cd backend && node dist/main"]
 deploymentTarget = "cloudrun"
 
 [languages]
@@ -22,4 +23,9 @@ pattern = "**/{*.js,*.jsx,*.ts,*.tsx}"
 start = "typescript-language-server --stdio"
 
 [unitTest]
-language = "nodejs" 
+language = "nodejs"
+
+[[ports]]
+localPort = 5173
+externalPort = 80
+exposeLocalhost = true
