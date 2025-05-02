@@ -118,24 +118,23 @@ const TaxFormBase: React.FC = () => {
     const loadLanguage = async () => {
       setLoadingLang(true);
       try {
-        // Dynamically import the selected language file
-        const langModule = await import(`./i18n/${selectedLanguage}.json`);
-        setI18nData(langModule.default || langModule);
+        // Use the i18n helper instead of dynamic imports
+        const { getTranslation } = await import('./i18n');
+        setI18nData(getTranslation(selectedLanguage));
 
         // Always load German for the main labels
         if (!germanI18nData) {
-          const germanModule = await import('./i18n/de.json');
-          setGermanI18nData(germanModule.default || germanModule);
+          setGermanI18nData(getTranslation('de'));
         }
       } catch (error) {
-        console.error(`Failed to load language file: ${selectedLanguage}.json`, error);
+        console.error(`Failed to load language file: ${selectedLanguage}`, error);
         // Fallback or default language loading logic if needed
         if (!i18nData) { // Load English as fallback if primary fails
             try {
-                const fallbackModule = await import('./i18n/en.json');
-                setI18nData(fallbackModule.default || fallbackModule);
+                const { getTranslation } = await import('./i18n');
+                setI18nData(getTranslation('en'));
             } catch (fallbackError) {
-                 console.error('Failed to load fallback language file: en.json', fallbackError);
+                 console.error('Failed to load fallback language file: en', fallbackError);
             }
         }
       } finally {

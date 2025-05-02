@@ -314,7 +314,7 @@ const ClientDashboard: React.FC = () => {
               title="Tax Resources" 
               content="Find helpful resources and guides for your tax filing process."
               buttonText="View Resources"
-              linkTo="/tax-return"
+              linkTo="/tax-form"
               icon={
                 <div className="p-2 bg-amber-100 rounded-lg">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">

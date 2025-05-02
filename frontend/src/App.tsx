@@ -8,7 +8,6 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import ClientDashboard from './components/dashboard/ClientDashboard';
 import TaxAgentDashboard from './components/dashboard/TaxAgentDashboard';
 import AdminDashboard from './components/dashboard/AdminDashboard';
-import TaxReturnPage from './components/forms/tax-return/TaxReturnPage';
 import TaxFormBase from './components/forms/tax-form/TaxFormBase';
 import TaxFormDetails from './components/forms/tax-form/TaxFormDetails';
 import './styles/globals.css';
@@ -46,16 +45,6 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={[UserRole.ADMIN]}>
                 <AdminDashboard />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Tax Return Route - Ensure this is accessible */}
-          <Route
-            path="/tax-return"
-            element={
-              <ProtectedRoute allowedRoles={[UserRole.CLIENT]}>
-                <TaxReturnPage />
               </ProtectedRoute>
             }
           />
