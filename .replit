@@ -1,18 +1,16 @@
 run = "bash ./replit-setup.sh"
 entrypoint = "index.js"
 hidden = [".config", "package-lock.json"]
-modules = ["nodejs-20", "postgresql-16"]
 
 [env]
 POSTGRES_PASSWORD = "postgres"
 DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/taxadviser"
 
 [nix]
-channel = "stable-23_11"
+channel = "stable-22_11"
 
 [deployment]
-build = ["sh", "-c", "cd backend && npm install && npx prisma generate"]
-run = ["sh", "-c", "cd backend && node dist/main"]
+run = ["sh", "-c", "node backend/dist/main"]
 deploymentTarget = "cloudrun"
 
 [languages]
@@ -23,9 +21,4 @@ pattern = "**/{*.js,*.jsx,*.ts,*.tsx}"
 start = "typescript-language-server --stdio"
 
 [unitTest]
-language = "nodejs"
-
-[[ports]]
-localPort = 5173
-externalPort = 80
-exposeLocalhost = true
+language = "nodejs" 
