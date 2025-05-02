@@ -29,7 +29,6 @@ const FormSection = ({ title, children }: { title: React.ReactNode, children: Re
 const TFPersonalInfo: React.FC<TFPersonalInfoProps> = ({ 
   formData, 
   handleChange, 
-  selectedLanguage, 
   i18nData, 
   germanI18nData, 
   validationErrors, 

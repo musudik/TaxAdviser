@@ -15,7 +15,7 @@ interface TFSpouseProps {
   showValidationErrors: boolean;
 }
 
-const TFSpouse: React.FC<TFSpouseProps> = ({ formData, handleChange, selectedLanguage, i18nData, germanI18nData, validationErrors, showValidationErrors }) => {
+const TFSpouse: React.FC<TFSpouseProps> = ({ formData, handleChange, i18nData, germanI18nData, validationErrors, showValidationErrors }) => {
 
   // Spouse info is nested under personalInfo
   const handleSpouseChange = (field: string, value: any) => {

@@ -19,7 +19,7 @@ const ClientDashboard: React.FC = () => {
   const [showDebug, setShowDebug] = useState(false);
   const [debugData, setDebugData] = useState<any>(null);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   useEffect(() => {
     // Add entrance animation after component mounts
@@ -224,12 +224,6 @@ const ClientDashboard: React.FC = () => {
          status}
       </span>
     );
-  };
-
-  // Function to handle safe navigation
-  const handleNavigation = (path: string) => {
-    console.log('Navigating to ' + path);
-    navigate(path);
   };
 
   return (

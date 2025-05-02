@@ -340,132 +340,132 @@ const uploadPdfToFirebase = async (pdfBlob: Blob, fullName: string): Promise<str
 };
 
 // Helper to format boolean values for PDF
-const formatBooleanPdf = (value: boolean | undefined | null, germanT: any, selectedT: any): string => {
-  if (value === undefined || value === null) return '-';
-  const yes = selectedT?.common?.yes || 'Yes';
-  const no = selectedT?.common?.no || 'No';
-  const germanYes = germanT?.common?.yes || 'Ja';
-  const germanNo = germanT?.common?.no || 'Nein';
-  return value ? `${germanYes} / ${yes}` : `${germanNo} / ${no}`;
-};
+// const formatBooleanPdf = (value: boolean | undefined | null, germanT: any, selectedT: any): string => {
+//   if (value === undefined || value === null) return '-';
+//   const yes = selectedT?.common?.yes || 'Yes';
+//   const no = selectedT?.common?.no || 'No';
+//   const germanYes = germanT?.common?.yes || 'Ja';
+//   const germanNo = germanT?.common?.no || 'Nein';
+//   return value ? `${germanYes} / ${yes}` : `${germanNo} / ${no}`;
+// };
 
-// Helper to format currency values for PDF
-const formatCurrencyPdf = (value: number | string | undefined | null): string => {
-  const numValue = typeof value === 'string' ? parseFloat(value) : value;
-  if (numValue === undefined || numValue === null || isNaN(numValue)) return '-';
-  if (numValue === 0) return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(0);
-  return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(numValue);
-};
+// // Helper to format currency values for PDF
+// const formatCurrencyPdf = (value: number | string | undefined | null): string => {
+//   const numValue = typeof value === 'string' ? parseFloat(value) : value;
+//   if (numValue === undefined || numValue === null || isNaN(numValue)) return '-';
+//   if (numValue === 0) return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(0);
+//   return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(numValue);
+// };
 
 // Helper to draw a field block (3 lines: DE label, Sel label, Value) vertically
 // Returns the total height used by the block.
-const addField = (doc: PDF, baseXPos: number, yPos: number, indent: number, germanLabel: string, selectedLabel: string, value: string, columnWidth: number): number => {
-  const finalXPos = baseXPos + indent;
-  const actualWidth = columnWidth - indent;
-  const labelLineHeight = 5; // Line height for labels
-  const valueLineHeight = 6; // Line height for value
-  let currentY = yPos;
+// const addField = (doc: PDF, baseXPos: number, yPos: number, indent: number, germanLabel: string, selectedLabel: string, value: string, columnWidth: number): number => {
+//   const finalXPos = baseXPos + indent;
+//   const actualWidth = columnWidth - indent;
+//   const labelLineHeight = 5; // Line height for labels
+//   const valueLineHeight = 6; // Line height for value
+//   let currentY = yPos;
 
-  // German Label (Bold)
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'bold');
-  const splitGermanLabel = doc.splitTextToSize(germanLabel || 'Label (DE)', actualWidth);
-  doc.text(splitGermanLabel, finalXPos, currentY);
-  currentY += splitGermanLabel.length * labelLineHeight;
+//   // German Label (Bold)
+//   doc.setFontSize(10);
+//   doc.setFont('helvetica', 'bold');
+//   const splitGermanLabel = doc.splitTextToSize(germanLabel || 'Label (DE)', actualWidth);
+//   doc.text(splitGermanLabel, finalXPos, currentY);
+//   currentY += splitGermanLabel.length * labelLineHeight;
 
-  // Selected Language Label (Smaller, lighter)
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(9);
-  doc.setTextColor(100);
-  const splitSelectedLabel = doc.splitTextToSize(selectedLabel || 'Label', actualWidth);
-  doc.text(splitSelectedLabel, finalXPos, currentY);
-  currentY += splitSelectedLabel.length * labelLineHeight;
-  doc.setTextColor(0); // Reset color
+//   // Selected Language Label (Smaller, lighter)
+//   doc.setFont('helvetica', 'normal');
+//   doc.setFontSize(9);
+//   doc.setTextColor(100);
+//   const splitSelectedLabel = doc.splitTextToSize(selectedLabel || 'Label', actualWidth);
+//   doc.text(splitSelectedLabel, finalXPos, currentY);
+//   currentY += splitSelectedLabel.length * labelLineHeight;
+//   doc.setTextColor(0); // Reset color
 
-  // Value (Normal)
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'normal');
-  const splitValue = doc.splitTextToSize(value || '-', actualWidth);
-  doc.text(splitValue, finalXPos, currentY);
-  currentY += splitValue.length * valueLineHeight;
+//   // Value (Normal)
+//   doc.setFontSize(10);
+//   doc.setFont('helvetica', 'normal');
+//   const splitValue = doc.splitTextToSize(value || '-', actualWidth);
+//   doc.text(splitValue, finalXPos, currentY);
+//   currentY += splitValue.length * valueLineHeight;
   
-  // Add a little padding below the value
-  currentY += 3; // Increased padding slightly
+//   // Add a little padding below the value
+//   currentY += 3; // Increased padding slightly
 
-  // Return the total height consumed by this block
-  return currentY - yPos;
-};
+//   // Return the total height consumed by this block
+//   return currentY - yPos;
+// };
 
 // Helper to add a section title - Resets columns
-const addSectionTitle = (doc: PDF, yPositions: { col1: number, col2: number }, columnState: { nextCol: number }, pageHeight: number, bottomMargin: number, germanTitle: string, selectedTitle: string, forceNewPage: boolean = true) => {
-  const lineHeight = 10;
-  const titleY = Math.max(yPositions.col1, yPositions.col2) + lineHeight; // Position below the highest column content + spacing
+// const addSectionTitle = (doc: PDF, yPositions: { col1: number, col2: number }, columnState: { nextCol: number }, pageHeight: number, bottomMargin: number, germanTitle: string, selectedTitle: string, forceNewPage: boolean = true) => {
+//   const lineHeight = 10;
+//   const titleY = Math.max(yPositions.col1, yPositions.col2) + lineHeight; // Position below the highest column content + spacing
 
-  // Always start a new page for section titles if forceNewPage is true
-  if (forceNewPage || titleY + lineHeight > pageHeight - bottomMargin) {
-    doc.addPage();
-    yPositions.col1 = 20;
-    yPositions.col2 = 20;
+//   // Always start a new page for section titles if forceNewPage is true
+//   if (forceNewPage || titleY + lineHeight > pageHeight - bottomMargin) {
+//     doc.addPage();
+//     yPositions.col1 = 20;
+//     yPositions.col2 = 20;
     
-    // Add page number at the bottom of each new page
-    addPageNumber(doc);
-  } else {
-    yPositions.col1 = titleY; // Align both columns before drawing title
-    yPositions.col2 = titleY;
-  }
+//     // Add page number at the bottom of each new page
+//     addPageNumber(doc);
+//   } else {
+//     yPositions.col1 = titleY; // Align both columns before drawing title
+//     yPositions.col2 = titleY;
+//   }
 
-  // Draw title on two lines with different colors
-  doc.setFontSize(14);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(0, 0, 0); // Main language in black
-  doc.text(germanTitle, 20, yPositions.col1);
+//   // Draw title on two lines with different colors
+//   doc.setFontSize(14);
+//   doc.setFont('helvetica', 'bold');
+//   doc.setTextColor(0, 0, 0); // Main language in black
+//   doc.text(germanTitle, 20, yPositions.col1);
   
-  // Selected language in lighter gray below
-  doc.setFontSize(12);
-  doc.setTextColor(120, 120, 120); // Lighter gray color
-  doc.text(selectedTitle, 20, yPositions.col1 + 8);
-  doc.setTextColor(0); // Reset to black
+//   // Selected language in lighter gray below
+//   doc.setFontSize(12);
+//   doc.setTextColor(120, 120, 120); // Lighter gray color
+//   doc.text(selectedTitle, 20, yPositions.col1 + 8);
+//   doc.setTextColor(0); // Reset to black
   
-  const newY = yPositions.col1 + lineHeight + (lineHeight); // Position for next content with additional space
-  yPositions.col1 = newY;
-  yPositions.col2 = newY;
-  columnState.nextCol = 1; // Reset to start in column 1 after a title
-};
+//   const newY = yPositions.col1 + lineHeight + (lineHeight); // Position for next content with additional space
+//   yPositions.col1 = newY;
+//   yPositions.col2 = newY;
+//   columnState.nextCol = 1; // Reset to start in column 1 after a title
+// };
 
-// Helper to add a sub-section title - Resets columns and applies indent for drawing
-const addSubHeading = (doc: PDF, yPositions: { col1: number, col2: number }, columnState: { nextCol: number }, pageHeight: number, bottomMargin: number, indent: number, germanTitle: string, selectedTitle: string) => {
-  const lineHeight = 8;
-  const titleY = Math.max(yPositions.col1, yPositions.col2) + lineHeight / 2; // Position below the highest column content + spacing
+// // Helper to add a sub-section title - Resets columns and applies indent for drawing
+// const addSubHeading = (doc: PDF, yPositions: { col1: number, col2: number }, columnState: { nextCol: number }, pageHeight: number, bottomMargin: number, indent: number, germanTitle: string, selectedTitle: string) => {
+//   const lineHeight = 8;
+//   const titleY = Math.max(yPositions.col1, yPositions.col2) + lineHeight / 2; // Position below the highest column content + spacing
 
-  if (titleY + lineHeight > pageHeight - bottomMargin) {
-    doc.addPage();
-    yPositions.col1 = 20;
-    yPositions.col2 = 20;
+//   if (titleY + lineHeight > pageHeight - bottomMargin) {
+//     doc.addPage();
+//     yPositions.col1 = 20;
+//     yPositions.col2 = 20;
     
-    // Add page number at the bottom of each new page
-    addPageNumber(doc);
-  } else {
-      yPositions.col1 = titleY; // Align both columns
-      yPositions.col2 = titleY;
-  }
+//     // Add page number at the bottom of each new page
+//     addPageNumber(doc);
+//   } else {
+//       yPositions.col1 = titleY; // Align both columns
+//       yPositions.col2 = titleY;
+//   }
 
-  // Draw sub-heading on two lines with different colors
-  doc.setFontSize(12);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(80, 80, 80); // Darker gray for main language
-  doc.text(germanTitle, 20 + indent, yPositions.col1);
+//   // Draw sub-heading on two lines with different colors
+//   doc.setFontSize(12);
+//   doc.setFont('helvetica', 'bold');
+//   doc.setTextColor(80, 80, 80); // Darker gray for main language
+//   doc.text(germanTitle, 20 + indent, yPositions.col1);
   
-  // Selected language in lighter gray below
-  doc.setFontSize(10);
-  doc.setTextColor(140, 140, 140); // Lighter gray
-  doc.text(selectedTitle, 20 + indent, yPositions.col1 + 6);
-  doc.setTextColor(0); // Reset to black
+//   // Selected language in lighter gray below
+//   doc.setFontSize(10);
+//   doc.setTextColor(140, 140, 140); // Lighter gray
+//   doc.text(selectedTitle, 20 + indent, yPositions.col1 + 6);
+//   doc.setTextColor(0); // Reset to black
   
-  const newY = yPositions.col1 + lineHeight + (lineHeight);
-  yPositions.col1 = newY;
-  yPositions.col2 = newY;
-  columnState.nextCol = 1; // Reset to start in column 1
-};
+//   const newY = yPositions.col1 + lineHeight + (lineHeight);
+//   yPositions.col1 = newY;
+//   yPositions.col2 = newY;
+//   columnState.nextCol = 1; // Reset to start in column 1
+// };
 
 // Helper to add page number
 const addPageNumber = (doc: PDF) => {
@@ -483,16 +483,16 @@ const addPageNumber = (doc: PDF) => {
 export const generateTaxFormPdf = async (formData: any, germanI18nData: any, i18nData: any): Promise<string | null> => {
   try {
     const doc = new jsPDF();
-    const pageHeight = doc.internal.pageSize.height;
+    //const pageHeight = doc.internal.pageSize.height;
     const pageWidth = doc.internal.pageSize.width;
     const margin = 20; // Left and right margins
-    const bottomMargin = 20; // Bottom margin
+    //const bottomMargin = 20; // Bottom margin
     
     // Column settings
-    const columnWidth = (pageWidth - 2 * margin) / 2; // Two equal columns
-    const xPositions = [margin, margin + columnWidth]; // X-positions for columns 1 and 2
+    //const columnWidth = (pageWidth - 2 * margin) / 2; // Two equal columns
+    //const xPositions = [margin, margin + columnWidth]; // X-positions for columns 1 and 2
     let yPositions = { col1: margin, col2: margin }; // Current Y-positions for each column
-    const columnState = { nextCol: 1 }; // Keep track of which column to use next
+    //const columnState = { nextCol: 1 }; // Keep track of which column to use next
     
     // Set up custom page numbering
     doc.setFont('helvetica', 'normal');
@@ -500,30 +500,30 @@ export const generateTaxFormPdf = async (formData: any, germanI18nData: any, i18
     addPageNumber(doc);
     
     // Helper function to draw a field in the next available column
-    const drawFieldInNextColumn = (germanLabel: string, selectedLabel: string, value: string) => {
-      // Determine which column to use
-      const colIndex = columnState.nextCol;
-      const xPos = xPositions[colIndex - 1]; // Adjust for 0-based indexing
-      const yPos = yPositions[`col${colIndex}`];
+    // const drawFieldInNextColumn = (germanLabel: string, selectedLabel: string, value: string) => {
+    //   // Determine which column to use
+    //   const colIndex = columnState.nextCol;
+    //   const xPos = xPositions[colIndex - 1]; // Adjust for 0-based indexing
+    //   const yPos = yPositions[`col${colIndex}`];
       
-      // Calculate needed height for this field
-      // Get the height used by drawing the field
-      const heightUsed = addField(doc, xPos, yPos, 0, germanLabel, selectedLabel, value, columnWidth);
+    //   // Calculate needed height for this field
+    //   // Get the height used by drawing the field
+    //   const heightUsed = addField(doc, xPos, yPos, 0, germanLabel, selectedLabel, value, columnWidth);
       
-      // Update the y-position for this column
-      yPositions[`col${colIndex}`] = yPos + heightUsed;
+    //   // Update the y-position for this column
+    //   yPositions[`col${colIndex}`] = yPos + heightUsed;
       
-      // Check if bottom of page reached
-      if (yPositions[`col${colIndex}`] + 50 > pageHeight - bottomMargin) { // 50 is a buffer height
-        doc.addPage();
-        yPositions = { col1: margin, col2: margin }; // Reset Y-positions on new page
-        addPageNumber(doc);
-        columnState.nextCol = 1; // Reset to column 1 on new page
-      } else {
-        // Toggle to the other column for next field
-        columnState.nextCol = colIndex === 1 ? 2 : 1;
-      }
-    };
+    //   // Check if bottom of page reached
+    //   if (yPositions[`col${colIndex}`] + 50 > pageHeight - bottomMargin) { // 50 is a buffer height
+    //     doc.addPage();
+    //     yPositions = { col1: margin, col2: margin }; // Reset Y-positions on new page
+    //     addPageNumber(doc);
+    //     columnState.nextCol = 1; // Reset to column 1 on new page
+    //   } else {
+    //     // Toggle to the other column for next field
+    //     columnState.nextCol = colIndex === 1 ? 2 : 1;
+    //   }
+    // };
     
     // Get the full name for the PDF title and upload path
     const firstName = formData.personalInfo?.firstName || '';
@@ -531,11 +531,11 @@ export const generateTaxFormPdf = async (formData: any, germanI18nData: any, i18
     const fullName = `${firstName} ${lastName}`.trim() || 'Anonymous';
     
     // Helper to get translations
-    const getTranslation = (section: string, key: string, defaultValue: string): { german: string, selected: string } => {
-      const germanValue = germanI18nData?.taxForm?.[section]?.[key] || defaultValue;
-      const selectedValue = i18nData?.taxForm?.[section]?.[key] || defaultValue;
-      return { german: germanValue, selected: selectedValue };
-    };
+    // const getTranslation = (section: string, key: string, defaultValue: string): { german: string, selected: string } => {
+    //   const germanValue = germanI18nData?.taxForm?.[section]?.[key] || defaultValue;
+    //   const selectedValue = i18nData?.taxForm?.[section]?.[key] || defaultValue;
+    //   return { german: germanValue, selected: selectedValue };
+    // };
     
     // Title
     doc.setFontSize(20);
@@ -570,7 +570,7 @@ export const generateTaxFormPdf = async (formData: any, germanI18nData: any, i18
     // Upload files to Firebase and get the PDF URL
     try {
       // Upload all attachments from the form
-      const updatedFormData = await uploadFilesToFirebase(formData, fullName);
+      //const updatedFormData = await uploadFilesToFirebase(formData, fullName);
       
       // Get the PDF as a blob and upload it too
       const pdfBlob = doc.output('blob');

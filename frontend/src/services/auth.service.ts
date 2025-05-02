@@ -52,7 +52,7 @@ const authService = {
     if (access_token) {
       localStorage.setItem('token', access_token);
       // Decode the token to get initial user info
-      const partialUser = decodeToken(access_token);
+      //const partialUser = decodeToken(access_token);
       // Fetch complete user details including role
       const user = await fetchUserDetails(access_token);
       return { access_token, user };
@@ -69,7 +69,7 @@ const authService = {
       if (access_token) {
         localStorage.setItem('token', access_token);
         // Decode the token to get initial user info
-        const partialUser = decodeToken(access_token);
+        //const partialUser = decodeToken(access_token);
         // Fetch complete user details including role
         const user = await fetchUserDetails(access_token);
         return { access_token, user };

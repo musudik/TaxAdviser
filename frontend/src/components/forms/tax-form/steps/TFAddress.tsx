@@ -14,7 +14,7 @@ interface TFAddressProps {
   showValidationErrors: boolean;
 }
 
-const TFAddress: React.FC<TFAddressProps> = ({ formData, handleChange, selectedLanguage, i18nData, germanI18nData, validationErrors, showValidationErrors }) => {
+const TFAddress: React.FC<TFAddressProps> = ({ formData, handleChange, i18nData, germanI18nData, validationErrors, showValidationErrors }) => {
   
   // Helper to call handleChange with section prefix for address fields
   const handleAddressChange = (field: string, value: any) => {

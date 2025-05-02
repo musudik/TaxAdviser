@@ -16,7 +16,7 @@ interface TFChildrenProps {
   showValidationErrors: boolean;
 }
 
-const TFChildren: React.FC<TFChildrenProps> = ({ formData, handleChange, selectedLanguage, i18nData, germanI18nData, validationErrors, showValidationErrors }) => {
+const TFChildren: React.FC<TFChildrenProps> = ({ formData, handleChange, i18nData, germanI18nData, validationErrors, showValidationErrors }) => {
 
   const handleFieldChange = (field: string, value: any) => {
     handleChange('personalInfo', field, value);

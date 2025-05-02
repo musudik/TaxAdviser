@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { TaxFormResponse } from '../../../types/taxForm';
 import taxFormService from '../../../services/taxForm.service';
 import { toast } from 'sonner';
@@ -204,8 +204,6 @@ const TaxFormDetails: React.FC = () => {
   const taxYear = formData.taxYear || {};
   const personalInfo = formData.personalInfo || {};
   const incomeInfo = formData.incomeInfo || {};
-  const rentalIncome = formData.rentalIncome || {};
-  const foreignIncome = formData.foreignIncome || {};
   const workRelatedExpenses = formData.workRelatedExpenses || {};
   const specialExpenses = formData.specialExpenses || {};
   const extraordinaryBurdens = formData.extraordinaryBurdens || {};

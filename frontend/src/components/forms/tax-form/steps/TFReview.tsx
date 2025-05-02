@@ -92,7 +92,6 @@ const TFReview: React.FC<TFReviewProps> = ({ formData, germanT, selectedT }) => 
   const extraordinaryBurdens = expenses.extraordinaryBurdens || {};
   const craftsmenServices = expenses.craftsmenServices || {};
   const businessInfo = formData.businessInfo || {};
-  const signature = formData.signature || {};
 
   return (
     <div className="space-y-6">

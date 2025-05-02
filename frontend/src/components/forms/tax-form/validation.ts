@@ -1,9 +1,3 @@
-// Define the structure for form data (expand as needed)
-interface TaxFormData {
-  personalInfo?: { [key: string]: any };
-  // Add other sections later
-}
-
 // Define the structure for validation errors
 export interface ValidationErrors {
   [section: string]: {

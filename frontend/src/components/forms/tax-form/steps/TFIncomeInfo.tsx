@@ -59,7 +59,6 @@ const CurrencyInputField: React.FC<any> = ({ id, mainLanguage, selectedLanguage,
 const TFIncomeInfo: React.FC<TFIncomeInfoProps> = ({
   formData,
   handleChange,
-  selectedLanguage,
   i18nData,
   germanI18nData,
   validationErrors,
