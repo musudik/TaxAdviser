@@ -5,5 +5,6 @@
     pkgs.yarn
     pkgs.nodePackages.typescript
     pkgs.nodePackages.prisma
+    pkgs.openssl_1_1
   ];
 } 

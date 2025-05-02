@@ -1,15 +1,20 @@
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { ConfigService } from '@nestjs/config';
-import { User } from '../users/entities/user.entity';
+import { TypeOrmModuleOptions } from "@nestjs/typeorm";
+import { ConfigService } from "@nestjs/config";
+import { User } from "../users/entities/user.entity";
 
-export const getTypeOrmConfig = (configService: ConfigService): TypeOrmModuleOptions => ({
-  type: 'postgres',
-  host: configService.get('DB_HOST'),
-  port: configService.get('DB_PORT'),
-  username: configService.get('DB_USERNAME'),
-  password: configService.get('DB_PASSWORD'),
-  database: configService.get('DB_DATABASE'),
+export const getTypeOrmConfig = (
+  configService: ConfigService,
+): TypeOrmModuleOptions => ({
+  type: "postgres",
+  host: configService.get("DB_HOST"),
+  port: configService.get("DB_PORT"),
+  username: configService.get("DB_USERNAME"),
+  password: configService.get("DB_PASSWORD"),
+  database: configService.get("DB_DATABASE"),
   entities: [User],
-  synchronize: configService.get('NODE_ENV') === 'development',
-  logging: configService.get('NODE_ENV') === 'development',
-}); 
+  synchronize: configService.get("NODE_ENV") === "development",
+  logging: configService.get("NODE_ENV") === "development",
+  ssl: {
+    rejectUnauthorized: false,
+  },
+});

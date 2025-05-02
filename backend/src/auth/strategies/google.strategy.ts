@@ -13,12 +13,26 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {
-    super({
-      clientID: configService.get('GOOGLE_CLIENT_ID'),
-      clientSecret: configService.get('GOOGLE_CLIENT_SECRET'),
-      callbackURL: configService.get('GOOGLE_CALLBACK_URL'),
+    // Initialize strategy configuration with dummy values
+    const strategyOptions: any = {
+      clientID: 'dummy-id',
+      clientSecret: 'dummy-secret',
+      callbackURL: 'http://localhost/auth/google/callback',
       scope: ['email', 'profile'],
-    });
+    };
+
+    // Modify strategy configuration if credentials are available
+    const clientID = configService.get('GOOGLE_CLIENT_ID');
+    const clientSecret = configService.get('GOOGLE_CLIENT_SECRET');
+    const callbackURL = configService.get('GOOGLE_CALLBACK_URL');
+    if (clientID && clientSecret && callbackURL) {
+      strategyOptions.clientID = clientID;
+      strategyOptions.clientSecret = clientSecret;
+      strategyOptions.callbackURL = callbackURL;
+    }
+
+    // Correctly call super with the strategy options
+    super(strategyOptions);
   }
 
   async validate(

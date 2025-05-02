@@ -1,17 +1,33 @@
-import { Injectable } from '@nestjs/common';
-import { PassportStrategy } from '@nestjs/passport';
-import { Strategy } from 'passport-microsoft';
-import { AuthService } from '../auth.service';
+import { Injectable } from "@nestjs/common";
+import { PassportStrategy } from "@nestjs/passport";
+import { Strategy } from "passport-microsoft";
+import { AuthService } from "../auth.service";
 
 @Injectable()
-export class MicrosoftStrategy extends PassportStrategy(Strategy, 'microsoft') {
+export class MicrosoftStrategy extends PassportStrategy(Strategy, "microsoft") {
   constructor(private authService: AuthService) {
-    super({
-      clientID: process.env.MICROSOFT_CLIENT_ID,
-      clientSecret: process.env.MICROSOFT_CLIENT_SECRET,
-      callbackURL: process.env.MICROSOFT_CALLBACK_URL,
-      scope: ['user.read'],
-    });
+    const clientID = process.env.MICROSOFT_CLIENT_ID;
+    const clientSecret = process.env.MICROSOFT_CLIENT_SECRET;
+    const callbackURL = process.env.MICROSOFT_CALLBACK_URL;
+
+    // Prepare the configuration object based on the presence of environment variables
+    const config =
+      clientID && clientSecret && callbackURL
+        ? {
+            clientID,
+            clientSecret,
+            callbackURL,
+            scope: ["user.read"],
+          }
+        : {
+            clientID: "dummy-id",
+            clientSecret: "dummy-secret",
+            callbackURL: "http://localhost/auth/microsoft/callback",
+            scope: ["user.read"],
+          };
+
+    // Call super with the configuration object
+    super(config);
   }
 
   async validate(
@@ -29,4 +45,4 @@ export class MicrosoftStrategy extends PassportStrategy(Strategy, 'microsoft') {
     };
     return this.authService.validateOAuthUser(user);
   }
-} 
+}
