@@ -10,6 +10,7 @@ export const getTypeOrmConfig = (
   // Parse connection URL manually to handle password issues
   const dbUrl = configService.get<string>("DATABASE_URL");
   
+  
   try {
     console.log("Using database connection URL:", dbUrl);
     
