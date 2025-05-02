@@ -10,10 +10,15 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  // Optimize for Replit deployment
   server: {
     host: '0.0.0.0',
-    port: 3001,
+    port: 5000,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+      }
+    },
     hmr: {
       // Use websocket for Replit
       clientPort: 443,
@@ -34,4 +39,4 @@ export default defineConfig({
       },
     },
   },
-}); 
+});
