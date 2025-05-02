@@ -1,8 +1,9 @@
+import React from 'react';
 import { Route, Routes } from "react-router-dom";
 import TaxFormBase from "../components/forms/tax-form/TaxFormBase";
 import TaxFormDetails from "../components/forms/tax-form/TaxFormDetails";
 
-const AppRoutes = () => {
+const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path="id/:id" element={<TaxFormBase />} />
