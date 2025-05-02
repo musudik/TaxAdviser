@@ -1,16 +1,16 @@
-run = "node index.js"
+run = "bash ./replit-setup.sh"
+entrypoint = "index.js"
 hidden = [".config", "package-lock.json"]
-modules = ["nodejs-20", "web", "postgresql-16"]
 
 [env]
 POSTGRES_PASSWORD = "postgres"
 DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/taxadviser"
 
 [nix]
-channel = "stable-24_05"
+channel = "stable-22_11"
 
 [deployment]
-run = ["sh", "-c", "node index.js"]
+run = ["sh", "-c", "node backend/dist/main"]
 deploymentTarget = "cloudrun"
 
 [languages]
