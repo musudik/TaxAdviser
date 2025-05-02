@@ -1,6 +1,7 @@
 run = "bash ./replit-setup.sh"
 entrypoint = "index.js"
 hidden = [".config", "package-lock.json"]
+modules = ["nodejs-20"]
 
 [env]
 POSTGRES_PASSWORD = "postgres"
@@ -8,6 +9,7 @@ DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/taxadviser"
 
 [nix]
 channel = "stable-22_11"
+packages = ["openssl", "openssl_3", "openssl_1_1"]
 
 [deployment]
 run = ["sh", "-c", "node backend/dist/main"]
@@ -22,3 +24,7 @@ start = "typescript-language-server --stdio"
 
 [unitTest]
 language = "nodejs" 
+
+[[ports]]
+localPort = 3001
+externalPort = 80

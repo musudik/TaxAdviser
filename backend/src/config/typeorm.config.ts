@@ -6,22 +6,13 @@ export const getTypeOrmConfig = (
   configService: ConfigService,
 ): TypeOrmModuleOptions => {
   const isProduction = configService.get("NODE_ENV") === "production";
-  
+
   return {
     type: "postgres",
-    host: configService.get("DB_HOST"),
-    port: configService.get("DB_PORT"),
-    username: configService.get("DB_USERNAME"),
-    password: configService.get("DB_PASSWORD"),
-    database: configService.get("DB_DATABASE"),
+    url: configService.get("DATABASE_URL"),
     entities: [User],
     synchronize: configService.get("NODE_ENV") === "development",
     logging: configService.get("NODE_ENV") === "development",
-    // Only use SSL in production
-    ...(isProduction && {
-      ssl: {
-        rejectUnauthorized: false,
-      },
-    }),
+    ssl: isProduction ? { rejectUnauthorized: false } : false,
   };
 };
