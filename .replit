@@ -5,7 +5,7 @@ modules = ["nodejs-20", "postgresql-16"]
 
 [env]
 POSTGRES_PASSWORD = "postgres"
-DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/taxadviser"
+DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/taxadviser?sslmode=require"
 
 [nix]
 channel = "stable-22_11"
@@ -13,6 +13,7 @@ channel = "stable-22_11"
 [deployment]
 run = ["sh", "-c", "node backend/dist/main"]
 deploymentTarget = "cloudrun"
+build = ["sh", "-c", "cd backend && npx prisma generate && npm run build"]
 
 [languages]
 [languages.javascript]
@@ -22,4 +23,20 @@ pattern = "**/{*.js,*.jsx,*.ts,*.tsx}"
 start = "typescript-language-server --stdio"
 
 [unitTest]
-language = "nodejs" 
+language = "nodejs"
+
+[workflows]
+runButton = "Dev"
+
+[[workflows.workflow]]
+name = "Dev"
+author = 36293822
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd backend && npm install && npm run start:dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd frontend && npm install && npm run dev"
