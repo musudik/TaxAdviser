@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { useAuth } from './hooks/useAuth';
 import { UserRole } from './types/auth';
@@ -10,6 +10,7 @@ import TaxAgentDashboard from './components/dashboard/TaxAgentDashboard';
 import AdminDashboard from './components/dashboard/AdminDashboard';
 import TaxFormBase from './components/forms/tax-form/TaxFormBase';
 import TaxFormDetails from './components/forms/tax-form/TaxFormDetails';
+import AppRoutes from './routes';
 import './styles/globals.css';
 
 function App() {
@@ -49,22 +50,22 @@ function App() {
             }
           />
           
-          {/* Tax Form Route */}
+          {/* Tax Form Routes - Protected */}
+          <Route
+            path="/tax-form/*"
+            element={
+              <ProtectedRoute allowedRoles={[UserRole.CLIENT]}>
+                <AppRoutes />
+              </ProtectedRoute>
+            }
+          />
+          
+          {/* Tax Form Base Route */}
           <Route
             path="/tax-form"
             element={
               <ProtectedRoute allowedRoles={[UserRole.CLIENT]}>
                 <TaxFormBase />
-              </ProtectedRoute>
-            }
-          />
-          
-          {/* Add Tax Form Details View Route */}
-          <Route
-            path="/tax-form/view/:id"
-            element={
-              <ProtectedRoute allowedRoles={[UserRole.CLIENT]}>
-                <TaxFormDetails />
               </ProtectedRoute>
             }
           />
