@@ -11,8 +11,14 @@ DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/taxadviser"
 channel = "stable-22_11"
 
 [deployment]
+build = ["sh", "-c", "cd backend && npm install && npm run build"]
 run = ["sh", "-c", "node backend/dist/main"]
 deploymentTarget = "cloudrun"
+
+[[ports]]
+number = 3000
+protocol = "http"
+externalPort = 80
 
 [languages]
 [languages.javascript]
@@ -22,4 +28,4 @@ pattern = "**/{*.js,*.jsx,*.ts,*.tsx}"
 start = "typescript-language-server --stdio"
 
 [unitTest]
-language = "nodejs" 
+language = "nodejs"
