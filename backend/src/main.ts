@@ -1,33 +1,19 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+/**
+ * This is a temporary solution to bypass NestJS bootstrapping
+ * We're directly requiring the Express server implementation
+ */
 
+console.log('Starting Express server instead of NestJS...');
+
+// Use require here since we're importing a JavaScript file
+// This will immediately execute the Express server
+require('./server');
+
+// The bootstrap function is kept for compatibility but not actually used
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const configService = app.get(ConfigService);
-
-  // Enable CORS
-  app.enableCors({
-    origin: configService.get('NODE_ENV') === 'development' 
-      ? 'http://localhost:5173' // Vite's default port
-      : 'https://your-production-domain.com',
-    credentials: true,
-  });
-
-  // Set global prefix
-  app.setGlobalPrefix('api');
-
-  // Enable validation pipes
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,
-    transform: true,
-    forbidNonWhitelisted: true,
-  }));
-
-  const port = configService.get('PORT') || 3000;
-  await app.listen(port);
-  console.log(`Application is running on: http://localhost:${port}`);
+  console.log('NestJS bootstrap function is disabled.');
+  console.log('Using Express server instead. See server.js for implementation.');
 }
 
-bootstrap(); 
+// This is not called, but kept for reference
+// bootstrap(); 
