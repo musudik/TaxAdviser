@@ -12,14 +12,14 @@ setup_env_files() {
   if [ ! -f "./backend/.env" ]; then
     echo "Creating backend .env file..."
     cat > "./backend/.env" << EOF
-# Database Configuration
-DATABASE_URL=postgresql://neondb_owner:npg_K8F5snyEBZMW@ep-red-rain-a4bqnw1r.us-east-1.aws.neon.tech/neondb?sslmode=require
-POSTGRES_USER=neondb_owner
-POSTGRES_PASSWORD=npg_K8F5snyEBZMW
-POSTGRES_DB=neondb
+# Using secrets for database configuration
+DATABASE_URL=$DATABASE_URL
+POSTGRES_USER=$POSTGRES_USER
+POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+POSTGRES_DB=$POSTGRES_DB
 
-# JWT Configuration
-JWT_SECRET=your_jwt_secret_key_change_in_production
+# Using secret for JWT
+JWT_SECRET=$JWT_SECRET
 JWT_EXPIRATION=1d
 
 # Application Configuration

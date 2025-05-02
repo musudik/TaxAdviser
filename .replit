@@ -21,6 +21,23 @@ NODE_ENV = "development"
 VITE_API_URL = "http://localhost:3001/api"
 
 [deployment]
-run = ["sh", "./replit_start.sh"]
+run = ["sh", "-c", "cd backend && npm run start:prod"]
 deploymentTarget = "cloudrun"
 ignorePorts = false 
+build = ["sh", "-c", "cd frontend && npm install && npm run build && cd ../backend && npm install && npm run build"]
+
+[workflows]
+runButton = "Dev"
+
+[[workflows.workflow]]
+name = "Dev"
+author = 36293822
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd frontend && npm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd backend && npm run start:dev"
