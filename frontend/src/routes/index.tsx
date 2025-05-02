@@ -5,8 +5,8 @@ import TaxFormDetails from "../components/forms/tax-form/TaxFormDetails";
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="tax-form/id/:id" element={<TaxFormBase />} />
-      <Route path="tax-form/view/:id" element={<TaxFormDetails />} />
+      <Route path="id/:id" element={<TaxFormBase />} />
+      <Route path="view/:id" element={<TaxFormDetails />} />
     </Routes>
   );
 };
