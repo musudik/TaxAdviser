@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { useAuth } from './hooks/useAuth';
@@ -9,11 +10,10 @@ import ClientDashboard from './components/dashboard/ClientDashboard';
 import TaxAgentDashboard from './components/dashboard/TaxAgentDashboard';
 import AdminDashboard from './components/dashboard/AdminDashboard';
 import TaxFormBase from './components/forms/tax-form/TaxFormBase';
-import TaxFormDetails from './components/forms/tax-form/TaxFormDetails';
 import AppRoutes from './routes';
 import './styles/globals.css';
 
-function App() {
+const App: React.FC = () => {
   const { user } = useAuth();
 
   return (
