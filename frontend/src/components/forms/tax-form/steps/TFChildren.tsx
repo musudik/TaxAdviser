@@ -1,10 +1,10 @@
 import React from 'react';
 import FKInputField from '../../../ui/FKInputField';
 import FKYesNo from '../../../ui/FKYesNo';
-import { Button } from '../../../ui/button'; // Assuming Button component exists
+import { Button } from '../../../ui/button';
 import { ValidationErrors } from '../validation';
 import { LanguageCode } from '../constants';
-import { Trash2 } from 'lucide-react'; // Assuming lucide-react is installed
+import { Trash2 } from 'lucide-react';
 
 interface TFChildrenProps {
   formData: { [key: string]: any };
