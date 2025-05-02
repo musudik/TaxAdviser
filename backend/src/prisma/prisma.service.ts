@@ -19,11 +19,25 @@ export class PrismaService
   }
 
   async onModuleInit() {
-    await this.$connect();
-    // Add middleware or extensions here if needed
-
-    // Log successful connection
-    console.log("Successfully connected to database via Prisma");
+    const maxRetries = 5;
+    let retries = 0;
+    
+    while (retries < maxRetries) {
+      try {
+        await this.$connect();
+        console.log("Successfully connected to database via Prisma");
+        return;
+      } catch (error) {
+        retries++;
+        console.log(`Failed to connect to database. Attempt ${retries} of ${maxRetries}`);
+        if (retries === maxRetries) {
+          console.error("Failed to connect to database after maximum retries");
+          throw error;
+        }
+        // Wait 2 seconds before retrying
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      }
+    }
   }
 
   async onModuleDestroy() {
