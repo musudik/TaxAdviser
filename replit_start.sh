@@ -12,14 +12,14 @@ setup_env_files() {
   if [ ! -f "./backend/.env" ]; then
     echo "Creating backend .env file..."
     cat > "./backend/.env" << EOF
-# Database Configuration
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/taxadviser
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-POSTGRES_DB=taxadviser
+# Using secrets for database configuration
+DATABASE_URL=$DATABASE_URL
+POSTGRES_USER=$POSTGRES_USER
+POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+POSTGRES_DB=$POSTGRES_DB
 
-# JWT Configuration
-JWT_SECRET=your_jwt_secret_key_change_in_production
+# Using secret for JWT
+JWT_SECRET=$JWT_SECRET
 JWT_EXPIRATION=1d
 
 # Application Configuration
