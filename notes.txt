@@ -1,0 +1,141 @@
+
+Work-Related Expenses
+-------------------------------------------------------------------
+Commuting expenses:
+- Add Days (230 Max days): 
+Work-Related Expenses
+Route Details:
+From (HOME): Address
+First Place of Work:
+Second Place of Work (optional): 
+Calculate KM's - API
+
+Business trips and training costs
+- Cost + Document (many)
+
+
+Home office allowance
+- Add Days (230 Max days):  per day (EUR6 - 2025)
+- Not cost but days
+
+
+move - 'Membership fees' & insurance to Insurance Premiums
+- one or many documents
+
+Application Costs - Change to 'Job Application Costs' 
+- online (no.of times)
+- in-person (no.of times)
+
+
+- Double household management
+Yes or No 
+Yes - Handled by Tax Adviser
+
+----------------------------------
+ Special Expenses
+ 
+Donations and membership fees: (Array)
+-> Add / Remove  
+- Name + Cost + document (+/-)
+
+Childcare costs:
+- Cost + Document (many)
+
+Support payments to needy persons:
+Yes or No 
+Yes - Handled by Tax Adviser
+
+
+Private school fees
+- Cost + Document (many)
+
+Retirement provisions
+- Cost + Document (many)
+
+Other insurance expenses (Array)
+-> Add / Remove  
+- Name + Cost + document (+/-)
+
+Professional training costs (Array)
+-> Add / Remove  
+- Name + Cost + document (+/-)
+
+-----------------------------------------
+Extraordinary Expenses
+
+Category: Medical expenses/ Cure and rehabilitation / Care costs  / others
+
+Medical expenses (doctor, medicine, hospital):(Array)
+-> Add / Remove  
+- Patient Name + Category + Cost + document (+/-)
+
+
+Disability-related expenses
+Yes or No  (Array)
+Yes ->
+	-> Add / Remove  
+	- Name + proof of disability document (+/-)
+
+
+Funeral costs: (Array)
+-> Add / Remove  
+- Name + Cost + document (+/-)
+
+Support costs for needy relatives: (Array)
+-> Add / Remove  
+- Name + Cost + document (+/-)
+
+Divorce costs: (Array)
+-> Add / Remove  
+- Name + Cost + document (+/-)
+
+-----------------------------------------
+Insurance Premiums
+
+Statutory health:
+ - Statutory health
+ -  long-term care insurance
+ 
+Private health:  
+ - Statutory health
+ -  long-term care insurance
+
+Statutory pension insurance contributions
+ - Employer
+ - Employee
+
+Private pension insurance contributions (Rürup pension): (Array)
+-> Add / Remove  
+- Name + Cost + document (+/-)
+ 
+Accident and liability insurance contributions: (Array)
+-> Add / Remove  
+- Name + Cost + document (+/-)
+
+Disability insurance contributions: (Array)
+-> Add / Remove  
+- Name + Cost + document (+/-)
+
+Term life insurance contributions: (Array)
+-> Add / Remove  
+- Name + Cost + document (+/-)
+
+---------------------
+craftsmen services
+
+
+Category: Craftsmen services/ Household services / other cat from this section
+
+services:(Array)
+-> Add / Remove  
+- Name + Category + Cost + document (+/-)
+----------------------------
+Required Documents: Rename to 'Rental & Leasing'
+
+Property: (Array)
+ - Property Owner (Array)
+   -> Add / Remove  
+   - FirstName + Last Name(+/-)
+ - Address
+ - Buying Date  
+ - Documents: 

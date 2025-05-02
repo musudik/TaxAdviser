@@ -1,0 +1,24 @@
+run = "bash ./replit-setup.sh"
+entrypoint = "index.js"
+hidden = [".config", "package-lock.json"]
+
+[env]
+POSTGRES_PASSWORD = "postgres"
+DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/taxadviser"
+
+[nix]
+channel = "stable-22_11"
+
+[deployment]
+run = ["sh", "-c", "node backend/dist/main"]
+deploymentTarget = "cloudrun"
+
+[languages]
+[languages.javascript]
+pattern = "**/{*.js,*.jsx,*.ts,*.tsx}"
+
+[languages.javascript.languageServer]
+start = "typescript-language-server --stdio"
+
+[unitTest]
+language = "nodejs" 

@@ -1,8 +1,108 @@
-import { TaxFormData } from '@/components/forms/tax-return/taxTypes';
+// Define TaxFormData type directly in this file since the external import is removed
+interface TaxFormData {
+  id?: string;
+  clientId?: string;
+  partnerId?: string;
+  status?: string;
+  type?: string;
+  personalInfo: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone?: string;
+    address?: string;
+    city?: string;
+    zipCode?: string;
+    country?: string;
+    taxIdentifier?: string;
+    dateOfBirth?: string;
+  };
+  children?: Array<{
+    firstName: string;
+    lastName: string;
+    dateOfBirth: string;
+    taxIdentifier?: string;
+  }>;
+  incomeInfo: {
+    isEmployed?: boolean;
+    isBusinessOwner?: boolean;
+    hasStockIncome?: boolean;
+    hasRentalProperty?: boolean;
+    hasForeignIncome?: boolean;
+    employmentDetails?: Array<{
+      employer: string;
+      income: number;
+      taxWithheld: number;
+      startDate: string;
+      endDate?: string;
+    }>;
+    businessDetails?: Array<{
+      businessName: string;
+      businessType: string;
+      income: number;
+      expenses: number;
+    }>;
+    investmentDetails?: Array<{
+      investmentType: string;
+      provider: string;
+      income: number;
+      taxWithheld: number;
+    }>;
+    rentalDetails?: Array<{
+      propertyAddress: string;
+      income: number;
+      expenses: number;
+    }>;
+    foreignIncomeDetails?: Array<{
+      country: string;
+      incomeType: string;
+      amount: number;
+      taxPaid: number;
+    }>;
+  };
+  deductions?: {
+    healthInsurance?: number;
+    retirementContributions?: number;
+    donations?: number;
+    homeBuying?: number;
+    education?: number;
+    medicalExpenses?: number;
+    childcare?: number;
+    other?: Array<{
+      type: string;
+      amount: number;
+      description?: string;
+    }>;
+  };
+  taxCredits?: {
+    childTaxCredit?: number;
+    educationCredit?: number;
+    energyCredit?: number;
+    other?: Array<{
+      type: string;
+      amount: number;
+      description?: string;
+    }>;
+  };
+  signature?: {
+    name: string;
+    dateSigned: string;
+    signatureImage?: string;
+  };
+  submittedAt?: string;
+  updatedAt?: string;
+}
+
 import axios from 'axios';
 
 // API base URL - Use import.meta.env for Vite instead of process.env
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+
+/**
+ * IMPORTANT: This service has been deprecated in favor of the TaxFormService.
+ * All the methods in this file now redirect to the corresponding endpoints in the tax-form service.
+ * Please use the TaxFormService directly instead.
+ */
 
 /**
  * Saves a tax return form to the database
@@ -12,6 +112,8 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
  */
 export const saveTaxReturnForm = async (formData: TaxFormData, partnerId: string): Promise<string> => {
   try {
+    console.warn('taxReturnService.saveTaxReturnForm is deprecated. Please use taxFormService.createForm instead.');
+    
     // Ensure the data matches the DTO structure exactly
     const payload = {
       clientId: formData.clientId || '',
@@ -34,10 +136,10 @@ export const saveTaxReturnForm = async (formData: TaxFormData, partnerId: string
       submittedAt: new Date().toISOString()
     };
 
-    console.log('Submitting tax return form with payload:', JSON.stringify(payload));
+    console.log('Submitting tax form with payload:', JSON.stringify(payload));
 
-    // Make API call to save the tax return
-    const response = await axios.post(`${API_BASE_URL}/tax-returns`, payload, {
+    // Make API call to save the tax form using the new endpoint
+    const response = await axios.post(`${API_BASE_URL}/tax-forms`, payload, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -46,14 +148,14 @@ export const saveTaxReturnForm = async (formData: TaxFormData, partnerId: string
     // Return the ID of the saved form
     return response.data.id;
   } catch (error) {
-    console.error('Error saving tax return form:', error);
+    console.error('Error saving tax form:', error);
     
     if (axios.isAxiosError(error)) {
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
         console.error('Error response:', error.response.data);
-        throw new Error(`Failed to save tax return form: ${JSON.stringify(error.response.data)}`);
+        throw new Error(`Failed to save tax form: ${JSON.stringify(error.response.data)}`);
       } else if (error.request) {
         // The request was made but no response was received
         throw new Error('No response received from server. Please check your connection.');
@@ -63,7 +165,7 @@ export const saveTaxReturnForm = async (formData: TaxFormData, partnerId: string
       }
     }
     
-    throw new Error('Failed to save tax return form');
+    throw new Error('Failed to save tax form');
   }
 };
 
@@ -74,11 +176,12 @@ export const saveTaxReturnForm = async (formData: TaxFormData, partnerId: string
  */
 export const getTaxReturnForm = async (formId: string): Promise<TaxFormData> => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/tax-returns/${formId}`);
+    console.warn('taxReturnService.getTaxReturnForm is deprecated. Please use taxFormService.getFormById instead.');
+    const response = await axios.get(`${API_BASE_URL}/tax-forms/${formId}`);
     return response.data;
   } catch (error) {
-    console.error('Error getting tax return form:', error);
-    throw new Error('Failed to get tax return form');
+    console.error('Error getting tax form:', error);
+    throw new Error('Failed to get tax form');
   }
 };
 
@@ -89,11 +192,12 @@ export const getTaxReturnForm = async (formId: string): Promise<TaxFormData> => 
  */
 export const getClientTaxReturnForms = async (clientId: string): Promise<TaxFormData[]> => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/tax-returns/client/${clientId}`);
+    console.warn('taxReturnService.getClientTaxReturnForms is deprecated. Please use taxFormService.getFormsByUserId instead.');
+    const response = await axios.get(`${API_BASE_URL}/tax-forms/user/${clientId}`);
     return response.data;
   } catch (error) {
-    console.error('Error getting client tax return forms:', error);
-    throw new Error('Failed to get client tax return forms');
+    console.error('Error getting client tax forms:', error);
+    throw new Error('Failed to get client tax forms');
   }
 };
 
@@ -104,11 +208,12 @@ export const getClientTaxReturnForms = async (clientId: string): Promise<TaxForm
  */
 export const getPartnerTaxReturnForms = async (partnerId: string): Promise<TaxFormData[]> => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/tax-returns/partner/${partnerId}`);
+    console.warn('taxReturnService.getPartnerTaxReturnForms is deprecated. Please use taxFormService.getFormsByPartnerId instead.');
+    const response = await axios.get(`${API_BASE_URL}/tax-forms/partner/${partnerId}`);
     return response.data;
   } catch (error) {
-    console.error('Error getting partner tax return forms:', error);
-    throw new Error('Failed to get partner tax return forms');
+    console.error('Error getting partner tax forms:', error);
+    throw new Error('Failed to get partner tax forms');
   }
 };
 
@@ -120,12 +225,13 @@ export const getPartnerTaxReturnForms = async (partnerId: string): Promise<TaxFo
  */
 export const updateTaxReturnForm = async (formId: string, formData: Partial<TaxFormData>): Promise<TaxFormData> => {
   try {
+    console.warn('taxReturnService.updateTaxReturnForm is deprecated. Please use taxFormService.updateForm instead.');
     const payload = {
       ...formData,
       updatedAt: new Date().toISOString()
     };
     
-    const response = await axios.put(`${API_BASE_URL}/tax-returns/${formId}`, payload, {
+    const response = await axios.put(`${API_BASE_URL}/tax-forms/${formId}`, payload, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -133,8 +239,8 @@ export const updateTaxReturnForm = async (formId: string, formData: Partial<TaxF
     
     return response.data;
   } catch (error) {
-    console.error('Error updating tax return form:', error);
-    throw new Error('Failed to update tax return form');
+    console.error('Error updating tax form:', error);
+    throw new Error('Failed to update tax form');
   }
 };
 
@@ -145,10 +251,11 @@ export const updateTaxReturnForm = async (formId: string, formData: Partial<TaxF
  */
 export const deleteTaxReturnForm = async (formId: string): Promise<{ message: string }> => {
   try {
-    const response = await axios.delete(`${API_BASE_URL}/tax-returns/${formId}`);
+    console.warn('taxReturnService.deleteTaxReturnForm is deprecated. Please use taxFormService.deleteForm instead.');
+    const response = await axios.delete(`${API_BASE_URL}/tax-forms/${formId}`);
     return response.data;
   } catch (error) {
-    console.error('Error deleting tax return form:', error);
-    throw new Error('Failed to delete tax return form');
+    console.error('Error deleting tax form:', error);
+    throw new Error('Failed to delete tax form');
   }
 }; 
