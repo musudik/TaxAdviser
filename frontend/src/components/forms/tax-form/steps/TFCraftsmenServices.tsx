@@ -28,7 +28,6 @@ const FormSection = ({ title, children }: { title: React.ReactNode, children: Re
 const TFCraftsmenServices: React.FC<TFCraftsmenServicesProps> = ({
   formData,
   handleChange,
-  selectedLanguage,
   i18nData,
   germanI18nData,
   validationErrors,

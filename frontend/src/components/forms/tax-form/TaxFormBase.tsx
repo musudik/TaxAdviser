@@ -14,7 +14,6 @@ import TFBusinessExpenses from './steps/TFBusinessExpenses';
 import TFReview from './steps/TFReview';
 import TFSignature from './steps/TFSignature';
 import { validateTaxForm, ValidationErrors } from './validation'; // Import validation
-import { generateTaxFormPdf } from '../../../lib/generateTaxFormPdf'; // Import the new utility
 import { useAuth } from '../../../hooks/useAuth'; // Import the auth hook
 
 // Define a more specific type for form data later

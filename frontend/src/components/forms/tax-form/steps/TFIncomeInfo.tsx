@@ -1,10 +1,10 @@
-import React from 'react';
-import FKInputField from '../../../ui/FKInputField';
-import FKYesNo from '../../../ui/FKYesNo';
-import FKSelectField from '../../../ui/FKSelectField';
-import FKFileField from '../../../ui/FKFileField';
-import { ValidationErrors } from '../validation';
-import { LanguageCode } from '../constants';
+import React from "react";
+import FKInputField from "../../../ui/FKInputField";
+import FKYesNo from "../../../ui/FKYesNo";
+import FKSelectField from "../../../ui/FKSelectField";
+import FKFileField from "../../../ui/FKFileField";
+import { ValidationErrors } from "../validation";
+import { LanguageCode } from "../constants";
 
 // Define props passed from TaxFormBase
 interface TFIncomeInfoProps {
@@ -18,17 +18,31 @@ interface TFIncomeInfoProps {
 }
 
 // Helper component for section styling
-const FormSection = ({ title, children }: { title: React.ReactNode, children: React.ReactNode }) => (
+const FormSection = ({
+  title,
+  children,
+}: {
+  title: React.ReactNode;
+  children: React.ReactNode;
+}) => (
   <div className="border border-gray-200 rounded-md p-4 space-y-4">
     <h3 className="text-md font-semibold text-neutral-800">{title}</h3>
-    <div className="space-y-4">
-      {children}
-    </div>
+    <div className="space-y-4">{children}</div>
   </div>
 );
 
 // Helper component for currency input with Euro symbol
-const CurrencyInputField: React.FC<any> = ({ id, mainLanguage, selectedLanguage, value, onChange, mandatory, hasError, validationError, ...props }) => (
+const CurrencyInputField: React.FC<any> = ({
+  id,
+  mainLanguage,
+  selectedLanguage,
+  value,
+  onChange,
+  mandatory,
+  hasError,
+  validationError,
+  ...props
+}) => (
   <div className="relative">
     <span className="absolute left-3 top-[62px] text-gray-500">€</span>
     <FKInputField
@@ -59,11 +73,10 @@ const CurrencyInputField: React.FC<any> = ({ id, mainLanguage, selectedLanguage,
 const TFIncomeInfo: React.FC<TFIncomeInfoProps> = ({
   formData,
   handleChange,
-  selectedLanguage,
   i18nData,
   germanI18nData,
   validationErrors,
-  showValidationErrors
+  showValidationErrors,
 }) => {
   // Get translations
   const t = i18nData?.taxForm?.incomeInfo || {};
@@ -71,7 +84,7 @@ const TFIncomeInfo: React.FC<TFIncomeInfoProps> = ({
 
   // Helper to call handleChange with section prefix
   const handleFieldChange = (field: string, value: any) => {
-    handleChange('incomeInfo', field, value);
+    handleChange("incomeInfo", field, value);
   };
 
   // Helper to get error message key for a field
@@ -82,22 +95,27 @@ const TFIncomeInfo: React.FC<TFIncomeInfoProps> = ({
     }
 
     try {
-      if (field.includes('.')) {
-        const keys = field.split('.');
+      if (field.includes(".")) {
+        const keys = field.split(".");
         let currentErrorLevel: any = validationErrors.incomeInfo;
         for (const key of keys) {
-          if (!currentErrorLevel || typeof currentErrorLevel !== 'object' || !(key in currentErrorLevel)) {
+          if (
+            !currentErrorLevel ||
+            typeof currentErrorLevel !== "object" ||
+            !(key in currentErrorLevel)
+          ) {
             // console.log(`getErrorKey: Path ${field} not found at key ${key}`);
             return undefined;
           }
           currentErrorLevel = currentErrorLevel[key];
         }
-        const errorKey = typeof currentErrorLevel === 'string' ? currentErrorLevel : undefined;
+        const errorKey =
+          typeof currentErrorLevel === "string" ? currentErrorLevel : undefined;
         return errorKey;
       }
 
       const errorKey = validationErrors.incomeInfo[field];
-      const finalKey = typeof errorKey === 'string' ? errorKey : undefined;
+      const finalKey = typeof errorKey === "string" ? errorKey : undefined;
       return finalKey;
     } catch (e) {
       console.error("Error in getErrorKey for field:", field, e);
@@ -136,7 +154,10 @@ const TFIncomeInfo: React.FC<TFIncomeInfoProps> = ({
   };
 
   // Helper to get conditional validation message
-  const getConditionalValidationMessage = (field: string, condition: boolean): string | undefined => {
+  const getConditionalValidationMessage = (
+    field: string,
+    condition: boolean,
+  ): string | undefined => {
     if (condition) {
       return getValidationMessage(field);
     }
@@ -155,25 +176,36 @@ const TFIncomeInfo: React.FC<TFIncomeInfoProps> = ({
   const incomeInfoData = formData.incomeInfo || {};
 
   // Get business type options from i18n (from root level)
-  const businessTypeOptions = Object.entries(germanI18nData?.businessType || {}).map(([key, mainLabel]) => ({
+  const businessTypeOptions = Object.entries(
+    germanI18nData?.businessType || {},
+  ).map(([key, mainLabel]) => ({
     value: key,
     mainLabel: mainLabel as string,
-    selectedLabel: i18nData?.businessType?.[key] || key
+    selectedLabel: i18nData?.businessType?.[key] || key,
   }));
 
   return (
     <div className="space-y-6">
       {/* Employment Section */}
-      <FormSection title={<>{germanT.employment?.title || 'Income Information (DE)'} / {t.employment?.title || 'Income Information'}</>}>
+      <FormSection
+        title={
+          <>
+            {germanT.employment?.title || "Income Information (DE)"} /{" "}
+            {t.employment?.title || "Income Information"}
+          </>
+        }
+      >
         <FKYesNo
           id="employment.isEmployed"
           mainLanguage={germanT.employment?.isEmployed}
           selectedLanguage={t.employment?.isEmployed}
           value={incomeInfoData.employment?.isEmployed}
-          onChange={(value) => handleFieldChange('employment.isEmployed', value)}
+          onChange={(value) =>
+            handleFieldChange("employment.isEmployed", value)
+          }
           mandatory={true}
-          hasError={fieldHasError('employment.isEmployed')}
-          validationError={getValidationMessage('employment.isEmployed')}
+          hasError={fieldHasError("employment.isEmployed")}
+          validationError={getValidationMessage("employment.isEmployed")}
         />
 
         {incomeInfoData.employment?.isEmployed === true && (
@@ -182,22 +214,34 @@ const TFIncomeInfo: React.FC<TFIncomeInfoProps> = ({
               id="employment.employer"
               mainLanguage={germanT.employment?.employer}
               selectedLanguage={t.employment?.employer}
-              value={incomeInfoData.employment?.employer || ''}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFieldChange('employment.employer', e.target.value)}
+              value={incomeInfoData.employment?.employer || ""}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleFieldChange("employment.employer", e.target.value)
+              }
               mandatory={true}
-              hasError={hasConditionalError('employment.employer', requiresEmploymentInfo(incomeInfoData.employment?.isEmployed))}
-              validationError={getConditionalValidationMessage('employment.employer', requiresEmploymentInfo(incomeInfoData.employment?.isEmployed))}
+              hasError={hasConditionalError(
+                "employment.employer",
+                requiresEmploymentInfo(incomeInfoData.employment?.isEmployed),
+              )}
+              validationError={getConditionalValidationMessage(
+                "employment.employer",
+                requiresEmploymentInfo(incomeInfoData.employment?.isEmployed),
+              )}
             />
 
             <CurrencyInputField
               id="employment.employmentIncome"
               mainLanguage={germanT.employment?.employmentIncome}
               selectedLanguage={t.employment?.employmentIncome}
-              value={incomeInfoData.employment?.employmentIncome || ''}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFieldChange('employment.employmentIncome', e.target.value)}
+              value={incomeInfoData.employment?.employmentIncome || ""}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleFieldChange("employment.employmentIncome", e.target.value)
+              }
               mandatory={true}
-              hasError={fieldHasError('employment.employmentIncome')}
-              validationError={getValidationMessage('employment.employmentIncome')}
+              hasError={fieldHasError("employment.employmentIncome")}
+              validationError={getValidationMessage(
+                "employment.employmentIncome",
+              )}
             />
 
             <FKYesNo
@@ -205,10 +249,14 @@ const TFIncomeInfo: React.FC<TFIncomeInfoProps> = ({
               mainLanguage={germanT.employment?.hasTaxCertificate}
               selectedLanguage={t.employment?.hasTaxCertificate}
               value={incomeInfoData.employment?.hasTaxCertificate}
-              onChange={(value) => handleFieldChange('employment.hasTaxCertificate', value)}
+              onChange={(value) =>
+                handleFieldChange("employment.hasTaxCertificate", value)
+              }
               mandatory={true}
-              hasError={fieldHasError('employment.hasTaxCertificate')}
-              validationError={getValidationMessage('employment.hasTaxCertificate')}
+              hasError={fieldHasError("employment.hasTaxCertificate")}
+              validationError={getValidationMessage(
+                "employment.hasTaxCertificate",
+              )}
             />
 
             {incomeInfoData.employment?.hasTaxCertificate === false && (
@@ -221,13 +269,17 @@ const TFIncomeInfo: React.FC<TFIncomeInfoProps> = ({
                   mainLanguage={germanT.employment?.taxCertificate}
                   selectedLanguage={t.employment?.taxCertificate}
                   value={incomeInfoData.employment?.taxCertificate || null}
-                  onChange={(files) => handleFieldChange('employment.taxCertificate', files)}
+                  onChange={(files) =>
+                    handleFieldChange("employment.taxCertificate", files)
+                  }
                   mandatory={true}
                   multiple={true}
                   accept=".pdf,.jpg,.jpeg,.png"
                   maxSize={5}
-                  hasError={fieldHasError('employment.taxCertificate')}
-                  validationError={getValidationMessage('employment.taxCertificate')}
+                  hasError={fieldHasError("employment.taxCertificate")}
+                  validationError={getValidationMessage(
+                    "employment.taxCertificate",
+                  )}
                 />
               </div>
             )}
@@ -237,10 +289,14 @@ const TFIncomeInfo: React.FC<TFIncomeInfoProps> = ({
               mainLanguage={germanT.employment?.hasTravelSubsidy}
               selectedLanguage={t.employment?.hasTravelSubsidy}
               value={incomeInfoData.employment?.hasTravelSubsidy}
-              onChange={(value) => handleFieldChange('employment.hasTravelSubsidy', value)}
+              onChange={(value) =>
+                handleFieldChange("employment.hasTravelSubsidy", value)
+              }
               mandatory={true}
-              hasError={fieldHasError('employment.hasTravelSubsidy')}
-              validationError={getValidationMessage('employment.hasTravelSubsidy')}
+              hasError={fieldHasError("employment.hasTravelSubsidy")}
+              validationError={getValidationMessage(
+                "employment.hasTravelSubsidy",
+              )}
             />
 
             {incomeInfoData.employment?.hasTravelSubsidy === true && (
@@ -250,11 +306,15 @@ const TFIncomeInfo: React.FC<TFIncomeInfoProps> = ({
                 min={0}
                 mainLanguage={germanT.employment?.travelDistance}
                 selectedLanguage={t.employment?.travelDistance}
-                value={incomeInfoData.employment?.travelDistance || ''}
-                onChange={(e) => handleFieldChange('employment.travelDistance', e.target.value)}
+                value={incomeInfoData.employment?.travelDistance || ""}
+                onChange={(e) =>
+                  handleFieldChange("employment.travelDistance", e.target.value)
+                }
                 mandatory={true}
-                hasError={fieldHasError('employment.travelDistance')}
-                validationError={getValidationMessage('employment.travelDistance')}
+                hasError={fieldHasError("employment.travelDistance")}
+                validationError={getValidationMessage(
+                  "employment.travelDistance",
+                )}
               />
             )}
           </div>
@@ -262,18 +322,26 @@ const TFIncomeInfo: React.FC<TFIncomeInfoProps> = ({
       </FormSection>
 
       {/* Business Section */}
-      <FormSection title={<>{germanT.business?.title || 'Self-Employment Income (DE)'} / {t.business?.title || 'Self-Employment Income'}</>}>
+      <FormSection
+        title={
+          <>
+            {germanT.business?.title || "Self-Employment Income (DE)"} /{" "}
+            {t.business?.title || "Self-Employment Income"}
+          </>
+        }
+      >
         <FKYesNo
           id="business.isBusinessOwner"
           mainLanguage={germanT.business?.isBusinessOwner}
           selectedLanguage={t.business?.isBusinessOwner}
           value={incomeInfoData.business?.isBusinessOwner}
-          onChange={(value) => handleFieldChange('business.isBusinessOwner', value)}
+          onChange={(value) =>
+            handleFieldChange("business.isBusinessOwner", value)
+          }
           mandatory={true}
-          hasError={fieldHasError('business.isBusinessOwner')}
-          validationError={getValidationMessage('business.isBusinessOwner')}
+          hasError={fieldHasError("business.isBusinessOwner")}
+          validationError={getValidationMessage("business.isBusinessOwner")}
         />
-        
 
         {incomeInfoData.business?.isBusinessOwner === true && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -281,15 +349,17 @@ const TFIncomeInfo: React.FC<TFIncomeInfoProps> = ({
               id="business.businessType"
               mainLanguage={germanT.business?.businessType}
               selectedLanguage={t.business?.businessType}
-              value={incomeInfoData.business?.businessType || ''}
-              onChange={(e) => handleFieldChange('business.businessType', e.target.value)}
+              value={incomeInfoData.business?.businessType || ""}
+              onChange={(e) =>
+                handleFieldChange("business.businessType", e.target.value)
+              }
               options={businessTypeOptions}
               mandatory={true}
-              hasError={fieldHasError('business.businessType')}
-              validationError={getValidationMessage('business.businessType')}
+              hasError={fieldHasError("business.businessType")}
+              validationError={getValidationMessage("business.businessType")}
               placeholder={{
                 mainLabel: "Bitte Geschäftsart auswählen",
-                selectedLabel: "Please select business type"
+                selectedLabel: "Please select business type",
               }}
             />
 
@@ -299,38 +369,55 @@ const TFIncomeInfo: React.FC<TFIncomeInfoProps> = ({
               id="business.businessEarnings"
               mainLanguage={germanT.business?.businessEarnings}
               selectedLanguage={t.business?.businessEarnings}
-              value={incomeInfoData.business?.businessEarnings || ''}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFieldChange('business.businessEarnings', e.target.value)}
+              value={incomeInfoData.business?.businessEarnings || ""}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleFieldChange("business.businessEarnings", e.target.value)
+              }
               mandatory={true}
-              hasError={fieldHasError('business.businessEarnings')}
-              validationError={getValidationMessage('business.businessEarnings')}
+              hasError={fieldHasError("business.businessEarnings")}
+              validationError={getValidationMessage(
+                "business.businessEarnings",
+              )}
             />
 
             <CurrencyInputField
               id="business.businessExpenses"
               mainLanguage={germanT.business?.businessExpenses}
               selectedLanguage={t.business?.businessExpenses}
-              value={incomeInfoData.business?.businessExpenses || ''}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFieldChange('business.businessExpenses', e.target.value)}
+              value={incomeInfoData.business?.businessExpenses || ""}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleFieldChange("business.businessExpenses", e.target.value)
+              }
               mandatory={true}
-              hasError={fieldHasError('business.businessExpenses')}
-              validationError={getValidationMessage('business.businessExpenses')}
+              hasError={fieldHasError("business.businessExpenses")}
+              validationError={getValidationMessage(
+                "business.businessExpenses",
+              )}
             />
           </div>
         )}
       </FormSection>
 
       {/* Investments Section */}
-      <FormSection title={<>{germanT.investments?.title || 'Investment Income (DE)'} / {t.investments?.title || 'Investment Income'}</>}>
+      <FormSection
+        title={
+          <>
+            {germanT.investments?.title || "Investment Income (DE)"} /{" "}
+            {t.investments?.title || "Investment Income"}
+          </>
+        }
+      >
         <FKYesNo
           id="investments.hasStockIncome"
           mainLanguage={germanT.investments?.hasStockIncome}
           selectedLanguage={t.investments?.hasStockIncome}
           value={incomeInfoData.investments?.hasStockIncome}
-          onChange={(value) => handleFieldChange('investments.hasStockIncome', value)}
+          onChange={(value) =>
+            handleFieldChange("investments.hasStockIncome", value)
+          }
           mandatory={true}
-          hasError={fieldHasError('investments.hasStockIncome')}
-          validationError={getValidationMessage('investments.hasStockIncome')}
+          hasError={fieldHasError("investments.hasStockIncome")}
+          validationError={getValidationMessage("investments.hasStockIncome")}
         />
 
         {incomeInfoData.investments?.hasStockIncome === true && (
@@ -339,46 +426,72 @@ const TFIncomeInfo: React.FC<TFIncomeInfoProps> = ({
               id="investments.dividendEarnings"
               mainLanguage={germanT.investments?.dividendEarnings}
               selectedLanguage={t.investments?.dividendEarnings}
-              value={incomeInfoData.investments?.dividendEarnings || ''}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFieldChange('investments.dividendEarnings', e.target.value)}
+              value={incomeInfoData.investments?.dividendEarnings || ""}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleFieldChange(
+                  "investments.dividendEarnings",
+                  e.target.value,
+                )
+              }
               mandatory={true}
-              hasError={hasConditionalError('investments.dividendEarnings', requiresInvestmentInfo(incomeInfoData.investments?.hasStockIncome))}
-              validationError={getConditionalValidationMessage('investments.dividendEarnings', requiresInvestmentInfo(incomeInfoData.investments?.hasStockIncome))}
+              hasError={hasConditionalError(
+                "investments.dividendEarnings",
+                requiresInvestmentInfo(
+                  incomeInfoData.investments?.hasStockIncome,
+                ),
+              )}
+              validationError={getConditionalValidationMessage(
+                "investments.dividendEarnings",
+                requiresInvestmentInfo(
+                  incomeInfoData.investments?.hasStockIncome,
+                ),
+              )}
             />
             <CurrencyInputField
               id="investments.capitalGains"
               mainLanguage={germanT.investments?.capitalGains}
               selectedLanguage={t.investments?.capitalGains}
-              value={incomeInfoData.investments?.capitalGains || ''}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFieldChange('investments.capitalGains', e.target.value)}
+              value={incomeInfoData.investments?.capitalGains || ""}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleFieldChange("investments.capitalGains", e.target.value)
+              }
               mandatory={true}
-              hasError={fieldHasError('investments.capitalGains')}
-              validationError={getValidationMessage('investments.capitalGains')}
+              hasError={fieldHasError("investments.capitalGains")}
+              validationError={getValidationMessage("investments.capitalGains")}
             />
             <FKYesNo
               id="investments.hasStockSales"
               mainLanguage={germanT.investments?.hasStockSales}
               selectedLanguage={t.investments?.hasStockSales}
               value={incomeInfoData.investments?.hasStockSales}
-              onChange={(value) => handleFieldChange('investments.hasStockSales', value)}
+              onChange={(value) =>
+                handleFieldChange("investments.hasStockSales", value)
+              }
               mandatory={true}
-              hasError={fieldHasError('investments.hasStockSales')}
-              validationError={getValidationMessage('investments.hasStockSales')}
+              hasError={fieldHasError("investments.hasStockSales")}
+              validationError={getValidationMessage(
+                "investments.hasStockSales",
+              )}
             />
 
-            {incomeInfoData.investments?.hasStockSales === false && (
-              <div></div>
-            )}
+            {incomeInfoData.investments?.hasStockSales === false && <div></div>}
             {incomeInfoData.investments?.hasStockSales === true && (
               <CurrencyInputField
                 id="investments.stockProfitLoss"
                 mainLanguage={germanT.investments?.stockProfitLoss}
                 selectedLanguage={t.investments?.stockProfitLoss}
-                value={incomeInfoData.investments?.stockProfitLoss || ''}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFieldChange('investments.stockProfitLoss', e.target.value)}
+                value={incomeInfoData.investments?.stockProfitLoss || ""}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleFieldChange(
+                    "investments.stockProfitLoss",
+                    e.target.value,
+                  )
+                }
                 mandatory={true}
-                hasError={fieldHasError('investments.stockProfitLoss')}
-                validationError={getValidationMessage('investments.stockProfitLoss')}
+                hasError={fieldHasError("investments.stockProfitLoss")}
+                validationError={getValidationMessage(
+                  "investments.stockProfitLoss",
+                )}
               />
             )}
 
@@ -387,10 +500,14 @@ const TFIncomeInfo: React.FC<TFIncomeInfoProps> = ({
               mainLanguage={germanT.investments?.hasBankCertificate}
               selectedLanguage={t.investments?.hasBankCertificate}
               value={incomeInfoData.investments?.hasBankCertificate}
-              onChange={(value) => handleFieldChange('investments.hasBankCertificate', value)}
+              onChange={(value) =>
+                handleFieldChange("investments.hasBankCertificate", value)
+              }
               mandatory={true}
-              hasError={fieldHasError('investments.hasBankCertificate')}
-              validationError={getValidationMessage('investments.hasBankCertificate')}
+              hasError={fieldHasError("investments.hasBankCertificate")}
+              validationError={getValidationMessage(
+                "investments.hasBankCertificate",
+              )}
             />
 
             {incomeInfoData.investments?.hasBankCertificate === false && (
@@ -400,16 +517,24 @@ const TFIncomeInfo: React.FC<TFIncomeInfoProps> = ({
               <div>
                 <FKFileField
                   id="investments.bankCertificate"
-                  mainLanguage={germanT.investments?.bankCertificate || "Bank Certificate"}
-                  selectedLanguage={t.investments?.bankCertificate || "Bank Certificate"}
+                  mainLanguage={
+                    germanT.investments?.bankCertificate || "Bank Certificate"
+                  }
+                  selectedLanguage={
+                    t.investments?.bankCertificate || "Bank Certificate"
+                  }
                   value={incomeInfoData.investments?.bankCertificate || null}
-                  onChange={(files) => handleFieldChange('investments.bankCertificate', files)}
+                  onChange={(files) =>
+                    handleFieldChange("investments.bankCertificate", files)
+                  }
                   mandatory={true}
                   multiple={false}
                   accept=".pdf,.jpg,.jpeg,.png"
                   maxSize={5}
-                  hasError={fieldHasError('investments.bankCertificate')}
-                  validationError={getValidationMessage('investments.bankCertificate')}
+                  hasError={fieldHasError("investments.bankCertificate")}
+                  validationError={getValidationMessage(
+                    "investments.bankCertificate",
+                  )}
                 />
               </div>
             )}
@@ -418,10 +543,14 @@ const TFIncomeInfo: React.FC<TFIncomeInfoProps> = ({
               mainLanguage={germanT.investments?.hasForeignStocks}
               selectedLanguage={t.investments?.hasForeignStocks}
               value={incomeInfoData.investments?.hasForeignStocks}
-              onChange={(value) => handleFieldChange('investments.hasForeignStocks', value)}
+              onChange={(value) =>
+                handleFieldChange("investments.hasForeignStocks", value)
+              }
               mandatory={true}
-              hasError={fieldHasError('investments.hasForeignStocks')}
-              validationError={getValidationMessage('investments.hasForeignStocks')}
+              hasError={fieldHasError("investments.hasForeignStocks")}
+              validationError={getValidationMessage(
+                "investments.hasForeignStocks",
+              )}
             />
 
             {incomeInfoData.investments?.hasForeignStocks === true && (
@@ -429,11 +558,18 @@ const TFIncomeInfo: React.FC<TFIncomeInfoProps> = ({
                 id="investments.foreignTaxPaid"
                 mainLanguage={germanT.investments?.foreignTaxPaid}
                 selectedLanguage={t.investments?.foreignTaxPaid}
-                value={incomeInfoData.investments?.foreignTaxPaid || ''}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFieldChange('investments.foreignTaxPaid', e.target.value)}
+                value={incomeInfoData.investments?.foreignTaxPaid || ""}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleFieldChange(
+                    "investments.foreignTaxPaid",
+                    e.target.value,
+                  )
+                }
                 mandatory={true}
-                hasError={fieldHasError('investments.foreignTaxPaid')}
-                validationError={getValidationMessage('investments.foreignTaxPaid')}
+                hasError={fieldHasError("investments.foreignTaxPaid")}
+                validationError={getValidationMessage(
+                  "investments.foreignTaxPaid",
+                )}
               />
             )}
           </div>
@@ -443,4 +579,4 @@ const TFIncomeInfo: React.FC<TFIncomeInfoProps> = ({
   );
 };
 
-export default TFIncomeInfo; 
+export default TFIncomeInfo;
