@@ -1,43 +1,24 @@
-run = "sh ./replit_start.sh"
-language = "nodejs"
-entrypoint = "replit_start.sh"
-hidden = [".git", ".next", "node_modules", ".env"]
-modules = ["nodejs-20:v8-20230920-bd784b9", "postgresql-16"]
-
-[nix]
-channel = "stable-23_05"
-
-[packager]
-language = "nodejs"
-
-[packager.features]
-packageSearch = true
-guessImports = true
+run = "bash ./replit-setup.sh"
+entrypoint = "index.js"
+hidden = [".config", "package-lock.json"]
 
 [env]
-PORT_BACKEND = "3001"
-PORT_FRONTEND = "5173"
-NODE_ENV = "development"
-VITE_API_URL = "http://localhost:3001/api"
+POSTGRES_PASSWORD = "postgres"
+DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/taxadviser"
+
+[nix]
+channel = "stable-22_11"
 
 [deployment]
-run = ["sh", "-c", "cd backend && npm run start:prod"]
+run = ["sh", "-c", "node backend/dist/main"]
 deploymentTarget = "cloudrun"
-ignorePorts = false 
-build = ["sh", "-c", "cd frontend && npm install && npm run build && cd ../backend && npm install && npm run build"]
 
-[workflows]
-runButton = "Dev"
+[languages]
+[languages.javascript]
+pattern = "**/{*.js,*.jsx,*.ts,*.tsx}"
 
-[[workflows.workflow]]
-name = "Dev"
-author = 36293822
-mode = "parallel"
+[languages.javascript.languageServer]
+start = "typescript-language-server --stdio"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd frontend && npm run dev"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd backend && npm run start:dev"
+[unitTest]
+language = "nodejs" 
