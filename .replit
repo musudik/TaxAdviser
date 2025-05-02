@@ -1,0 +1,26 @@
+run = "sh ./replit_start.sh"
+language = "nodejs"
+entrypoint = "replit_start.sh"
+hidden = [".git", ".next", "node_modules", ".env"]
+modules = ["nodejs-20:v8-20230920-bd784b9"]
+
+[nix]
+channel = "stable-23_05"
+
+[packager]
+language = "nodejs"
+
+[packager.features]
+packageSearch = true
+guessImports = true
+
+[env]
+PORT_BACKEND = "3001"
+PORT_FRONTEND = "5173"
+NODE_ENV = "development"
+VITE_API_URL = "http://localhost:3001/api"
+
+[deployment]
+run = ["sh", "./replit_start.sh"]
+deploymentTarget = "cloudrun"
+ignorePorts = false 
