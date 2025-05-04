@@ -309,7 +309,8 @@ const TaxFormBase: React.FC = () => {
         
         console.log('Submitting data to backend with file URLs:', submissionData);
         
-        const response = await fetch('http://localhost:3000/api/tax-forms', {
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://tax-adviser-test.replit.app/api';
+        const response = await fetch(`${apiUrl}/tax-forms`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

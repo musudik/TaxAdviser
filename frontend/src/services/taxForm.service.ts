@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { TaxForm, TaxFormResponse } from '../types/taxForm';
 
-const API_URL = 'http://localhost:3001/api/tax-forms';
+const API_URL = import.meta.env.VITE_API_URL 
+  ? `${import.meta.env.VITE_API_URL}/tax-forms` 
+  : 'https://tax-adviser-test.replit.app/api/tax-forms';
 
 // Helper to get the auth token
 const getAuthToken = () => {

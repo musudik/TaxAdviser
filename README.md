@@ -19,7 +19,7 @@ When you fork this repository to Replit, the application will automatically:
 ### Services
 
 - **Frontend**: Runs on port 5173 (http://localhost:5173)
-- **Backend**: Runs on port 3001 (http://localhost:3001/api)
+- **Backend**: Runs on port 3001 (http://localhost:3001/api)    
 - **Database**: PostgreSQL running on port 5432
 
 ### Manual Deployment

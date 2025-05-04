@@ -35,7 +35,8 @@ EOF
   if [ ! -f "./frontend/.env" ]; then
     echo "Creating frontend .env file..."
     cat > "./frontend/.env" << EOF
-VITE_API_URL=http://localhost:3001/api
+  # VITE_API_URL=http://localhost:3001/api
+  VITE_API_URL=https://tax-adviser-backend.onrender.com/api
 EOF
   fi
 }
@@ -181,8 +182,9 @@ main() {
   
   echo "========================================"
   echo "🚀 All services started!"
-  echo "📊 Frontend: http://localhost:5173"
-  echo "🔌 Backend: http://localhost:3001/api"
+  echo "📊 Frontend: http://localhost:5173" 
+  #echo "🔌 Backend: http://localhost:3001/api"
+  echo "🔌 Backend: https://tax-adviser-backend.onrender.com/api"
   echo "========================================"
   
   # Keep script running to maintain services
