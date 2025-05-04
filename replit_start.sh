@@ -145,21 +145,18 @@ start_backend() {
 
 # Start frontend service
 start_frontend() {
-  echo "Starting frontend service on port 5173..."
-  cd frontend
-  
-  # Check which start script to use
-  if grep -q "\"dev\"" "./package.json"; then
-    npm run dev &
-  elif grep -q "\"start\"" "./package.json"; then
-    npm run start &
+  if [ "$NODE_ENV" = "production" ]; then
+    echo "Building frontend for production..."
+    cd frontend
+    npm run build
+    cd ..
   else
-    echo "No start script found in package.json, trying to run with vite directly..."
-    npx vite --port 5173 &
+    echo "Starting frontend service on port 5173..."
+    cd frontend
+    npm run dev &
+    cd ..
+    echo "Frontend started! PID: $!"
   fi
-  
-  cd ..
-  echo "Frontend started! PID: $!"
 }
 
 # Main execution
