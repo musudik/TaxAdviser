@@ -1,5 +1,5 @@
 run = "bash ./replit-setup.sh"
-entrypoint = "index.js"
+entrypoint = "frontend/index.js"
 hidden = [".config", "package-lock.json"]
 modules = ["nodejs-20"]
 
@@ -12,7 +12,7 @@ channel = "stable-22_11"
 packages = ["openssl", "openssl_3", "openssl_1_1"]
 
 [deployment]
-run = ["sh", "-c", "node backend/dist/main"]
+run = ["sh", "-c", "node frontend/dist/main"]
 deploymentTarget = "cloudrun"
 
 [languages]
