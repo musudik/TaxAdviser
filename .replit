@@ -12,8 +12,9 @@ channel = "stable-22_11"
 packages = ["openssl", "openssl_3", "openssl_1_1"]
 
 [deployment]
-run = ["sh", "-c", "node frontend/dist/main"]
+run = ["sh", "-c", "cd frontend && node server.js"]
 deploymentTarget = "cloudrun"
+build = ["sh", "-c", "cd frontend && npm install && npm run build"]
 
 [languages]
 [languages.javascript]
@@ -28,3 +29,15 @@ language = "nodejs"
 [[ports]]
 localPort = 5173
 externalPort = 80
+
+[workflows]
+runButton = "Frontend Dev"
+
+[[workflows.workflow]]
+name = "Frontend Dev"
+author = 36293822
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd frontend && npm run dev"
