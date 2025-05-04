@@ -1,0 +1,83 @@
+2025-05-04T18:13:02Z info: Deployment: a77c4a30-7065-4bb6-8ac7-3f65bfaac2d7
+2025-05-04T18:13:02Z info: Build: bdea9805-6551-468d-88e4-2bea762f5494
+2025-05-04T18:13:02Z info: Connecting to builder
+2025-05-04T18:13:02Z info: Deployment: a77c4a30-7065-4bb6-8ac7-3f65bfaac2d7
+2025-05-04T18:13:02Z info: Build: bdea9805-6551-468d-88e4-2bea762f5494
+2025-05-04T18:13:02Z info: Connecting to builder
+2025-05-04T18:13:05Z info: Builder connected
+2025-05-04T18:13:06Z info: Installing packages
+2025-05-04T18:13:06Z info: Skipping Build as no Build command set
+2025-05-04T18:13:07Z info: Pushing pid1 binary layer...
+2025-05-04T18:13:08Z info: Pushing Repl layer...
+2025-05-04T18:13:08Z info: Pushing hosting layer...
+2025-05-04T18:13:08Z info: Retrieved cached nix layer
+2025-05-04T18:13:08Z info: Created hosting layer
+2025-05-04T18:13:09Z info: Created pid1 binary layer
+2025-05-04T18:13:45Z info: Created Repl layer
+2025-05-04T18:13:46Z info: Pushed image manifest
+2025-05-04T18:13:46Z info: Pushed soci index manifest
+2025-05-04T18:13:50Z info: Creating Autoscale service
+starting up user application
+npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2025-05-04T18_14_11_315Z-debug-0.log
+forwarding local port 5173 to external port 80 (mapped as 1104)
+npm error To see a list of scripts, run:
+npm error
+npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2025-05-04T18_14_10_516Z-debug-0.log
+npm error   npm run
+npm error   npm run
+npm error Missing script: "dev"
+npm error To see a list of scripts, run:
+npm error
+npm error
+command finished with error [sh -c npm run dev]: exit status 1
+command finished with error [sh -c npm run dev]: exit status 1
+command finished with error [sh -c npm run dev]: exit status 1
+npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2025-05-04T18_14_08_800Z-debug-0.log
+npm error Missing script: "dev"
+npm error Missing script: "dev"
+npm error To see a list of scripts, run:
+npm error
+npm error Missing script: "dev"
+command finished with error [sh -c npm run dev]: exit status 1
+npm error To see a list of scripts, run:
+command finished with error [sh -c npm run dev]: exit status 1
+npm error
+npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2025-05-04T18_14_10_067Z-debug-0.log
+npm error Missing script: "dev"
+npm error   npm run
+npm error   npm run
+npm error To see a list of scripts, run:
+npm error   npm run
+npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2025-05-04T18_14_11_747Z-debug-0.log
+npm error
+npm error Missing script: "dev"
+npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2025-05-04T18_14_10_770Z-debug-0.log
+command finished with error [sh -c npm run dev]: exit status 1
+npm error   npm run
+npm error To see a list of scripts, run:
+npm error To see a list of scripts, run:
+npm error Missing script: "dev"
+npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2025-05-04T18_14_13_740Z-debug-0.log
+command finished with error [sh -c npm run dev]: exit status 1
+npm error   npm run
+npm error
+npm error Missing script: "dev"
+npm error To see a list of scripts, run:
+npm error   npm run
+command finished with error [sh -c npm run dev]: exit status 1
+npm error
+npm error
+command finished with error [sh -c npm run dev]: exit status 1
+npm error   npm run
+npm error Missing script: "dev"
+npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2025-05-04T18_14_19_373Z-debug-0.log
+npm error To see a list of scripts, run:
+npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2025-05-04T18_14_19_163Z-debug-0.log
+npm error   npm run
+npm error To see a list of scripts, run:
+npm error
+npm error Missing script: "dev"
+command finished with error [sh -c npm run dev]: exit status 1
+crash loop detected
+npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2025-05-04T18_14_26_468Z-debug-0.log
+2025-05-04T18:14:42Z error: The deployment is crash looping. This can happen if the run command fails or exits immediately after starting. Check the logs for more information.
