@@ -23,8 +23,8 @@ pattern = "**/{*.js,*.jsx,*.ts,*.tsx}"
 start = "typescript-language-server --stdio"
 
 [unitTest]
-language = "nodejs" 
+language = "nodejs"
 
 [[ports]]
-localPort = 3001
+localPort = 5173
 externalPort = 80
